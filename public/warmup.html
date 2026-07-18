@@ -293,7 +293,7 @@
         '<span class="face" style="font-size:20px;width:34px;text-align:center;font-family:\'Bebas Neue\',sans-serif;color:' + (i < 3 ? '#F08BBE' : 'rgba(255,255,255,.5)') + '">' + (i + 1) + '</span>' +
         '<span><span class="nm">' + esc(r.emoji || '') + ' ' + esc(r.nickname || '') + '</span>' +
         '<br><span class="sc">' + esc(r.subject || '') + ' ' + (SUBJECTS[r.subject] || '') + '</span></span>' +
-        '<span class="st" style="font-size:17px;font-weight:700;color:#fff">' + (r.score || 0) + '점</span>' +
+        '<span class="st" style="font-size:17px;font-weight:700;color:#fff">' + (Number(r.score) || 0) + '점</span>' +
       '</div>'
     ).join('');
   });

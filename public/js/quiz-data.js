@@ -37,9 +37,9 @@ export const QUIZ_LIST = [
     note: '정답: 평균 참신성 하락 (Zhou & Lee 2024, PNAS Nexus 400만 작품). "실행이 싸지니 병목은 발상·선별로" 메시지.' },
 
   { id: 'score-songs', deck: 1, slide: 13, type: 'score', time: 20, ans: 2,
-    q: '🎵 맞히기 — 전 세계에서 하루에 새로 만들어지는 AI 노래는 몇 곡일까요?',
+    q: '🎵 맞히기 — 음악 플랫폼 Deezer에 하루 동안 새로 올라오는 AI 생성 곡은 몇 곡일까요?',
     opts: ['750곡', '7,500곡', '75,000곡', '750,000곡'],
-    note: '정답 약 75,000곡 (Deezer 업로드 감지 기준). 음악 사례 도입부에.' },
+    note: '정답 약 75,000곡 — Deezer 발표, 신규 업로드의 약 44% (2026.4). 음악 사례 도입부에.' },
 
   { id: 'score-beatles', deck: 1, slide: 13, type: 'score', time: 25, ans: 1,
     q: '🎸 맞히기 — AI 스템 분리 기술로 완성되어 2025년 그래미를 받은 비틀즈의 곡은?',

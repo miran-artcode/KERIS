@@ -195,6 +195,7 @@
   if (!s || !isInstructor(s)) {
     alert('강의자 전용 화면입니다. 첫 화면 하단의 Console 링크로 입장해 주세요.');
     location.replace('index.html');
+    throw new Error('instructor only'); // 이후 콘솔 코드(구독 등) 실행 차단
   }
 
   /* ══ 덱·슬라이드 제어 ══ */
@@ -405,7 +406,7 @@
       '<div style="display:flex;align-items:center;gap:12px">' +
         '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;width:30px;color:' + (i < 3 ? '#F08BBE' : 'rgba(255,255,255,.4)') + '">' + (i + 1) + '</span>' +
         '<span style="flex:1"><b>' + esc(r.emoji || '') + ' ' + esc(r.nickname || '') + '</b> <span style="color:rgba(255,255,255,.5);font-size:12px">' + esc(r.subject || '') + '</span></span>' +
-        '<b>' + (r.score || 0) + '점</b>' +
+        '<b>' + (Number(r.score) || 0) + '점</b>' +
       '</div>'
     ).join('') || '<div style="color:rgba(255,255,255,.4)">기록이 아직 없습니다.</div>';
   });

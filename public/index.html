@@ -56,7 +56,7 @@
       <input id="in-nick" type="text" placeholder="실명 말고, 편한 별명으로" autocomplete="off" maxlength="20">
 
       <label for="in-pin">③ 비밀번호 숫자 4자리 <span class="opt">— 예) 1234</span></label>
-      <input id="in-pin" type="password" inputmode="numeric" pattern="\d{4,8}" placeholder="숫자 4자리" maxlength="8" autocomplete="off" style="letter-spacing:.4em">
+      <input id="in-pin" type="password" inputmode="numeric" pattern="\d{4}" placeholder="숫자 4자리" maxlength="4" autocomplete="off" style="letter-spacing:.4em">
       <div class="pin-hint">💡 다음에 다시 들어올 때 똑같이 적으면 되니, 기억하기 쉬운 숫자로 정하세요.</div>
 
       <div class="gate-err" id="gate-err"></div>
@@ -90,7 +90,7 @@
       </div>
       <div style="text-align:right">
         <span class="live-count" id="live-count">0</span>
-        <div style="font-size:13px;color:rgba(255,255,255,.6)">명 접속 중 · 누적 <span id="live-total">0</span>명</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.6)">명 접속 중 · 오늘 <span id="live-total">0</span>명</div>
       </div>
     </div>
 
@@ -193,13 +193,19 @@
     });
   });
 
-  // 손님 입장
-  document.getElementById('guest-btn').addEventListener('click', async () => {
+  // 손님 입장 — 성공(세션 확보) 시에만 이동, 실패는 안내
+  document.getElementById('guest-btn').addEventListener('click', async (e) => {
+    const gb = e.target;
+    gb.disabled = true; gb.textContent = '입장 중…';
     try {
       const n = Math.floor(1000 + Math.random() * 9000);
-      await enter('미술', '손님' + n, String(n));
-    } catch (e) { /* 오프라인이어도 세션은 저장됨 */ }
-    location.href = 'home.html';
+      await enter('손님', '손님' + n, String(n));
+      location.href = 'home.html';
+    } catch (err) {
+      if (getSession()) { location.href = 'home.html'; return; }
+      showErr(err.message || '손님 입장에 실패했어요. 다시 시도해 주세요.');
+      gb.disabled = false; gb.textContent = '그냥 둘러만 볼게요 (손님 입장)';
+    }
   });
 
   // 강의자 입장 (숨은 링크)

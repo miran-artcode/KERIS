@@ -29,7 +29,7 @@ export function hasDb() { return !!db; }
 
 const SS_KEY = 'keris_session_v1';
 const FACES = ['🦉','🌸','🌳','🌞','🏔️','🐢','🦁','📚','🖋️','🎨','🌊','⭐','🍀','🦋','🐘','🕊️','🌙','🌈','🎈','🎵','🥁','🏀','🖌️'];
-export const SUBJECTS = { '음악': '♪', '미술': '🎨', '체육': '⚽', '강의자': '🎤' };
+export const SUBJECTS = { '음악': '♪', '미술': '🎨', '체육': '⚽', '손님': '👀', '강의자': '🎤' };
 
 /* ---------- 유틸 ---------- */
 function norm(s) { return (s || '').trim().replace(/\s+/g, ' '); }
@@ -64,7 +64,10 @@ export function esc(s) {
 export function getSession() {
   try { return JSON.parse(localStorage.getItem(SS_KEY)); } catch (e) { return null; }
 }
-function saveSession(s) { localStorage.setItem(SS_KEY, JSON.stringify(s)); }
+function saveSession(s) {
+  try { localStorage.setItem(SS_KEY, JSON.stringify(s)); }
+  catch (e) { throw new Error('브라우저 저장소가 차단되어 입장할 수 없습니다. 시크릿 모드를 끄거나 다른 브라우저로 시도해 주세요.'); }
+}
 export function logout() { localStorage.removeItem(SS_KEY); location.href = 'index.html'; }
 
 /* ---------- 입장 (교과 + 별명 + PIN) ---------- */
@@ -72,7 +75,7 @@ export async function enter(subject, nickname, pin) {
   subject = norm(subject); nickname = norm(nickname); pin = norm(pin);
   if (!subject || subject.length > 10) throw new Error('교과를 선택해 주세요.');
   if (!nickname || nickname.length > 20) throw new Error('별명을 확인해 주세요. (20자 이내)');
-  if (!/^\d{4,8}$/.test(pin)) throw new Error('비밀번호는 숫자 4자리로 입력해 주세요. 예) 1234');
+  if (!/^\d{4}$/.test(pin)) throw new Error('비밀번호는 숫자 4자리로 입력해 주세요. 예) 1234');
 
   const face = pickFace(subject, nickname);
   const session = { subject, nickname, face, id: docId(subject, nickname) };
@@ -111,7 +114,11 @@ export function setStep(stepName) {
   curStep = String(stepName || '').slice(0, 40);
   const s = getSession();
   if (!s || !db) return;
-  setDoc(doc(db, 'participants', s.id), { step: curStep, lastSeen: serverTimestamp() }, { merge: true }).catch(() => {});
+  // subject/nickname 포함 — 문서가 없어도 create 규칙을 통과하도록
+  setDoc(doc(db, 'participants', s.id), {
+    subject: s.subject, nickname: s.nickname, emoji: s.face,
+    step: curStep, lastSeen: serverTimestamp()
+  }, { merge: true }).catch(() => {});
 }
 export function presence(pageName) {
   const s = getSession();
@@ -135,6 +142,7 @@ export async function sendSignal(kind, whereText) {
   const s = getSession();
   if (!s || !db) return false;
   const stateKinds = ['ok', 'confused', 'stuck'];
+  let ok = false;
   try {
     await addDoc(collection(db, 'signals'), {
       pid: s.id, subject: s.subject, nickname: s.nickname, emoji: s.face,
@@ -142,11 +150,16 @@ export async function sendSignal(kind, whereText) {
       where: String(whereText || document.body.dataset.page || '').slice(0, 60),
       step: curStep, ts: serverTimestamp()
     });
-    if (stateKinds.indexOf(kind) >= 0) {
-      await setDoc(doc(db, 'participants', s.id), { state: kind, stateAt: serverTimestamp() }, { merge: true });
-    }
-    return true;
-  } catch (e) { console.warn('signal', e); return false; }
+    ok = true; // 신호 자체는 기록됨
+  } catch (e) { console.warn('signal', e); }
+  if (ok && stateKinds.indexOf(kind) >= 0) {
+    // 상태 갱신 실패는 신호 성공과 분리 (subject/nickname 포함 — 문서 부재 시에도 통과)
+    setDoc(doc(db, 'participants', s.id), {
+      subject: s.subject, nickname: s.nickname, emoji: s.face,
+      state: kind, stateAt: serverTimestamp()
+    }, { merge: true }).catch((e) => console.warn('signal state', e));
+  }
+  return ok;
 }
 export function watchSignals(cb, n) {
   if (!db) return () => {};
@@ -567,7 +580,12 @@ export function initSignalDock() {
     '</div>' +
     '<div class="sd-note">누르는 순간 강의자 화면에 표시됩니다. 부담 없이, 자주 눌러 주세요 — 이 신호가 오늘 수업의 데이터가 됩니다.</div>';
   document.body.appendChild(dock);
+  document.body.style.paddingBottom = '140px'; // 독이 하단 버튼을 가리지 않도록
+  if (window.innerWidth < 700) dock.classList.add('min'); // 모바일은 접힌 상태로 시작
   dock.querySelector('#sd-min').addEventListener('click', () => dock.classList.toggle('min'));
+  dock.querySelector('.sd-title').addEventListener('click', (e) => {
+    if (dock.classList.contains('min') && !e.target.closest('#sd-min')) dock.classList.remove('min');
+  });
   dock.querySelector('.sd-btns').addEventListener('click', async (e) => {
     const b = e.target.closest('button[data-k]');
     if (!b) return;

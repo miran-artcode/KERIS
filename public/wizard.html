@@ -305,29 +305,35 @@
     fnEl.innerHTML = allFinal ? '<div class="autocheck good">🎉 모든 항목 통과 — 이 내용을 4P 양식에 옮겨 적으면 제출 준비가 끝납니다. 수고하셨습니다!</div>' : '';
   }
 
-  /* ── 단계 체류 로그 ── */
-  let lastIdx = null, lastAt = Date.now();
+  /* ── 단계 체류 로그 ──
+     ui.js의 초기 wizard:step 이벤트는 이 모듈 로드 전에 발화하므로,
+     현재 해시에서 초기 단계를 직접 계산해 첫 단계 체류도 기록되게 한다. */
+  const hm = (location.hash || '').match(/step-(\d+)/);
+  let lastIdx = hm ? Math.max(0, Math.min(STEPS.length - 1, parseInt(hm[1], 10) - 1)) : 0;
+  let lastAt = Date.now();
+  setStep('점검 ' + (lastIdx + 1) + '단계 · ' + STEPS[lastIdx].title);
+
+  function flushDwell(dir) {
+    const dwell = Math.round((Date.now() - lastAt) / 1000);
+    const st = STEPS[lastIdx];
+    if (dwell >= 3) logWizardStep(st.id, st.title, dwell, dir);
+    lastAt = Date.now();
+  }
   document.addEventListener('wizard:step', (e) => {
     const idx = e.detail.index;
-    if (lastIdx !== null && idx !== lastIdx) {
-      const dwell = Math.round((Date.now() - lastAt) / 1000);
-      const st = STEPS[lastIdx];
-      if (dwell >= 3) logWizardStep(st.id, st.title, dwell, idx > lastIdx ? 'next' : 'prev');
+    if (idx !== lastIdx) {
+      flushDwell(idx > lastIdx ? 'next' : 'prev');
       W.pos = idx;
       persist();
+      lastIdx = idx;
     }
-    if (idx !== lastIdx) { lastAt = Date.now(); }
-    lastIdx = idx;
     setStep('점검 ' + (idx + 1) + '단계 · ' + STEPS[idx].title);
   });
-  /* 페이지 이탈 시 마지막 단계 체류 기록 */
-  window.addEventListener('pagehide', () => {
-    if (lastIdx !== null) {
-      const dwell = Math.round((Date.now() - lastAt) / 1000);
-      const st = STEPS[lastIdx];
-      if (dwell >= 3) logWizardStep(st.id, st.title, dwell, 'leave');
-    }
+  /* 탭이 가려질 때마다 지금까지의 체류를 부분 기록 — pagehide의 전송 유실을 줄인다 */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) flushDwell('pause');
   });
+  window.addEventListener('pagehide', () => flushDwell('leave'));
 
   /* 저장된 응답 불러오기 */
   loadWizard().then((d) => {

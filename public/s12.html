@@ -274,10 +274,47 @@
 
   /* ══ 활동 1 · 갤러리 워크 ══ */
   let wizardsCache = [], plansCache = [], critsCache = [];
+  const sendingIds = new Set(), sentIds = new Set();
+  let renderQueued = false, renderHeld = false;
   function subjectPillClass(s) { return s === '음악' ? 'm' : s === '체육' ? 'p' : 'a'; }
 
+  /* 실시간 스냅샷마다 전체 재렌더하면 입력 중인 크리틱이 지워진다 —
+     ① rAF로 코얼레싱 ② 갤러리 입력에 포커스가 있으면 blur까지 보류 ③ 입력값은 카드별로 보존·복원 */
+  function queueRender() {
+    if (renderQueued) return;
+    renderQueued = true;
+    requestAnimationFrame(() => { renderQueued = false; renderGallery(); });
+  }
   function renderGallery() {
     const el = document.getElementById('gallery');
+    const ae = document.activeElement;
+    if (ae && el.contains(ae) && (ae.classList.contains('cr-strength') || ae.classList.contains('cr-improve'))) {
+      renderHeld = true;
+      return;
+    }
+    /* 입력 중이던 값 보존 */
+    const saved = {};
+    el.querySelectorAll('.card[data-card]').forEach(c => {
+      const st = c.querySelector('.cr-strength'), im = c.querySelector('.cr-improve');
+      if ((st && st.value) || (im && im.value)) {
+        saved[c.dataset.card] = { s: st ? st.value : '', i: im ? im.value : '' };
+      }
+    });
+    doRenderGallery(el);
+    /* 값 복원 */
+    Object.entries(saved).forEach(([id, v]) => {
+      const c = el.querySelector('.card[data-card="' + CSS.escape(id) + '"]');
+      if (!c) return;
+      const st = c.querySelector('.cr-strength'), im = c.querySelector('.cr-improve');
+      if (st && !st.value) st.value = v.s;
+      if (im && !im.value) im.value = v.i;
+    });
+  }
+  document.getElementById('gallery').addEventListener('focusout', () => {
+    setTimeout(() => { if (renderHeld) { renderHeld = false; queueRender(); } }, 120);
+  });
+
+  function doRenderGallery(el) {
     const byId = {};
     wizardsCache.forEach(w => { byId[w.id] = { wiz: w }; });
     plansCache.forEach(p => { (byId[p.id] = byId[p.id] || {}).plan = p; });
@@ -295,7 +332,7 @@
       const w = r.wiz || {};
       const crits = critsBy[r.id] || [];
       const mine = r.id === (me && me.id);
-      return '<div class="card"' + (mine ? ' style="border-color:var(--accent)"' : '') + '>' +
+      return '<div class="card" data-card="' + esc(r.id) + '"' + (mine ? ' style="border-color:var(--accent)"' : '') + '>' +
         '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap">' +
           '<span class="pill ' + subjectPillClass(r.subject) + '">' + esc(r.subject) + ' ' + (SUBJECTS[r.subject] || '') + ' · ' + esc(r.nickname) + (mine ? ' (나)' : '') + '</span>' +
           '<span class="mono" style="font-size:12px;color:var(--dim)">크리틱 ' + crits.length + '건</span>' +
@@ -309,25 +346,31 @@
         (!mine ? '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">' +
           '<input type="text" class="cr-strength" maxlength="200" placeholder="장점 1" style="flex:1;min-width:130px;border:2px solid var(--line);border-radius:10px;padding:9px 12px;font-size:14px;font-family:inherit">' +
           '<input type="text" class="cr-improve" maxlength="200" placeholder="개선점 1" style="flex:1;min-width:130px;border:2px solid var(--line);border-radius:10px;padding:9px 12px;font-size:14px;font-family:inherit">' +
-          '<button class="copy-btn cr-send" data-id="' + esc(r.id) + '" style="min-height:40px">남기기</button>' +
+          '<button class="copy-btn cr-send" data-id="' + esc(r.id) + '"' + (sendingIds.has(r.id) ? ' disabled' : '') + ' style="min-height:40px">' +
+            (sendingIds.has(r.id) ? '전송 중…' : sentIds.has(r.id) ? '남김 ✓ (또 가능)' : '남기기') + '</button>' +
         '</div>' : '') +
       '</div>';
     }).join('');
   }
-  watchWizards((rows) => { wizardsCache = rows; renderGallery(); });
-  watchPlans((rows) => { plansCache = rows; renderGallery(); });
-  watchCritiques((rows) => { critsCache = rows; renderGallery(); });
+  watchWizards((rows) => { wizardsCache = rows; queueRender(); });
+  watchPlans((rows) => { plansCache = rows; queueRender(); });
+  watchCritiques((rows) => { critsCache = rows; queueRender(); });
 
   document.getElementById('gallery').addEventListener('click', async (e) => {
     const b = e.target.closest('.cr-send');
-    if (!b) return;
+    if (!b || b.disabled) return;
     const card = b.closest('.card');
-    const st = card.querySelector('.cr-strength').value.trim();
-    const im = card.querySelector('.cr-improve').value.trim();
+    const id = b.dataset.id;
+    const stEl = card.querySelector('.cr-strength'), imEl = card.querySelector('.cr-improve');
+    const st = stEl.value.trim(), im = imEl.value.trim();
     if (!st || !im) { alert('장점 1개와 개선점 1개를 모두 적어 주세요 — 구조화된 크리틱이 원칙입니다.'); return; }
+    sendingIds.add(id);
     b.disabled = true; b.textContent = '전송 중…';
-    await sendCritique(b.dataset.id, st, im);
-    b.textContent = '남김 ✓';
+    const ok = await sendCritique(id, st, im);
+    sendingIds.delete(id);
+    if (ok) { sentIds.add(id); stEl.value = ''; imEl.value = ''; }
+    else alert('연결이 어려워 크리틱을 남기지 못했어요. 잠시 후 다시 시도해 주세요.');
+    queueRender();
   });
 
   /* ══ 활동 2 · 연수실 전체 데이터 ══ */
