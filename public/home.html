@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연수 홈 — 창작교과 데이터·환류 연수</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body data-page="연수 홈" data-require-session data-signal-dock>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="home.html" class="nav-logo">
+      <span class="big">BEYOND&nbsp;THE&nbsp;SCORE</span>
+      <span class="small">창작교과 데이터·환류 연수</span>
+    </a>
+    <div class="nav-links">
+      <a href="home.html" class="on">연수 홈</a>
+      <a href="warmup.html">웜업·복습</a>
+      <a href="wizard.html">설계안 점검</a>
+      <a href="cases.html">사례 산책</a>
+      <a href="s11.html">⑪ 데이터 분석</a>
+      <a href="s12.html">⑫ 평가·환류</a>
+      <a href="research.html">연구 자료실</a>
+    </div>
+    <span class="nav-user" id="nav-user"></span>
+  </div>
+</nav>
+<div class="mode-band">📖 지금은 〈보고 듣는 페이지〉입니다<small>직접 해보는 실습 페이지는 전부 파란 화면입니다 — 색만 보면 구분됩니다</small></div>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px">
+      <span class="kicker">2026 AI활용 선도교사 연수 · 집합 ⑪·⑫ · 음악·미술·체육 통합 · 강의 황미란</span>
+      <span class="mini-live"><span class="dot"></span> 지금 <b id="mini-online" style="margin:0 4px">0</b> 명이 함께 보고 있어요</span>
+    </div>
+    <h1>BEYOND<br><span style="color:var(--accent)">THE SCORE</span></h1>
+    <div class="sub">수치 너머의 성장 —<br>데이터는 성적표가 아니라 다음 수업의 나침반입니다</div>
+    <p class="lead">가창 녹음, 시안의 변화, 동작 영상은 모두 학생이 남긴 데이터입니다.
+    오늘 이 연수장에서는 <b>여러분이 지금 이 사이트에 남기는 로그</b>가 그대로 ⑪차시 학습분석의 표본이 되고,
+    ⑫차시에서는 그 데이터를 <b>성장의 근거</b>로 되돌려 다음 수업을 재설계합니다.</p>
+    <div style="display:flex;gap:14px;margin-top:30px;flex-wrap:wrap">
+      <a class="btn btn-dark" href="warmup.html">🔥 웜업부터 시작하기</a>
+      <a class="btn btn-accent" href="#live">📺 지금 강의 화면 보기</a>
+      <a class="btn btn-line" href="cases.html">🎬 사례 산책 먼저 볼게요</a>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:22px;flex-wrap:wrap;align-items:center">
+      <span style="font-size:15px;font-weight:700;color:var(--dim)">페이지 색 구분:</span>
+      <span style="display:inline-flex;align-items:center;gap:8px;background:var(--ivory);border:2px solid rgba(181,57,125,.5);border-radius:99px;padding:8px 18px;font-size:15px;font-weight:700">👀 분홍 화면 = 보고 듣기</span>
+      <span style="display:inline-flex;align-items:center;gap:8px;background:#EDF3FC;border:2px solid #2456A6;border-radius:99px;padding:8px 18px;font-size:15px;font-weight:700;color:#183F7C">🖱️ 파란 화면 = 직접 하기</span>
+      <span style="display:inline-flex;align-items:center;gap:8px;background:#E9F8EF;border:2px solid #2E9E57;border-radius:99px;padding:8px 18px;font-size:15px;font-weight:700;color:#1E5E3A">📡 오른쪽 아래 = 신호 보내기</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 실시간 강의 화면 ===== -->
+<section class="block" id="live">
+  <div class="wrap">
+    <div class="kicker">Live · 실시간 강의 화면</div>
+    <h2 class="head">강의자가 넘기면 이 화면도 같이 넘어갑니다</h2>
+
+    <style>
+      #live-row{margin-top:24px;display:flex;gap:16px;align-items:flex-start;width:min(1560px,calc(100vw - 40px));margin-left:50%;transform:translateX(-50%)}
+      #live-stage{flex:1;min-width:0;background:#000;border-radius:18px;overflow:hidden;box-shadow:0 16px 44px rgba(23,23,46,.22);position:relative}
+      #live-quiz{display:none;flex:none;width:380px;max-height:640px;overflow-y:auto;background:#fff8ee;border:3px solid #E8784F;border-radius:16px;padding:20px 22px;box-shadow:0 14px 40px rgba(232,120,79,.28)}
+      @media (max-width:900px){
+        #live-row{flex-wrap:wrap}
+        #live-quiz{width:100%;max-height:none}
+      }
+      #live-quiz .lq-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+      #live-quiz .lq-badge{font-size:13px;font-weight:700;color:#fff;background:#E8784F;border-radius:99px;padding:4px 14px}
+      #lq-timer{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:#B4441F}
+      #lq-q{font-size:19px;font-weight:700;color:var(--ink);line-height:1.5;margin:8px 0 14px}
+      #lq-opts{display:grid;grid-template-columns:1fr;gap:10px}
+      .lq-opt{min-height:58px;background:#fff;border:2px solid #ddd8cc;border-radius:12px;padding:12px 16px;font-size:16.5px;font-weight:600;font-family:'IBM Plex Sans KR',sans-serif;cursor:pointer;text-align:left;transition:all .15s;line-height:1.4}
+      .lq-opt:hover{border-color:#E8784F;background:#fffaf5}
+      .lq-opt:disabled{cursor:default;opacity:.75}
+      .lq-opt.sel{border-color:var(--accent);background:var(--accent);color:#fff}
+      .lq-opt.hit{border-color:#3E8E5D;background:#EAF6EE}
+      .lq-opt.miss{border-color:#C6362B;background:#FBEDEB}
+      #lq-result{font-size:16px;font-weight:700;margin-top:12px;min-height:22px;color:var(--accent-dark)}
+      #lq-score{font-size:13px;font-weight:700;color:#fff;background:var(--ink);border-radius:99px;padding:4px 14px}
+      #lq-submit{display:none;margin-top:12px;width:100%;min-height:54px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-size:17px;font-weight:700;font-family:'IBM Plex Sans KR',sans-serif;cursor:pointer}
+      #lq-submit:hover{filter:brightness(1.08)}
+      #lq-hint{font-size:13.5px;color:var(--dim);margin-top:8px}
+    </style>
+    <div id="live-row">
+      <div id="live-stage">
+        <img id="live-slide-img" src="slides12/s1.png" alt="지금 강의 중인 슬라이드" style="display:block;width:100%;height:auto">
+      </div>
+      <div id="live-quiz">
+        <div class="lq-head">
+          <span class="lq-badge" id="lq-badge">⚡ 참여 퀴즈</span>
+          <span id="lq-timer"></span>
+          <span id="lq-score" title="오늘 내가 모은 점수">🏅 0점</span>
+        </div>
+        <div id="lq-q"></div>
+        <div id="lq-opts"></div>
+        <div id="lq-hint"></div>
+        <button id="lq-submit">✅ 선택 완료 — 제출하기</button>
+        <div id="lq-result"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px">
+      <span class="mini-live"><span class="dot"></span>&nbsp;<b>지금 강의 중인 화면</b>&nbsp;— 강의자가 넘기면 자동으로 같이 넘어갑니다&nbsp;<b id="live-num" class="mono"></b></span>
+    </div>
+
+    <div style="margin-top:24px;background:var(--ink);color:#fff;padding:26px 30px;border-radius:16px">
+      <div class="tag" style="color:#F08BBE">Throughline · 오늘의 전제</div>
+      <div style="font-weight:700;font-size:26px;margin-top:8px">AI는 실행을 값싸게 만든다.<br>교사의 일은 발상·판단·정서로 옮겨 간다.</div>
+      <p style="font-size:16px;color:rgba(255,255,255,.7);margin-top:8px">
+      시안 6장은 1분에 나오지만, 고르는 눈은 수업이 길러야 합니다. 데이터는 그 눈을 훈련하는 재료입니다 —
+      ⑪에서 데이터를 읽는 법을, ⑫에서 그 데이터를 다음 수업으로 되돌리는 법을 다룹니다.
+      근거가 되는 연구 원문은 <a href="research.html" style="color:#F08BBE"><b>연구 자료실</b></a>에서 바로 열 수 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 오늘의 흐름 ===== -->
+<section class="block">
+  <div class="wrap">
+    <div class="kicker">연수 개요 · Program</div>
+    <h2 class="head">웜업 하나, 점검 하나, 강의 둘 — 그리고 데이터는 계속 쌓입니다</h2>
+    <p style="color:var(--dim);margin-top:8px">순서대로 진행합니다. 각 카드를 누르면 해당 페이지로 이동합니다.
+    <b>분홍 카드는 듣고 보는 시간</b>, <b>파란 글씨 카드는 직접 하는 실습</b>입니다.</p>
+    <div class="grid g4" style="margin-top:26px">
+      <a class="card" href="warmup.html" style="display:block;color:var(--ink)">
+        <div class="tag" style="color:#2456A6">Warm-up · 15′ · 직접 하기</div>
+        <div class="bebas" style="font-size:32px;margin-top:8px">웜업</div>
+        <h3>⑨ 복습 카드 + 스피드 퀴즈</h3>
+        <p>여섯 개 설계 언어를 되살리고, 12문항 스피드 퀴즈로 몸을 풉니다.</p>
+      </a>
+      <a class="card" href="wizard.html" style="display:block;color:var(--ink)">
+        <div class="tag" style="color:#2456A6">Check · 40′ · 직접 하기</div>
+        <div class="bebas" style="font-size:32px;margin-top:8px">설계안 점검</div>
+        <h3>내 4P 설계안 자가점검 7단계</h3>
+        <p>핵심 아이디어부터 도구 3기준까지. 막히면 🔴 신호를 눌러 주세요.</p>
+      </a>
+      <a class="card ivory" href="s11.html" style="display:block;color:var(--ink)">
+        <div class="tag">⑪ Lecture · 100′ · 20–21차시</div>
+        <div class="bebas" style="font-size:32px;margin-top:8px">데이터 분석</div>
+        <h3>AI·디지털 기반 교수학습 데이터 분석</h3>
+        <p>다섯 관점·리터러시 함정·교과별 데이터 — 그리고 우리의 라이브 로그.</p>
+      </a>
+      <a class="card ivory" href="s12.html" style="display:block;color:var(--ink)">
+        <div class="tag">⑫ Lecture+Lab · 100′ · 22–23차시</div>
+        <div class="bebas" style="font-size:32px;margin-top:8px">평가·환류</div>
+        <h3>평가 결과 기반 교수학습 환류</h3>
+        <p>⑪의 데이터를 근거로 갤러리 워크·액션 플랜·KPT 회고까지.</p>
+      </a>
+    </div>
+    <div class="tip" style="margin-top:22px">
+      <span class="ico">🧭</span>
+      <p><b>처음이신가요?</b> ① <a href="warmup.html"><b>웜업</b></a>에서 지난 시간을 되살리고 →
+      ② <a href="wizard.html"><b>설계안 점검</b></a>으로 제출용 설계안을 다듬은 뒤 →
+      ③ <a href="cases.html"><b>사례 산책</b></a>에서 영상·연구를 구경하고 → ④ ⑪·⑫ 강의로 들어갑니다.
+      모든 실습 페이지는 <b>파란 화면</b>입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 두 세션 미리보기 ===== -->
+<section class="block" style="background:var(--ink);color:#fff">
+  <div class="wrap">
+    <div class="kicker">Sessions · 두 개의 강의</div>
+    <div class="bebas" style="font-size:clamp(44px,6vw,68px);line-height:.9;margin-top:10px">DATA → GROWTH</div>
+    <p style="font-size:19px;color:rgba(255,255,255,.75);margin-top:14px;max-width:760px">
+      ⑪은 <b style="color:#fff">읽는 법</b>, ⑫는 <b style="color:#fff">되돌리는 법</b>입니다.
+      두 세션 모두 같은 원칙을 따릅니다 — <b style="color:#fff">데이터가 잘하는 일과 교사만 할 수 있는 일을 구분한다.</b>
+    </p>
+    <div class="grid g2" style="margin-top:28px">
+      <a href="s11.html" style="display:block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:24px;color:#fff">
+        <div class="tag" style="color:#F08BBE">집합 ⑪ · 데이터 분석 · 역량 C2</div>
+        <h3 style="font-size:22px;margin-top:6px">📊 소리·색·움직임을 데이터로 읽는다</h3>
+        <p style="color:rgba(255,255,255,.65);font-size:15px;margin-top:8px">데이터를 보는 다섯 관점, 잘못 읽기 쉬운 세 가지 함정, 교과별 데이터와 도구 —
+        그리고 <b style="color:#fff">지금 이 연수장에 쌓이고 있는 우리의 로그</b>를 직접 열어 봅니다.</p>
+      </a>
+      <a href="s12.html" style="display:block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:24px;color:#fff">
+        <div class="tag" style="color:#F08BBE">집합 ⑫ · 평가·환류 · 역량 C3</div>
+        <h3 style="font-size:22px;margin-top:6px">🔁 데이터를 성장의 근거로 되돌린다</h3>
+        <p style="color:rgba(255,255,255,.65);font-size:15px;margin-top:8px">Feed Up → Back → Forward, 갤러리 워크 상호 크리틱,
+        그리고 <b style="color:#fff">내일 당장 실행할 최소 실행 단위</b> 액션 플랜과 KPT 회고까지.</p>
+      </a>
+      <a href="cases.html" style="display:block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:24px;color:#fff">
+        <div class="tag" style="color:#F08BBE">Cases · 언제든</div>
+        <h3 style="font-size:22px;margin-top:6px">🎬 사례 산책 — 영상과 연구로 보는 지금</h3>
+        <p style="color:rgba(255,255,255,.65);font-size:15px;margin-top:8px">그래미를 받은 AI 복원 비틀즈, AI 사진상을 거부한 작가, 0.5초 오프사이드 판독 —
+        세 교과의 "지금"을 영상으로 봅니다.</p>
+      </a>
+      <a href="research.html" style="display:block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:24px;color:#fff">
+        <div class="tag" style="color:#F08BBE">Research · 언제든</div>
+        <h3 style="font-size:22px;margin-top:6px">📚 연구 자료실</h3>
+        <p style="color:rgba(255,255,255,.65);font-size:15px;margin-top:8px">강의에 나온 모든 연구의 <b style="color:#fff">논문 원문</b>을 한 번의 클릭으로 엽니다.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 다음으로 ===== -->
+<section class="next-block">
+  <div class="wrap">
+    <div class="next-card">
+      <div>
+        <div class="tag">다음 순서</div>
+        <div class="t">웜업 — ⑨ 복습 카드와 스피드 퀴즈로 시작하기</div>
+      </div>
+      <a class="btn btn-accent" href="warmup.html">웜업으로 가기 →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span>저작권 © 2026 황미란 · 미술교사</span>
+  <span>Lecture &amp; Content by Miran Hwang · All Rights Reserved · 무단 복제·재배포 금지</span>
+</footer>
+
+<script src="js/ui.js?v=1"></script>
+<script type="module">
+  import { boot, watchLive, submitQuizAnswer } from './js/app.js?v=1';
+  import { attachOverlay } from './js/overlay.js?v=1';
+  import { QUIZ_BY_ID, calcPoints } from './js/quiz-data.js?v=1';
+  boot();
+
+  const DECK_DIRS = { 1: 'slides12', 2: 'slides11', 3: 'slidesplan' };
+  const liveImg = document.getElementById('live-slide-img');
+  const liveNum = document.getElementById('live-num');
+
+  /* ── 참여 퀴즈 (빠른 정답일수록 고득점, 1인 1회) ── */
+  const $q = (id) => document.getElementById(id);
+  let curQuizId = null, shownAt = 0, qTick = null;
+
+  function myPoints() {
+    let t = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.indexOf('keris_qa_') === 0) {
+        try { t += (JSON.parse(localStorage.getItem(k)).pts || 0); } catch (e) {}
+      }
+    }
+    return t;
+  }
+  function updateScore() { $q('lq-score').textContent = '🏅 ' + myPoints() + '점'; }
+
+  function lockOpts() {
+    document.querySelectorAll('.lq-opt').forEach(b => b.disabled = true);
+    $q('lq-submit').style.display = 'none';
+  }
+  function revealAnswer(quiz, chosen) {
+    const arr = Array.isArray(chosen) ? chosen : [chosen];
+    document.querySelectorAll('.lq-opt').forEach(b => {
+      const i = parseInt(b.dataset.i, 10);
+      if (quiz.type === 'score') {
+        if (i === quiz.ans) b.classList.add('hit');
+        else if (arr.indexOf(i) >= 0) b.classList.add('miss');
+      } else if (arr.indexOf(i) >= 0) b.classList.add('sel');
+    });
+  }
+
+  function stopTick() { if (qTick) { clearInterval(qTick); qTick = null; } }
+
+  function showQuiz(id) {
+    const box = $q('live-quiz');
+    const quiz = id ? QUIZ_BY_ID[id] : null;
+    if (!quiz) { box.style.display = 'none'; stopTick(); curQuizId = null; return; }
+    if (curQuizId === id) return;
+    curQuizId = id;
+    shownAt = Date.now();
+    stopTick();
+
+    $q('lq-q').textContent = quiz.q;
+    $q('lq-opts').innerHTML = quiz.opts.map((o, i) =>
+      '<button class="lq-opt" data-i="' + i + '">' + o + '</button>'
+    ).join('');
+    $q('lq-result').textContent = '';
+    $q('lq-badge').textContent = quiz.multi ? '💬 참여 투표 — 여러 개 골라도 됩니다' :
+      (quiz.type === 'score' ? '⚡ 맞히기 게임 — 빨리 답할수록 점수가 높아요!' : '💬 참여 투표 — 하나만 골라 주세요');
+    $q('lq-hint').textContent = quiz.multi ? '해당하는 것을 모두 누른 뒤, 아래 제출 버튼을 눌러 주세요.' : '';
+    $q('lq-submit').style.display = quiz.multi ? 'block' : 'none';
+    updateScore();
+    box.style.display = 'block';
+    try { box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+
+    const done = localStorage.getItem('keris_qa_' + id);
+    if (done) {
+      let saved = null;
+      try { saved = JSON.parse(done); } catch (e) {}
+      lockOpts();
+      if (saved) revealAnswer(quiz, saved.i);
+      $q('lq-timer').textContent = '';
+      $q('lq-result').textContent = '✅ 이미 참여하셨어요 (+' + ((saved && saved.pts) || 0) + '점)';
+      return;
+    }
+
+    const endAt = shownAt + quiz.time * 1000;
+    function tick() {
+      const remain = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+      $q('lq-timer').textContent = '⏱️ ' + remain + '초';
+      if (remain <= 0) {
+        stopTick(); lockOpts();
+        $q('lq-result').textContent = '⏰ 시간 종료 — 화면을 봐 주세요';
+      }
+    }
+    tick();
+    qTick = setInterval(tick, 250);
+  }
+
+  async function submitChoice(quiz, chosen, answerText) {
+    const elapsed = Date.now() - shownAt;
+    stopTick();
+    lockOpts();
+    revealAnswer(quiz, chosen);
+    const firstIdx = Array.isArray(chosen) ? chosen[0] : chosen;
+    const pts = calcPoints(quiz, firstIdx, elapsed);
+    const res = await submitQuizAnswer(curQuizId, quiz.slide, answerText, pts, elapsed);
+    let msg;
+    if (res.ok) {
+      if (quiz.type === 'score') {
+        msg = (firstIdx === quiz.ans)
+          ? '⚡ 정답입니다! +' + pts + '점 (' + (elapsed / 1000).toFixed(1) + '초)'
+          : '아쉬워요 — 정답은 「' + quiz.opts[quiz.ans] + '」 · 참여 점수 +' + pts + '점';
+      } else {
+        msg = '💬 참여 감사합니다! +' + pts + '점';
+      }
+      localStorage.setItem('keris_qa_' + curQuizId, JSON.stringify({ i: chosen, pts: pts }));
+    } else if (res.reason === 'already') {
+      msg = '✅ 이미 참여한 퀴즈예요';
+      localStorage.setItem('keris_qa_' + curQuizId, JSON.stringify({ i: chosen, pts: 0 }));
+    } else {
+      msg = '연결이 원활하지 않아 기록되지 않았어요 — 손을 들어 주세요 🙂';
+    }
+    $q('lq-timer').textContent = '';
+    $q('lq-result').textContent = msg;
+    updateScore();
+  }
+
+  $q('lq-opts').addEventListener('click', (e) => {
+    const b = e.target.closest('.lq-opt');
+    if (!b || !curQuizId || b.disabled) return;
+    if (localStorage.getItem('keris_qa_' + curQuizId)) return;
+    const quiz = QUIZ_BY_ID[curQuizId];
+    const i = parseInt(b.dataset.i, 10);
+    if (quiz.multi) { b.classList.toggle('sel'); return; }
+    submitChoice(quiz, i, quiz.opts[i]);
+  });
+
+  $q('lq-submit').addEventListener('click', () => {
+    if (!curQuizId || localStorage.getItem('keris_qa_' + curQuizId)) return;
+    const quiz = QUIZ_BY_ID[curQuizId];
+    const chosen = [];
+    document.querySelectorAll('.lq-opt.sel').forEach(b => chosen.push(parseInt(b.dataset.i, 10)));
+    if (!chosen.length) { $q('lq-result').textContent = '하나 이상 골라 주세요 🙂'; return; }
+    submitChoice(quiz, chosen, chosen.map(i => quiz.opts[i]).join(' + '));
+  });
+
+  /* 강의자가 슬라이드 위에 얹은 텍스트·사진·영상(꾸미기)을 함께 표시 */
+  let liveSlideNo = 1;
+  const liveOv = attachOverlay(document.getElementById('live-stage'), () => liveSlideNo, { fill: true, interactiveVideo: true, z: 5 });
+  liveImg.addEventListener('load', () => liveOv.layout());
+
+  watchLive((d) => {
+    if (d && d.slide) {
+      const dir = DECK_DIRS[d.deck] || 'slides12';
+      liveSlideNo = d.slide;
+      liveImg.src = dir + '/s' + d.slide + '.png';
+      if (liveNum) liveNum.textContent = d.slide + ' / ' + (d.total || '');
+      showQuiz(d.quiz || '');
+      liveOv.redraw();
+    }
+  });
+</script>
+</body>
+</html>

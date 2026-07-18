@@ -1,0 +1,284 @@
+/* ==========================================================================
+   BEYOND THE SCORE — 창작교과(음·미·체) 데이터·환류 연수 공통 스타일
+   구조·설계: seoul-20260716 강의 사이트와 동일한 뼈대
+   정체성: 잉크 네이비 #17172E · 마젠타 #B5397D · 음악 청록 · 미술 마젠타 · 체육 초록
+   서체: Bebas Neue / IBM Plex Sans KR / IBM Plex Mono
+   교사 친화: 큰 글씨, 큰 버튼, 높은 대비
+   ========================================================================== */
+
+:root{
+  --ink:#17172E;
+  --accent:#B5397D;
+  --accent-dark:#8E2C62;
+  --ivory:#F8F0F5;
+  --paper:#FFFFFF;
+  --line:rgba(23,23,46,.22);
+  --line-soft:rgba(23,23,46,.15);
+  --dim:rgba(23,23,46,.66);
+  --red:#C6362B;
+  --blue:#1a73e8;
+  --green:#188038;
+  --music:#0E8C8C;
+  --art:#DA2A8E;
+  --pe:#2E9E57;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'IBM Plex Sans KR',sans-serif;
+  font-size:18px;
+  line-height:1.7;
+  background-image:linear-gradient(rgba(181,57,125,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(181,57,125,.045) 1px,transparent 1px);
+  background-size:64px 64px;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-dark)}
+b,strong{font-weight:700}
+img{max-width:100%}
+
+.mono{font-family:'IBM Plex Mono',monospace}
+.bebas{font-family:'Bebas Neue',sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* 교과 색 헬퍼 */
+.t-music{color:var(--music)}
+.t-art{color:var(--art)}
+.t-pe{color:var(--pe)}
+.pill{font-size:13px;border-radius:999px;padding:5px 12px;font-weight:600;display:inline-block}
+.pill.m{background:#E1F1F1;color:#0A6E6E}
+.pill.a{background:#FBE6F2;color:#A31E6E}
+.pill.p{background:#E3F3E9;color:#237A44}
+
+/* ---------- 상단 내비게이션 ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1180px;margin:0 auto;padding:0 24px;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.nav-logo{display:flex;align-items:baseline;gap:10px;color:var(--ink)}
+.nav-logo .big{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.03em}
+.nav-logo .small{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap;font-size:15px;font-weight:600}
+.nav-links a{color:rgba(23,23,46,.72);padding:8px 12px;border-radius:8px}
+.nav-links a:hover{background:var(--ivory);color:var(--accent-dark)}
+.nav-links a.on{background:var(--ink);color:#fff}
+.nav-user{font-size:14px;color:var(--dim);display:flex;align-items:center;gap:8px}
+.nav-user .dot{width:9px;height:9px;border-radius:50%;background:#23a559;display:inline-block}
+
+/* ---------- 공통 섹션 ---------- */
+.hero{border-bottom:1px solid var(--line);padding:56px 0 44px}
+.kicker{font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,84px);line-height:.9;margin-top:12px}
+.hero .sub{font-weight:700;font-size:clamp(22px,3vw,30px);letter-spacing:-.01em;margin-top:14px}
+.hero p.lead{font-size:19px;color:var(--dim);margin-top:14px;max-width:760px}
+section.block{padding:56px 0;border-bottom:1px solid var(--line)}
+h2.head{font-weight:700;font-size:30px;letter-spacing:-.01em;margin-top:10px}
+
+/* ---------- 버튼 ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:58px;padding:14px 30px;font-family:'IBM Plex Sans KR',sans-serif;font-size:18px;font-weight:700;border:none;cursor:pointer;border-radius:12px;transition:transform .06s ease}
+.btn:active{transform:scale(.98)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:var(--accent);color:#fff}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{background:var(--accent-dark);color:#fff}
+.btn-line{background:#fff;border:2px solid var(--line);color:var(--ink)}
+.btn-line:hover{border-color:var(--accent);color:var(--accent-dark)}
+.btn-big{min-height:68px;font-size:21px;padding:16px 40px;width:100%}
+
+/* ---------- 카드 ---------- */
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:1px solid var(--line);padding:24px;border-radius:14px}
+.card.ivory{background:var(--ivory);border-color:rgba(181,57,125,.45)}
+.card h3{font-size:19px;font-weight:700}
+.card p{font-size:15px;color:var(--dim);margin-top:8px}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+
+/* ---------- 안내·주의 박스 ---------- */
+.tip{background:var(--ivory);border:1px solid rgba(181,57,125,.45);border-radius:14px;padding:20px 24px;display:flex;gap:14px;align-items:flex-start;margin-top:18px}
+.tip .ico{font-size:26px;line-height:1.2;flex:none}
+.tip p{font-size:16px;margin:0}
+.tip.warn{background:#FDF3F2;border-color:rgba(198,54,43,.4)}
+.tip.blue{background:#F0F6FF;border-color:rgba(26,115,232,.35)}
+
+/* ---------- 단계 마법사 (step wizard) ---------- */
+.stepbar{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 8px}
+.stepbar button{min-width:52px;min-height:52px;border-radius:12px;border:2px solid var(--line);background:#fff;font-family:'IBM Plex Sans KR',sans-serif;font-size:18px;font-weight:700;color:var(--dim);cursor:pointer}
+.stepbar button.done{border-color:var(--accent);color:var(--accent);background:var(--ivory)}
+.stepbar button.now{background:var(--ink);border-color:var(--ink);color:#fff}
+.step{display:none;padding:26px 0 10px}
+.step.show{display:block;animation:fadein .25s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.step-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.step-num{font-family:'Bebas Neue',sans-serif;font-size:58px;color:var(--accent);line-height:1}
+.step-head h3{font-size:26px;font-weight:700}
+.step-goal{font-size:17px;color:var(--dim);margin-top:6px}
+.step-cols{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:26px;margin-top:22px;align-items:start}
+.do-list{display:flex;flex-direction:column;gap:12px}
+.do{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:17px;display:flex;gap:12px;align-items:flex-start}
+.do .n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.do.point{border:2px solid var(--red);background:#FFF9F8}
+.do.point .n{background:var(--red)}
+.stepnav{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+.stepnav .btn{flex:1;min-width:200px}
+.step-count{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--dim);letter-spacing:.1em;align-self:center}
+
+/* ---------- 입력 폼 (자가점검·액션플랜) ---------- */
+.field{margin-top:18px}
+.field label{display:block;font-size:16px;font-weight:700}
+.field label .opt{font-weight:400;color:var(--dim);font-size:14px}
+.field input[type=text],.field textarea,.field select{width:100%;margin-top:8px;border:2px solid var(--line);border-radius:12px;padding:13px 15px;font-size:17px;font-family:'IBM Plex Sans KR',sans-serif;background:#fff;color:var(--ink)}
+.field textarea{min-height:88px;resize:vertical;line-height:1.6}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent)}
+.autocheck{border-radius:10px;padding:12px 14px;font-size:15px;margin-top:10px;line-height:1.6}
+.autocheck.good{background:#EAF6EF;border:1px solid rgba(46,142,87,.4);color:#1E5E3A}
+.autocheck.bad{background:#FBEEF0;border:1px solid rgba(176,74,90,.4);color:#8E3040}
+.autocheck.blue{background:#EEF2FB;border:1px solid rgba(59,91,165,.35);color:#2C4680}
+.checkrow{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:16px;line-height:1.55;cursor:pointer}
+.checkrow input{margin-top:5px;width:19px;height:19px;accent-color:var(--accent);flex:none;cursor:pointer}
+
+/* ---------- 입장(로그인) ---------- */
+.gate{max-width:1180px;margin:0 auto;padding:40px 24px;display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:34px;align-items:start}
+.gate-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px;box-shadow:0 16px 40px rgba(23,23,46,.08)}
+.gate-card label{display:block;font-size:16px;font-weight:700;margin-top:20px}
+.gate-card label .opt{font-weight:400;color:var(--dim);font-size:14px}
+.gate-card input{width:100%;margin-top:8px;border:2px solid var(--line);border-radius:12px;padding:15px 16px;font-size:19px;font-family:'IBM Plex Sans KR',sans-serif}
+.gate-card input:focus{outline:none;border-color:var(--accent)}
+.gate-err{display:none;background:#FDF3F2;border:1px solid rgba(198,54,43,.4);color:var(--red);font-size:15.5px;border-radius:10px;padding:12px 14px;margin-top:16px}
+.pin-hint{font-size:14px;color:var(--dim);margin-top:6px}
+.subject-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.subject-pick button{min-height:64px;border-radius:14px;border:2px solid var(--line);background:#fff;font-family:'IBM Plex Sans KR',sans-serif;font-size:19px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.subject-pick button small{font-size:12px;font-weight:400;color:var(--dim)}
+.subject-pick button.on{border-color:var(--accent);background:var(--ivory);color:var(--accent-dark)}
+.subject-pick button.on.m{border-color:var(--music);background:#E1F1F1;color:#0A6E6E}
+.subject-pick button.on.a{border-color:var(--art);background:#FBE6F2;color:#A31E6E}
+.subject-pick button.on.p{border-color:var(--pe);background:#E3F3E9;color:#237A44}
+
+/* ---------- 실시간 참여 ---------- */
+.live-panel{background:var(--ink);color:#fff;border-radius:20px;padding:28px;min-height:420px}
+.live-panel .lp-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.live-count{font-family:'Bebas Neue',sans-serif;font-size:42px;color:#F08BBE;line-height:1}
+.roster{margin-top:18px;display:flex;flex-direction:column;gap:10px;max-height:430px;overflow-y:auto;padding-right:6px}
+.roster::-webkit-scrollbar{width:6px}
+.roster::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:3px}
+.who{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 14px}
+.who .face{font-size:26px;flex:none}
+.who .nm{font-size:16px;font-weight:700}
+.who .sc{font-size:13px;color:rgba(255,255,255,.6)}
+.who .st{margin-left:auto;text-align:right;font-size:12.5px;color:rgba(255,255,255,.65);flex:none}
+.who .st .on{color:#4ade80;font-weight:700}
+.cheer-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.cheer-bar button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:99px;min-height:46px;padding:8px 16px;font-size:15px;cursor:pointer;font-family:'IBM Plex Sans KR',sans-serif}
+.cheer-bar button:hover{background:var(--accent)}
+.cheer-feed{margin-top:14px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:rgba(255,255,255,.8);max-height:130px;overflow-y:auto}
+.mini-live{display:flex;align-items:center;gap:10px;background:var(--ivory);border:1px solid rgba(181,57,125,.4);border-radius:99px;padding:8px 18px;font-size:15px}
+.mini-live .dot{width:10px;height:10px;border-radius:50%;background:#23a559;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(35,165,89,.4)}50%{box-shadow:0 0 0 9px rgba(35,165,89,0)}}
+
+/* ---------- 신호 독 (이해·헷갈림·막힘·웃음) ---------- */
+.signal-dock{position:fixed;right:18px;bottom:18px;z-index:80;background:var(--ink);border-radius:18px;padding:12px 14px;box-shadow:0 14px 40px rgba(23,23,46,.35);width:230px}
+.signal-dock .sd-title{font-size:12px;font-weight:700;color:rgba(255,255,255,.65);letter-spacing:.04em;display:flex;justify-content:space-between;align-items:center}
+.signal-dock .sd-title button{background:none;border:none;color:rgba(255,255,255,.5);font-size:15px;cursor:pointer;padding:0 2px}
+.signal-dock .sd-btns{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+.signal-dock .sd-btns button{border:none;border-radius:10px;min-height:46px;font-family:'IBM Plex Sans KR',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;padding:6px 8px;line-height:1.3}
+.signal-dock .sd-ok{background:#1E5E3A;color:#fff}
+.signal-dock .sd-confused{background:#8A6D1E;color:#fff}
+.signal-dock .sd-stuck{background:#8E3040;color:#fff}
+.signal-dock .sd-fun{background:rgba(255,255,255,.14);color:#fff}
+.signal-dock .sd-btns button:hover{filter:brightness(1.15)}
+.signal-dock .sd-note{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:8px;line-height:1.45}
+.signal-dock.min .sd-btns,.signal-dock.min .sd-note{display:none}
+.signal-dock.min{width:auto}
+@media (max-width:700px){.signal-dock{width:200px;right:10px;bottom:10px}}
+
+/* ---------- 하단 이동 ---------- */
+.next-block{padding:44px 0 70px}
+.next-card{display:flex;justify-content:space-between;align-items:center;gap:20px;background:var(--ink);color:#fff;border-radius:20px;padding:30px 34px;flex-wrap:wrap}
+.next-card .t{font-size:22px;font-weight:700}
+.next-card .tag{color:#F08BBE}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* ---------- 강의/실습 페이지 구분 ---------- */
+/* 강의·감상 페이지 = 마젠타(기본) · 직접 하는 실습 페이지 = 파랑(body.lab) */
+body.lab{
+  --accent:#2456A6;
+  --accent-dark:#183F7C;
+  --ivory:#EDF3FC;
+  background-image:linear-gradient(rgba(36,86,166,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(36,86,166,.06) 1px,transparent 1px);
+}
+body.lab .card.ivory{border-color:rgba(36,86,166,.4)}
+body.lab .tip{border-color:rgba(36,86,166,.35)}
+body.lab .live-count{color:#8AB4F8}
+body.lab .next-card .tag{color:#8AB4F8}
+.mode-band{background:var(--ink);color:#fff;text-align:center;font-family:'IBM Plex Sans KR',sans-serif;font-size:16px;font-weight:700;letter-spacing:.02em;padding:12px 16px;line-height:1.5}
+body.lab .mode-band{background:#2456A6}
+.mode-band small{display:block;font-size:13px;font-weight:400;color:rgba(255,255,255,.75)}
+body.lab .tip.blue{background:#FFF8EA;border-color:rgba(180,130,20,.4)}
+
+/* ---------- 프롬프트·발문 카드 ---------- */
+.prompt-card{background:var(--ink);color:#fff;border-radius:14px;padding:18px 20px;margin-top:14px}
+.prompt-card .pc-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.prompt-card .pc-label{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#F08BBE}
+.copy-btn{background:var(--accent);color:#fff;border:none;border-radius:9px;min-height:44px;padding:8px 18px;font-size:15px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans KR',sans-serif}
+.copy-btn:hover{background:var(--accent-dark)}
+.copy-btn.ok{background:#23a559}
+.prompt-card pre{white-space:pre-wrap;font-family:'IBM Plex Sans KR',sans-serif;font-size:16.5px;line-height:1.7;margin-top:10px;color:rgba(255,255,255,.92)}
+
+/* ---------- 연구 자료실 ---------- */
+.ref{font-size:15px;color:var(--dim);padding:14px 0;border-bottom:1px solid var(--line-soft);line-height:1.6}
+.ref b{color:var(--ink);font-size:16px}
+.ref a{word-break:break-all;font-size:14px}
+.ref .src{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--dim);letter-spacing:.03em}
+.ref .why{display:block;margin-top:4px;font-size:14.5px}
+
+/* ---------- 슬라이드 뷰어 (설계안 양식 등) ---------- */
+.deckview{background:#000;border-radius:16px;overflow:hidden;box-shadow:0 12px 36px rgba(23,23,46,.2);position:relative}
+.deckview img{display:block;width:100%;height:auto}
+.deckview .dv-nav{position:absolute;inset:auto 0 0 0;display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:linear-gradient(transparent,rgba(0,0,0,.55))}
+.deckview .dv-nav button{background:rgba(255,255,255,.92);border:none;border-radius:10px;min-height:44px;padding:8px 18px;font-size:15px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans KR',sans-serif}
+.deckview .dv-num{color:#fff;font-family:'IBM Plex Mono',monospace;font-size:14px}
+
+/* ---------- 데이터 바 (미니 차트) ---------- */
+.bar-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+.bar-row .bl{width:150px;font-size:14px;font-weight:700;flex:none;line-height:1.35}
+.bar-row .track{flex:1;height:16px;background:var(--ivory);border-radius:8px;overflow:hidden}
+.bar-row .fill{height:16px;border-radius:8px;background:var(--accent);min-width:2px;transition:width .4s ease}
+.bar-row .bv{width:86px;font-size:13px;color:var(--dim);text-align:right;flex:none;font-family:'IBM Plex Mono',monospace}
+
+/* ---------- 표 ---------- */
+.tbl{width:100%;border-collapse:collapse;font-size:15px;margin-top:14px}
+.tbl th{background:var(--ivory);text-align:left;padding:10px 12px;font-size:13.5px;border-bottom:2px solid var(--line)}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+.tbl-scroll{overflow-x:auto}
+
+/* ---------- 영상 ---------- */
+.video-embed{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 10px 30px rgba(23,23,46,.15)}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* ---------- 보안: 이미지 보호 + 인쇄 억제 + 워터마크 (텍스트 복사는 허용) ---------- */
+body{-webkit-user-select:text;-moz-user-select:text;user-select:text}
+img,svg{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-user-drag:none;user-drag:none}
+.wm{position:fixed;inset:-12%;display:flex;flex-wrap:wrap;align-content:space-between;justify-content:space-between;gap:110px 60px;transform:rotate(-22deg);pointer-events:none;z-index:9998;overflow:hidden}
+.wm span{font-family:'IBM Plex Mono',monospace;font-size:13px;color:rgba(23,23,46,.055);white-space:nowrap}
+@media print{
+  body > *{display:none !important}
+  body::before{content:"이 자료는 인쇄·복제가 제한되어 있습니다. © 2026 Miran Hwang. All Rights Reserved.";display:block;padding:40px;font-size:16px}
+}
+
+/* ---------- 반응형 ---------- */
+@media (max-width:960px){
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(2,1fr)}
+  .step-cols{grid-template-columns:1fr}
+  .gate{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  body{font-size:16.5px}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .nav-links{font-size:13.5px}
+  .nav-links a{padding:6px 8px}
+  .subject-pick{grid-template-columns:repeat(3,1fr)}
+}

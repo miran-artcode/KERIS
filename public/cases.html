@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사례 산책 — 창작교과 데이터·환류 연수</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body data-page="사례 산책" data-require-session data-signal-dock>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="home.html" class="nav-logo">
+      <span class="big">BEYOND&nbsp;THE&nbsp;SCORE</span>
+      <span class="small">창작교과 데이터·환류 연수</span>
+    </a>
+    <div class="nav-links">
+      <a href="home.html">연수 홈</a>
+      <a href="warmup.html">웜업·복습</a>
+      <a href="wizard.html">설계안 점검</a>
+      <a href="cases.html" class="on">사례 산책</a>
+      <a href="s11.html">⑪ 데이터 분석</a>
+      <a href="s12.html">⑫ 평가·환류</a>
+      <a href="research.html">연구 자료실</a>
+    </div>
+    <span class="nav-user" id="nav-user"></span>
+  </div>
+</nav>
+<div class="mode-band">📖 지금은 〈보고 듣는 페이지〉입니다<small>영상을 보고 옆 선생님과 한 문장씩 나누세요 — 여기 나온 모든 수치는 원문으로 검증됐습니다</small></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Cases · 영상·연구로 보는 "지금" · ⑪·⑫로 들어가기 전에</div>
+    <h1>구분할 수<br><span style="color:var(--accent)">있습니까?</span></h1>
+    <p class="lead">8개국 9,000명 중 <b>97%</b>가 AI 음악을 구분하지 못했습니다(Deezer·Ipsos, 2025).
+    AI가 쓴 시는 판별 정확도가 <b>46.6%</b> — 동전 던지기보다 낮았습니다(Scientific Reports, 2024).
+    구분이 안 되는 시대에 남는 증거는 하나, <b>과정의 데이터</b>입니다.
+    세 교과의 "지금"을 영상과 연구로 산책하고 ⑪·⑫로 들어갑니다.</p>
+    <div style="display:flex;gap:14px;margin-top:26px;flex-wrap:wrap">
+      <a class="btn btn-dark" href="#common">🧠 공통 · 놀라운 연구</a>
+      <a class="btn btn-line" href="#music" style="border-color:var(--music);color:var(--music)">♪ 음악</a>
+      <a class="btn btn-line" href="#art" style="border-color:var(--art);color:var(--art)">🎨 미술</a>
+      <a class="btn btn-line" href="#pe" style="border-color:var(--pe);color:var(--pe)">⚽ 체육</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 공통: 놀라운 연구 4장면 ===== -->
+<section class="block" id="common">
+  <div class="wrap">
+    <div class="kicker">Scene 0 · 공통 — 최신 연구 네 장면</div>
+    <h2 class="head">AI와 창작에 대해, 연구가 밝혀낸 뜻밖의 사실들</h2>
+    <div class="grid g2" style="margin-top:24px">
+      <div class="card">
+        <div class="tag">Blind Test · Deezer×Ipsos 2025</div>
+        <h3 style="margin-top:8px">97%는 AI 음악을 구분하지 못한다</h3>
+        <p style="color:var(--ink);font-size:15.5px">8개국 성인 9,000명에게 3곡(AI 2곡+사람 1곡)을 들려주자 <b>97%가 판별에 실패</b>했습니다(3곡 모두 맞힌 사람은 3%).
+        그런데 80%는 "AI 음악은 표시해야 한다"고 답했습니다 — 구분은 못 하지만, 알고는 싶은 겁니다.</p>
+        <p style="font-size:14px;margin-top:8px">💬 발문: 구분이 안 된다면, 학생 창작의 "진짜"는 무엇으로 증명할까?</p>
+      </div>
+      <div class="card">
+        <div class="tag">Cognitive Debt · MIT Media Lab 2025</div>
+        <h3 style="margin-top:8px">AI로 쓴 글은 뇌에 남지 않는다</h3>
+        <p style="color:var(--ink);font-size:15.5px">에세이를 ChatGPT·검색·맨뇌 3그룹으로 나눠 쓰게 하고 EEG로 측정하자, <b>LLM 그룹의 뇌 연결성이 가장 약했고</b> 방금 쓴 자기 글을 인용하지도 못했습니다.
+        AI를 먼저 쓰면 나중에 혼자 써도 뇌 활성이 낮게 유지됐습니다.</p>
+        <p style="font-size:14px;margin-top:8px">💬 시사점: "먼저 스스로, 나중에 AI" — 창작 4단계에서 표현이 학생 손인 이유. (※ 동료심사 전 프리프린트, 54명 소규모)</p>
+      </div>
+      <div class="card">
+        <div class="tag">400만 작품 분석 · PNAS Nexus 2024</div>
+        <h3 style="margin-top:8px">생산성 +25%, 그런데 참신성은 하락</h3>
+        <p style="color:var(--ink);font-size:15.5px">생성형 AI를 도입한 작가들은 작품 수가 25% 늘고 조회당 '좋아요' 확률이 50% 올랐지만, <b>평균 참신성은 떨어졌습니다</b>(최고 수준 작품은 오히려 상승).
+        실행이 값싸지니 병목은 <b>발상과 선별</b>로 옮겨 갔습니다.</p>
+        <p style="font-size:14px;margin-top:8px">💬 ⑫로 연결: 완성도보다 발상–선별–수정 과정을 평가 증거로 — "왜 이걸 골랐고, 무엇을 버렸나?"</p>
+      </div>
+      <div class="card">
+        <div class="tag">Label Effect · 2023–2024</div>
+        <h3 style="margin-top:8px">"인간 작품" 라벨이 붙으면 더 아름답다</h3>
+        <p style="color:var(--ink);font-size:15.5px">전부 AI가 만든 그림에 라벨만 무작위로 붙였더니 <b>"인간 작품" 라벨 쪽이 9개 차원 모두에서 높게 평가</b>됐습니다(Bellaiche 2023).
+        AI 시는 인간 시보다 더 "인간적"이라 평가받다가도, AI가 썼다고 밝히면 점수가 떨어졌습니다(2024).</p>
+        <p style="font-size:14px;margin-top:8px">💬 발문: 예술의 가치는 결과물에 있는가, 만든 이의 이야기에 있는가?</p>
+      </div>
+    </div>
+    <div class="tip" style="margin-top:20px">
+      <span class="ico">🤝</span>
+      <p><b>집단은 닮아간다.</b> AI 아이디어를 받은 작가 개인은 더 창의적이 됐지만(참신성 +8.1%),
+      <b>AI를 쓴 작품들끼리는 서로 더 비슷해졌습니다</b>(Doshi &amp; Hauser, Science Advances 2024).
+      교실 전체가 같은 AI를 쓰면 학생 작품이 닮아갈 수 있다는 경고 — AI 활용 방식을 다양화해야 하는 근거입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 음악 ===== -->
+<section class="block" id="music" style="border-top:4px solid var(--music)">
+  <div class="wrap">
+    <div class="kicker" style="color:var(--music)">Scene 1 · 음악 — 소리의 데이터</div>
+    <h2 class="head">그래미를 받은 AI 복원, 100만 명을 속인 AI 밴드</h2>
+    <div class="grid g2" style="margin-top:24px;align-items:start">
+      <div>
+        <div class="video-embed">
+          <iframe src="https://www.youtube-nocookie.com/embed/APJAQoSCwuA" title="Now And Then - The Last Beatles Song (Short Film)" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-size:14px;color:var(--dim);margin-top:8px">▶ Now And Then — The Last Beatles Song (공식 다큐 12분). 1970년대 카세트에서 존 레논의 목소리만 AI로 분리해 곡을 완성하는 과정.</p>
+      </div>
+      <div>
+        <div class="card" style="border-top:4px solid var(--music)">
+          <span class="pill m">복원의 AI</span>
+          <h3 style="margin-top:10px">비틀즈 「Now and Then」 — 2025 그래미 수상</h3>
+          <p style="color:var(--ink);font-size:15px">AI 스템 분리(MAL)로 완성된 이 곡은 <b>2025년 2월 제67회 그래미 '베스트 록 퍼포먼스'를 수상</b>했습니다 — 비틀즈의 28년 만의 그래미.
+          AI가 지운 것은 잡음이고, 남긴 것은 레논의 목소리였습니다. "합성된 것은 아무것도 없다"(폴 매카트니).</p>
+        </div>
+        <div class="card" style="margin-top:14px;border-top:4px solid var(--music)">
+          <span class="pill m">생성의 AI</span>
+          <h3 style="margin-top:10px">더 벨벳 선다운 — 100만 청취자를 모은 가짜 밴드</h3>
+          <p style="color:var(--ink);font-size:15px">2025년 여름, Spotify 월간 청취자 100만을 넘긴 복고풍 밴드가 알고 보니 <b>Suno로 만든 합성 프로젝트</b>였습니다.
+          직후 Spotify는 AI 보이스 클론 금지·AI 사용 표기 표준을 도입했습니다. "어디에 AI를 썼는지 크레딧에 쓴다" — 학생 작가노트 규칙과 똑같습니다.</p>
+        </div>
+        <div class="card" style="margin-top:14px;border-top:4px solid var(--music)">
+          <span class="pill m">한국의 연구</span>
+          <h3 style="margin-top:10px">KAIST Amuse — CHI 2025 최우수논문상</h3>
+          <p style="color:var(--ink);font-size:15px">노을 사진·글·소리 같은 영감을 <b>코드 진행으로 바꿔 주는</b> 작곡 보조 AI(KAIST 이성주 교수팀·CMU).
+          완성곡을 뽑아 주는 대신 <b>창작자의 결정권을 지키는 설계</b>로 세계 최고 HCI 학회 상위 1% 논문상을 받았습니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip" style="margin-top:20px;border-color:rgba(14,140,140,.4);background:#E9F5F5">
+      <span class="ico">⚖️</span>
+      <p><b>저작권 지형도 바뀌는 중.</b> 2024년 미국 음반사들이 Suno·Udio를 제소 → <b>2025년 10~11월 유니버설·워너가 잇따라 합의하고 라이선스 계약</b>(옵트인 통제권·유료화), 일부 소송은 계속 진행 중입니다.
+      "무단 학습 → 소송 → 라이선스 공존"의 이행기 — 수업에서는 여전히 <b>학교 밖 공개·상업 사용 자제</b>가 안전선입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 미술 ===== -->
+<section class="block" id="art" style="border-top:4px solid var(--art)">
+  <div class="wrap">
+    <div class="kicker" style="color:var(--art)">Scene 2 · 미술 — 과정과 시선의 데이터</div>
+    <h2 class="head">사진상을 거부한 작가, 데이터를 물감 삼는 작가</h2>
+    <div class="grid g2" style="margin-top:24px;align-items:start">
+      <div>
+        <div class="video-embed">
+          <iframe src="https://www.youtube-nocookie.com/embed/iz7diOuaTos" title="Refik Anadol TED — How AI Art Could Enhance Humanity's Collective Memory" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-size:14px;color:var(--dim);margin-top:8px">▶ 레픽 아나돌 TED(2023) — 산호초·꽃·열대우림 이미지 1억 장으로 학습한 '데이터 조각'. "데이터가 물감이 될 수 있는가?"</p>
+        <div class="video-embed" style="margin-top:18px">
+          <iframe src="https://www.youtube-nocookie.com/embed/iqaVe1MCTlA" title="Big Bang Data: Dear Data" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-size:14px;color:var(--dim);margin-top:8px">▶ Dear Data — 두 디자이너가 1년간 매주 자기 일상 데이터(웃은 횟수, 불평…)를 <b>손으로 그려</b> 엽서로 주고받은 프로젝트. 원본은 MoMA 영구 소장. 컴퓨터 없이도 되는 데이터 시각화 수업의 교과서.</p>
+      </div>
+      <div>
+        <div class="card" style="border-top:4px solid var(--art)">
+          <span class="pill a">경계의 사건</span>
+          <h3 style="margin-top:10px">보리스 엘다크센 — AI 사진상 수상 거부(2023)</h3>
+          <p style="color:var(--ink);font-size:15px">소니 월드 포토그래피 어워드에서 DALL·E 생성 이미지로 수상한 뒤 <b>"AI는 사진이 아니다"라며 스스로 거부</b>.
+          그가 제안한 새 단어가 '프롬프토그래피'입니다. — "AI 이미지도 예술인가?"라는 논쟁적 탐구질문의 원형 사건.</p>
+        </div>
+        <div class="card" style="margin-top:14px;border-top:4px solid var(--art)">
+          <span class="pill a">시선의 데이터</span>
+          <h3 style="margin-top:10px">그리기를 배우는 것은 보는 법을 배우는 것</h3>
+          <p style="color:var(--ink);font-size:15px">전문가의 관찰 드로잉 중 시선을 추적하자 <b>시선과 획이 강하게 맞물려</b> 있었습니다(SIGGRAPH 2025).
+          전문가는 먼저 구조적으로 훑고, 세부 단계에서 자유로워집니다 — 그림 실력이 손보다 <b>눈에서 갈린다</b>는 것을 데이터가 보여줍니다.</p>
+        </div>
+        <div class="card" style="margin-top:14px;border-top:4px solid var(--art)">
+          <span class="pill a">몸으로 느끼는 데이터</span>
+          <h3 style="margin-top:10px">Ice Watch — 그래프 대신 진짜 빙하</h3>
+          <p style="color:var(--ink);font-size:15px">올라퍼 엘리아슨은 그린란드 빙하를 파리 COP21 광장에 옮겨 <b>녹는 것을 만지게</b> 했습니다.
+          "왜 그래프 대신 빙하였을까?" — 데이터 시각화와 설치미술의 차이를 여는 질문. 국립중앙박물관 <b>디지털 실감영상관</b>은 현장체험으로 연결할 수 있는 국내 사례입니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 체육 ===== -->
+<section class="block" id="pe" style="border-top:4px solid var(--pe)">
+  <div class="wrap">
+    <div class="kicker" style="color:var(--pe)">Scene 3 · 체육 — 움직임의 데이터</div>
+    <h2 class="head">0.5초의 오프사이드, 90%의 체조 채점</h2>
+    <div class="grid g2" style="margin-top:24px;align-items:start">
+      <div>
+        <div class="video-embed">
+          <iframe src="https://www.youtube-nocookie.com/embed/anlE1WNovoM" title="How Semi-Automated Offside Technology Works" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-size:14px;color:var(--dim);margin-top:8px">▶ SAOT 작동 원리(개발사 Genius Sports 공식) — 경기장당 최대 30대의 100fps 카메라가 선수당 최대 1만 개의 신체 포인트를 추적합니다. 프리미어리그 2025년 4월 도입.</p>
+        <div class="video-embed" style="margin-top:18px">
+          <iframe src="https://www.youtube-nocookie.com/embed/0AE9iNBXw24" title="Fujitsu AI at 2023 Artistic Gymnastics World Championships" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-size:14px;color:var(--dim);margin-top:8px">▶ 후지쯔 JSS — 2023 세계선수권부터 기계체조 10개 기구 전체에 도입된 AI 채점 지원. 약 2,000개 요소를 약 90% 정확도로 인식하되, <b>심판을 대체하지 않고 이의신청 때 참조</b>합니다.</p>
+      </div>
+      <div>
+        <div class="card" style="border-top:4px solid var(--pe)">
+          <span class="pill p">판정의 데이터</span>
+          <h3 style="margin-top:10px">AI 판정은 "대체"가 아니라 "보조"였다</h3>
+          <p style="color:var(--ink);font-size:15px">SAOT도 VAR 심판이 킥 시점을 확인하는 <b>반(半)자동</b>이고, JSS도 점수 불일치 때 참조하는 <b>지원 시스템</b>입니다.
+          체조 예술성 점수는 여전히 인간의 몫 — "AI가 하는 일과 사람이 하는 일의 구분"이 프로 스포츠에도 그대로 있습니다.</p>
+        </div>
+        <div class="card" style="margin-top:14px;border-top:4px solid var(--pe)">
+          <span class="pill p">한국의 교실</span>
+          <h3 style="margin-top:10px">부산의 중학교 체육수업, 태블릿 QR로 자세 교정</h3>
+          <p style="color:var(--ink);font-size:15px">부산대 연구진이 한국 중학교에서 교사·중3 학생과 함께 설계한 <b>MediaPipe 웹 AI 수업 시스템</b>(설치 불필요, QR 접속) —
+          실시간 시각·청각 자세 피드백과 참여 데이터 자동 기록(Frontiers in Public Health, 2026). 코딩 없이 교사가 운동 인식 규칙을 수정합니다.</p>
+        </div>
+        <div class="card" style="margin-top:14px;border-top:4px solid var(--pe)">
+          <span class="pill p">통념을 깨는 데이터</span>
+          <h3 style="margin-top:10px">웨어러블만 채우면 학생이 더 움직일까?</h3>
+          <p style="color:var(--ink);font-size:15px">학교 기반 청소년 웨어러블 연구 15편의 메타분석 결과 — <b>걸음 수·활동량에 유의한 효과 없음</b>(BMC Public Health, 2025).
+          기기가 아니라 <b>수업 설계와 데이터 활용 방식</b>이 관건이라는, 오늘 연수의 존재 이유 같은 결과입니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tip blue" style="margin-top:20px">
+      <span class="ico">🗣️</span>
+      <p><b>산책 마무리 — 옆 선생님과 한 문장씩.</b>
+      "방금 본 장면 중 우리 반과 가장 닮은 장면은? 그 장면에서 나라면 <b>어떤 데이터부터</b> 모아 볼까?"
+      이 문장을 품고 ⑪로 들어갑니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="next-block">
+  <div class="wrap">
+    <div class="next-card">
+      <div>
+        <div class="tag">다음 순서</div>
+        <div class="t">집합 ⑪ — 데이터 분석: 소리·색·움직임을 읽는 법</div>
+      </div>
+      <a class="btn btn-accent" href="s11.html">⑪ 데이터 분석으로 →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span>저작권 © 2026 황미란 · 미술교사</span>
+  <span>Lecture &amp; Content by Miran Hwang · All Rights Reserved · 무단 복제·재배포 금지</span>
+</footer>
+
+<script src="js/ui.js?v=1"></script>
+<script type="module">
+  import { boot } from './js/app.js?v=1';
+  boot();
+</script>
+</body>
+</html>

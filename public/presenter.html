@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>강의자 콘솔 — 창작교과 데이터·환류 연수</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎤</text></svg>">
+<style>
+  body{background:#12121F;color:#E8E8F2;background-image:none}
+  .console{max-width:1700px;margin:0 auto;padding:16px 20px 60px}
+  .con-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.14)}
+  .con-head h1{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.03em}
+  .con-head .sub{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#F08BBE;letter-spacing:.14em}
+  .con-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:18px;margin-top:16px;align-items:start}
+  @media(max-width:1100px){.con-grid{grid-template-columns:1fr}}
+  .panel{background:#1B1B2E;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:18px}
+  .panel h2{font-size:15px;font-weight:700;color:#F08BBE;letter-spacing:.04em;margin-bottom:10px}
+  .cbtn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:10px;min-height:46px;padding:8px 16px;font-size:15px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans KR',sans-serif}
+  .cbtn:hover{background:rgba(255,255,255,.2)}
+  .cbtn.accent{background:var(--accent);border-color:var(--accent)}
+  .cbtn.accent:hover{background:#D4498F}
+  .cbtn.live-on{background:#188038;border-color:#188038}
+  .cbtn.danger{background:#8E3040;border-color:#8E3040}
+  .cbtn:disabled{opacity:.4;cursor:default}
+  .stage{background:#000;border-radius:12px;overflow:hidden;position:relative}
+  .stage img{display:block;width:100%;height:auto}
+  .deck-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .deck-tabs button{flex:1;min-width:150px}
+  .deck-tabs button.on{background:var(--accent);border-color:var(--accent)}
+  .ctl-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+  .mono-num{font-family:'IBM Plex Mono',monospace;font-size:16px;color:#F08BBE;min-width:90px;text-align:center}
+  .tabbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+  .tabbar button{border-radius:99px;min-height:40px;padding:6px 16px;font-size:13.5px}
+  .tabbar button.on{background:#fff;color:#12121F;border-color:#fff}
+  .mon-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+  .mon-sum > div{background:rgba(255,255,255,.06);border-radius:10px;padding:10px;text-align:center}
+  .mon-sum .n{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1}
+  .mon-sum .l{font-size:11.5px;color:rgba(255,255,255,.6)}
+  .mon-table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .mon-table th{text-align:left;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.08em;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.15)}
+  .mon-table td{padding:8px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top}
+  .mon-table tr.stuck{background:rgba(198,54,43,.14)}
+  .mon-table tr.confused{background:rgba(180,130,20,.10)}
+  .feed{max-height:420px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+  .feed > div{background:rgba(255,255,255,.05);border-radius:8px;padding:8px 12px;line-height:1.5}
+  .feed .t{color:rgba(255,255,255,.45);font-family:'IBM Plex Mono',monospace;font-size:11px}
+  .quiz-list{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto}
+  .quiz-item{background:rgba(255,255,255,.05);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+  .quiz-item .q{font-size:13.5px;line-height:1.4;flex:1}
+  .quiz-item.active{outline:2px solid #E8784F;background:rgba(232,120,79,.12)}
+  .dist{margin-top:10px}
+  .dist .bar-row .bl{color:#fff;width:180px;font-size:13px}
+  .dist .bar-row .track{background:rgba(255,255,255,.12)}
+  .dist .bar-row .bv{color:rgba(255,255,255,.7)}
+  .wm{display:none}
+</style>
+</head>
+<body data-page="강의자 콘솔" data-require-session>
+
+<div class="console">
+  <div class="con-head">
+    <div>
+      <div class="sub">BEYOND THE SCORE · PRESENTER CONSOLE</div>
+      <h1>🎤 강의자 콘솔</h1>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span id="nav-user" class="nav-user" style="color:rgba(255,255,255,.7)"></span>
+      <a class="cbtn" href="home.html" style="text-decoration:none;display:inline-flex;align-items:center">참가자 화면</a>
+    </div>
+  </div>
+
+  <div class="con-grid">
+    <!-- ══ 왼쪽: 슬라이드 + 퀴즈 ══ -->
+    <div>
+      <div class="panel">
+        <h2>📽️ 슬라이드 송출 — LIVE를 켜면 모든 참가자 화면이 함께 넘어갑니다</h2>
+        <div class="deck-tabs">
+          <button class="cbtn on" data-deck="1">⑫ 환류 · 33장</button>
+          <button class="cbtn" data-deck="2">⑨ 복습 · 50장</button>
+          <button class="cbtn" data-deck="3">설계안 양식 · 7장</button>
+        </div>
+        <div class="stage" id="stage">
+          <img id="slide-img" src="slides12/s1.png" alt="현재 슬라이드">
+        </div>
+        <div class="ctl-row">
+          <button class="cbtn" id="prev-btn">◀ 이전</button>
+          <span class="mono-num" id="slide-num">1 / 33</span>
+          <button class="cbtn" id="next-btn">다음 ▶</button>
+          <input id="goto-input" type="number" min="1" placeholder="번호" style="width:80px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:10px;color:#fff;padding:10px;font-size:15px;font-family:'IBM Plex Mono',monospace">
+          <button class="cbtn" id="goto-btn">이동</button>
+          <span style="flex:1"></span>
+          <button class="cbtn danger" id="live-btn">🔴 LIVE 시작</button>
+        </div>
+        <p style="font-size:12.5px;color:rgba(255,255,255,.5);margin-top:8px">키보드 ← → 로도 넘길 수 있습니다. LIVE 중에는 넘길 때마다 자동 송출됩니다.</p>
+      </div>
+
+      <div class="panel" style="margin-top:16px">
+        <h2>⚡ 참여 퀴즈 — 발사하면 참가자 화면 옆에 퀴즈 창이 열립니다</h2>
+        <div id="quiz-suggest" style="display:none;background:rgba(232,120,79,.15);border:1px solid #E8784F;border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:13.5px"></div>
+        <div class="quiz-list" id="quiz-list"></div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="cbtn danger" id="quiz-clear" style="flex:1">퀴즈 내리기 (화면에서 닫기)</button>
+        </div>
+        <div class="dist" id="quiz-dist"></div>
+      </div>
+    </div>
+
+    <!-- ══ 오른쪽: 모니터 탭 ══ -->
+    <div>
+      <div class="panel">
+        <div class="tabbar">
+          <button class="cbtn on" data-tab="monitor">👀 실시간 모니터</button>
+          <button class="cbtn" data-tab="signals">📡 신호 피드</button>
+          <button class="cbtn" data-tab="progress">📋 진행·응답</button>
+          <button class="cbtn" data-tab="board">🏅 리더보드</button>
+          <button class="cbtn" data-tab="talk">🎙️ 발화 전사</button>
+          <button class="cbtn" data-tab="export">💾 내보내기</button>
+        </div>
+
+        <!-- 실시간 모니터 -->
+        <div data-pane="monitor">
+          <div class="mon-sum">
+            <div><div class="n" id="sum-on" style="color:#4ade80">0</div><div class="l">접속 중</div></div>
+            <div><div class="n" id="sum-ok" style="color:#4ade80">0</div><div class="l">🟢 따라옴</div></div>
+            <div><div class="n" id="sum-confused" style="color:#FBBF24">0</div><div class="l">🟡 헷갈림</div></div>
+            <div><div class="n" id="sum-stuck" style="color:#F87171">0</div><div class="l">🔴 막힘</div></div>
+          </div>
+          <p style="font-size:12.5px;color:rgba(255,255,255,.55);margin-bottom:8px">막힌 분이 위로 정렬됩니다. <b>어느 페이지·어느 단계</b>에서 헤매는지 보고 다가가세요. 행을 누르면 숨김/복구.</p>
+          <div style="max-height:520px;overflow-y:auto">
+            <table class="mon-table" id="mon-table">
+              <thead><tr><th>상태</th><th>별명·교과</th><th>현재 위치</th><th>마지막</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 신호 피드 -->
+        <div data-pane="signals" style="display:none">
+          <p style="font-size:12.5px;color:rgba(255,255,255,.55);margin-bottom:8px">최근 신호가 위에서부터 흐릅니다. 🔴 막힘 = 즉시 확인, 😂 = 농담이 통했다는 뜻입니다.</p>
+          <div class="feed" id="signal-feed"></div>
+        </div>
+
+        <!-- 진행·응답 -->
+        <div data-pane="progress" style="display:none">
+          <p style="font-size:12.5px;color:rgba(255,255,255,.55);margin-bottom:8px">설계안 점검 작성 현황(●작성 ○미작성: 정보·핵심·질문·기준·평가·도구·최종)과 응답 핵심. 행을 누르면 상세가 펼쳐집니다.
+          ⑪ 시연 팁 — 특정인을 지목하지 말고 익명 패턴 중심으로 읽으세요.</p>
+          <div style="max-height:520px;overflow-y:auto" id="progress-list"></div>
+        </div>
+
+        <!-- 리더보드 -->
+        <div data-pane="board" style="display:none">
+          <div class="feed" id="board-list" style="max-height:520px"></div>
+        </div>
+
+        <!-- 발화 전사 -->
+        <div data-pane="talk" style="display:none">
+          <div style="display:flex;gap:8px;margin-bottom:10px">
+            <button class="cbtn accent" id="talk-btn" style="flex:1">🎙️ 전사 시작 (Chrome)</button>
+          </div>
+          <p style="font-size:12.5px;color:rgba(255,255,255,.55);margin-bottom:8px">Web Speech API로 강의자 발화를 텍스트로 기록합니다.
+          ⑫에서 "교사 발화 vs 학생 활동"의 비율을 이 로그로 돌아봅니다 — Talk Meter 연구처럼, 미터기가 행동을 바꿉니다.</p>
+          <div class="feed" id="talk-feed" style="max-height:460px"></div>
+        </div>
+
+        <!-- 내보내기 -->
+        <div data-pane="export" style="display:none">
+          <p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:12px">
+          오늘 쌓인 모든 데이터(참가자·신호·체류 로그·퀴즈 응답·플랜·KPT·전사)를 파일로 내려받습니다.
+          ⑫ 환류 실습과 연수 보고의 원자료가 됩니다. <b>연수 종료 후에는 안내대로 데이터를 삭제하세요.</b></p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="cbtn" id="exp-json">📦 전체 JSON 내려받기</button>
+            <button class="cbtn" id="exp-csv">📊 이벤트 CSV (신호+체류 로그)</button>
+            <button class="cbtn" id="exp-kpt">📝 KPT·플랜 모음 (텍스트)</button>
+          </div>
+          <div id="exp-status" style="font-size:13px;color:#4ade80;margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { boot, getSession, isInstructor, esc, publishSlide, watchLive,
+           watchParticipants, setParticipantStatus, watchSignals, watchQuizAnswers,
+           watchWizards, watchSpeedBoard, addTranscript, watchTranscripts,
+           fetchAllData, SUBJECTS } from './js/app.js?v=1';
+  import { QUIZ_LIST, QUIZ_BY_ID, quizForSlide } from './js/quiz-data.js?v=1';
+  boot();
+
+  const s = getSession();
+  if (!s || !isInstructor(s)) {
+    alert('강의자 전용 화면입니다. 첫 화면 하단의 Console 링크로 입장해 주세요.');
+    location.replace('index.html');
+  }
+
+  /* ══ 덱·슬라이드 제어 ══ */
+  const DECKS = {
+    1: { dir: 'slides12', total: 33, label: '⑫ 환류' },
+    2: { dir: 'slides11', total: 50, label: '⑨ 복습' },
+    3: { dir: 'slidesplan', total: 7, label: '설계안 양식' },
+  };
+  let deck = 1, cur = 1, liveOn = false, activeQuiz = '';
+  const img = document.getElementById('slide-img');
+  const num = document.getElementById('slide-num');
+
+  function render() {
+    const D = DECKS[deck];
+    img.src = D.dir + '/s' + cur + '.png';
+    num.textContent = cur + ' / ' + D.total;
+    renderQuizSuggest();
+    if (liveOn) publishSlide(deck, cur, D.total, activeQuiz);
+  }
+  function go(n) {
+    cur = Math.max(1, Math.min(DECKS[deck].total, n));
+    render();
+  }
+  document.querySelector('.deck-tabs').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-deck]');
+    if (!b) return;
+    deck = parseInt(b.dataset.deck, 10); cur = 1;
+    document.querySelectorAll('.deck-tabs button').forEach(x => x.classList.toggle('on', x === b));
+    render();
+  });
+  document.getElementById('prev-btn').addEventListener('click', () => go(cur - 1));
+  document.getElementById('next-btn').addEventListener('click', () => go(cur + 1));
+  document.getElementById('goto-btn').addEventListener('click', () => {
+    const v = parseInt(document.getElementById('goto-input').value, 10);
+    if (v) go(v);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowLeft') go(cur - 1);
+    if (e.key === 'ArrowRight') go(cur + 1);
+  });
+  const liveBtn = document.getElementById('live-btn');
+  liveBtn.addEventListener('click', () => {
+    liveOn = !liveOn;
+    liveBtn.classList.toggle('live-on', liveOn);
+    liveBtn.textContent = liveOn ? '🟢 LIVE 중 — 끄기' : '🔴 LIVE 시작';
+    if (liveOn) publishSlide(deck, cur, DECKS[deck].total, activeQuiz);
+  });
+
+  /* ══ 퀴즈 ══ */
+  let unsubDist = null;
+  function renderQuizList() {
+    const el = document.getElementById('quiz-list');
+    el.innerHTML = QUIZ_LIST.map(q =>
+      '<div class="quiz-item' + (q.id === activeQuiz ? ' active' : '') + '" data-q="' + q.id + '">' +
+        '<span class="q"><b>' + (q.type === 'score' ? '⚡' : '💬') + ' [' + DECKS[q.deck].label + ' s' + q.slide + ']</b> ' + esc(q.q) + '</span>' +
+        '<button class="cbtn' + (q.id === activeQuiz ? '' : ' accent') + '" data-fire="' + q.id + '" style="min-height:38px;padding:4px 12px;font-size:13px">' + (q.id === activeQuiz ? '발사됨' : '발사') + '</button>' +
+      '</div>'
+    ).join('');
+  }
+  function renderQuizSuggest() {
+    const el = document.getElementById('quiz-suggest');
+    const q = quizForSlide(deck, cur);
+    if (!q) { el.style.display = 'none'; return; }
+    el.style.display = 'block';
+    el.innerHTML = '💡 이 슬라이드의 추천 퀴즈 — <b>' + esc(q.q) + '</b>' +
+      (q.note ? '<br><span style="color:rgba(255,255,255,.6)">' + esc(q.note) + '</span>' : '') +
+      '<div style="margin-top:8px"><button class="cbtn accent" data-fire="' + q.id + '" style="min-height:38px;font-size:13px">지금 발사</button></div>';
+  }
+  function fire(id) {
+    activeQuiz = id;
+    publishSlide(deck, cur, DECKS[deck].total, activeQuiz);
+    if (!liveOn) { liveOn = true; liveBtn.classList.add('live-on'); liveBtn.textContent = '🟢 LIVE 중 — 끄기'; }
+    renderQuizList();
+    watchDist(id);
+  }
+  document.addEventListener('click', (e) => {
+    const f = e.target.closest('button[data-fire]');
+    if (f) fire(f.dataset.fire);
+  });
+  document.getElementById('quiz-clear').addEventListener('click', () => {
+    activeQuiz = '';
+    publishSlide(deck, cur, DECKS[deck].total, '');
+    renderQuizList();
+    document.getElementById('quiz-dist').innerHTML = '';
+    if (unsubDist) { unsubDist(); unsubDist = null; }
+  });
+  function watchDist(id) {
+    if (unsubDist) unsubDist();
+    const quiz = QUIZ_BY_ID[id];
+    unsubDist = watchQuizAnswers(id, (rows) => {
+      const count = {};
+      rows.forEach(r => {
+        String(r.answer).split(' + ').forEach(a => { count[a] = (count[a] || 0) + 1; });
+      });
+      const max = Math.max(1, ...Object.values(count));
+      document.getElementById('quiz-dist').innerHTML =
+        '<p style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:6px">응답 ' + rows.length + '건 — 실시간</p>' +
+        quiz.opts.map((o, i) => {
+          const n = count[o] || 0;
+          const hit = quiz.type === 'score' && i === quiz.ans;
+          return '<div class="bar-row"><span class="bl">' + (hit ? '✅ ' : '') + esc(o) + '</span>' +
+            '<span class="track"><span class="fill" style="width:' + Math.round(n / max * 100) + '%;background:' + (hit ? '#4ade80' : '#F08BBE') + '"></span></span>' +
+            '<span class="bv">' + n + '</span></div>';
+        }).join('');
+    });
+  }
+  renderQuizList();
+  renderQuizSuggest();
+
+  /* ══ 탭 ══ */
+  document.querySelector('.tabbar').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-tab]');
+    if (!b) return;
+    document.querySelectorAll('.tabbar button').forEach(x => x.classList.toggle('on', x === b));
+    document.querySelectorAll('[data-pane]').forEach(p => { p.style.display = p.dataset.pane === b.dataset.tab ? '' : 'none'; });
+  });
+
+  /* ══ 실시간 모니터 ══ */
+  const STATE_ORDER = { stuck: 0, confused: 1, '': 2, ok: 3 };
+  const STATE_ICON = { ok: '🟢', confused: '🟡', stuck: '🔴' };
+  function ago(ts) {
+    if (!ts || !ts.toDate) return '';
+    const m = Math.floor((Date.now() - ts.toDate().getTime()) / 60000);
+    return m < 2 ? 'ON' : m < 60 ? m + '분 전' : Math.floor(m / 60) + '시간 전';
+  }
+  watchParticipants((rows) => {
+    const tb = document.querySelector('#mon-table tbody');
+    let on = 0, ok = 0, confused = 0, stuck = 0;
+    const list = rows.filter(p => p.subject !== '강의자');
+    list.forEach(p => {
+      const a = ago(p.lastSeen);
+      if (a === 'ON') {
+        on++;
+        if (p.state === 'ok') ok++;
+        if (p.state === 'confused') confused++;
+        if (p.state === 'stuck') stuck++;
+      }
+    });
+    document.getElementById('sum-on').textContent = on;
+    document.getElementById('sum-ok').textContent = ok;
+    document.getElementById('sum-confused').textContent = confused;
+    document.getElementById('sum-stuck').textContent = stuck;
+    list.sort((a, b) => {
+      const ao = ago(a.lastSeen) === 'ON' ? 0 : 1, bo = ago(b.lastSeen) === 'ON' ? 0 : 1;
+      if (ao !== bo) return ao - bo;
+      return (STATE_ORDER[a.state || ''] ?? 2) - (STATE_ORDER[b.state || ''] ?? 2);
+    });
+    tb.innerHTML = list.map(p => {
+      const a = ago(p.lastSeen);
+      const cls = a === 'ON' && p.state === 'stuck' ? 'stuck' : a === 'ON' && p.state === 'confused' ? 'confused' : '';
+      return '<tr class="' + cls + '" data-id="' + esc(p.id) + '" title="누르면 숨김/복구">' +
+        '<td>' + (a === 'ON' ? (STATE_ICON[p.state] || '⚪') : '💤') + (p.status === 'hidden' ? ' 🚫' : '') + '</td>' +
+        '<td><b>' + esc(p.emoji || '') + ' ' + esc(p.nickname || '') + '</b><br><span style="color:rgba(255,255,255,.5);font-size:12px">' + esc(p.subject || '') + ' ' + (SUBJECTS[p.subject] || '') + '</span></td>' +
+        '<td>' + esc(p.page || '') + (p.step ? '<br><span style="color:#F08BBE;font-size:12px">' + esc(p.step) + '</span>' : '') + '</td>' +
+        '<td style="font-size:12px;color:rgba(255,255,255,.55)">' + (a === 'ON' ? '<span style="color:#4ade80">●</span>' : esc(a)) + '</td>' +
+      '</tr>';
+    }).join('') || '<tr><td colspan="4" style="text-align:center;color:rgba(255,255,255,.4);padding:20px">아직 입장한 선생님이 없습니다.</td></tr>';
+  });
+  document.querySelector('#mon-table tbody').addEventListener('click', async (e) => {
+    const tr = e.target.closest('tr[data-id]');
+    if (!tr) return;
+    const hidden = tr.innerHTML.indexOf('🚫') >= 0;
+    if (confirm(hidden ? '이 참가자를 명단에 복구할까요?' : '이 참가자를 명단에서 숨길까요?')) {
+      await setParticipantStatus(tr.dataset.id, hidden ? 'on' : 'hidden');
+    }
+  });
+
+  /* ══ 신호 피드 ══ */
+  const SIG_LABEL = { ok: '🟢 따라가고 있어요', confused: '🟡 헷갈려요', stuck: '🔴 막혔어요 — 도와주세요!', laugh: '😂 빵 터짐', wow: '👏' };
+  watchSignals((rows) => {
+    document.getElementById('signal-feed').innerHTML = rows.map(r => {
+      const t = r.ts && r.ts.toDate ? r.ts.toDate().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) : '';
+      return '<div' + (r.kind === 'stuck' ? ' style="border-left:3px solid #F87171"' : '') + '>' +
+        '<span class="t">[' + t + ']</span> <b>' + esc(r.emoji || '') + ' ' + esc(r.nickname || '') + '</b> · ' + esc(r.subject || '') +
+        ' — ' + (SIG_LABEL[r.kind] || esc(r.kind)) +
+        (r.where ? ' <span style="color:rgba(255,255,255,.5)">@ ' + esc(r.where) + (r.step ? ' · ' + esc(r.step) : '') + '</span>' : '') +
+      '</div>';
+    }).join('') || '<div style="color:rgba(255,255,255,.4)">신호가 아직 없습니다.</div>';
+  }, 80);
+
+  /* ══ 진행·응답 ══ */
+  const WKEYS = ['info', 'coreidea', 'inquiry', 'standard', 'assess', 'tools', 'final'];
+  watchWizards((rows) => {
+    const list = rows.filter(w => w.subject !== '강의자');
+    document.getElementById('progress-list').innerHTML = list.map(w => {
+      const dots = WKEYS.map(k => (w[k] && Object.keys(w[k]).some(f => w[k][f])) ? '●' : '○').join(' ');
+      const iq = [0, 1, 2].map(i => w.inquiry && w.inquiry['q' + i]).filter(Boolean);
+      return '<details style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px 14px;margin-bottom:8px">' +
+        '<summary style="cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">' +
+          '<b>' + esc(w.nickname || '') + '</b> <span style="color:rgba(255,255,255,.5);font-size:12.5px">' + esc(w.subject || '') + '</span>' +
+          '<span style="letter-spacing:2px;color:#F08BBE;font-family:monospace">' + dots + '</span>' +
+        '</summary>' +
+        '<div style="font-size:13.5px;line-height:1.7;margin-top:8px;color:rgba(255,255,255,.85)">' +
+          '<b>단원:</b> ' + esc(w.info && w.info.unit || '—') + '<br>' +
+          '<b>핵심 아이디어:</b> ' + esc(w.coreidea && w.coreidea.text || '—') + '<br>' +
+          '<b>탐구질문:</b> ' + (iq.length ? esc(iq.join(' / ')) : '—') + '<br>' +
+          '<b>평가 요소:</b> ' + esc(w.assess && w.assess.elem || '—') + '<br>' +
+          '<b>도구:</b> ' + esc(w.tools && w.tools.name || '—') + (w.tools && w.tools.stage ? ' (' + esc(w.tools.stage) + ')' : '') +
+        '</div>' +
+      '</details>';
+    }).join('') || '<div style="color:rgba(255,255,255,.4)">아직 작성된 설계안 점검이 없습니다.</div>';
+  });
+
+  /* ══ 리더보드 ══ */
+  watchSpeedBoard((rows) => {
+    document.getElementById('board-list').innerHTML = rows.map((r, i) =>
+      '<div style="display:flex;align-items:center;gap:12px">' +
+        '<span style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;width:30px;color:' + (i < 3 ? '#F08BBE' : 'rgba(255,255,255,.4)') + '">' + (i + 1) + '</span>' +
+        '<span style="flex:1"><b>' + esc(r.emoji || '') + ' ' + esc(r.nickname || '') + '</b> <span style="color:rgba(255,255,255,.5);font-size:12px">' + esc(r.subject || '') + '</span></span>' +
+        '<b>' + (r.score || 0) + '점</b>' +
+      '</div>'
+    ).join('') || '<div style="color:rgba(255,255,255,.4)">기록이 아직 없습니다.</div>';
+  });
+
+  /* ══ 발화 전사 ══ */
+  let rec = null, recOn = false;
+  const talkBtn = document.getElementById('talk-btn');
+  talkBtn.addEventListener('click', () => {
+    if (recOn) { recOn = false; if (rec) rec.stop(); talkBtn.textContent = '🎙️ 전사 시작 (Chrome)'; talkBtn.classList.add('accent'); return; }
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert('이 브라우저는 음성 인식을 지원하지 않습니다. Chrome을 사용해 주세요.'); return; }
+    rec = new SR();
+    rec.lang = 'ko-KR';
+    rec.continuous = true;
+    rec.interimResults = false;
+    rec.onresult = (e) => {
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) {
+          const text = e.results[i][0].transcript.trim();
+          if (text) addTranscript(text);
+        }
+      }
+    };
+    rec.onend = () => { if (recOn) { try { rec.start(); } catch (err) {} } };
+    rec.onerror = (e) => { console.warn('speech', e.error); };
+    try {
+      rec.start();
+      recOn = true;
+      talkBtn.textContent = '⏸️ 전사 중 — 멈추기';
+      talkBtn.classList.remove('accent');
+    } catch (err) { alert('마이크를 시작하지 못했습니다: ' + err.message); }
+  });
+  watchTranscripts((rows) => {
+    document.getElementById('talk-feed').innerHTML = rows.map(r => {
+      const t = r.ts && r.ts.toDate ? r.ts.toDate().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) : '';
+      return '<div><span class="t">[' + t + ']</span> ' + esc(r.text || '') + '</div>';
+    }).join('') || '<div style="color:rgba(255,255,255,.4)">전사 기록이 없습니다.</div>';
+  }, 60);
+
+  /* ══ 내보내기 ══ */
+  function download(name, content, type) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([content], { type }));
+    a.download = name;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+  function stamp() {
+    const d = new Date();
+    return d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '_' + String(d.getHours()).padStart(2, '0') + String(d.getMinutes()).padStart(2, '0');
+  }
+  function tsStr(ts) { return ts && ts.toDate ? ts.toDate().toISOString() : ''; }
+  document.getElementById('exp-json').addEventListener('click', async () => {
+    document.getElementById('exp-status').textContent = '수집 중…';
+    const d = await fetchAllData();
+    download('keris_data_' + stamp() + '.json', JSON.stringify(d, (k, v) => (v && v.toDate) ? v.toDate().toISOString() : v, 2), 'application/json');
+    document.getElementById('exp-status').textContent = '✅ JSON 저장 완료';
+  });
+  document.getElementById('exp-csv').addEventListener('click', async () => {
+    document.getElementById('exp-status').textContent = '수집 중…';
+    const d = await fetchAllData();
+    const rows = [['time', 'type', 'subject', 'nickname', 'detail', 'where', 'value']];
+    d.signals.forEach(x => rows.push([tsStr(x.ts), 'signal', x.subject, x.nickname, x.kind, (x.where || '') + (x.step ? ' · ' + x.step : ''), '']));
+    d.wizardlogs.forEach(x => rows.push([tsStr(x.ts), 'dwell', x.subject, x.nickname, x.stepTitle, x.dir, x.dwellSec]));
+    d.participations.forEach(x => rows.push([tsStr(x.ts), 'quiz', x.subject, x.nickname, x.quizId, x.answer, x.points]));
+    const csv = '﻿' + rows.map(r => r.map(c => '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"').join(',')).join('\n');
+    download('keris_events_' + stamp() + '.csv', csv, 'text/csv');
+    document.getElementById('exp-status').textContent = '✅ CSV 저장 완료';
+  });
+  document.getElementById('exp-kpt').addEventListener('click', async () => {
+    document.getElementById('exp-status').textContent = '수집 중…';
+    const d = await fetchAllData();
+    let txt = '=== KPT 회고 ===\n\n';
+    d.kpt.forEach(k => {
+      txt += '● ' + k.nickname + ' (' + k.subject + ')\n  Keep: ' + (k.keep || '—') + '\n  Problem: ' + (k.problem || '—') + '\n  Try: ' + (k.try || '—') + '\n\n';
+    });
+    txt += '\n=== 최소 실행 단위 액션 플랜 ===\n\n';
+    d.plans.forEach(p => {
+      txt += '● ' + p.nickname + ' (' + p.subject + ')\n  환경·타겟: ' + (p.env || '—') + '\n  첫 실행: ' + (p.when || '—') + '\n  도구·데이터: ' + (p.tool || '—') + '\n  활동·지원: ' + (p.act || '—') + '\n\n';
+    });
+    download('keris_kpt_plans_' + stamp() + '.txt', txt, 'text/plain');
+    document.getElementById('exp-status').textContent = '✅ 텍스트 저장 완료';
+  });
+</script>
+</body>
+</html>

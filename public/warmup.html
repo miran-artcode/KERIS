@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>웜업 · ⑨ 복습 — 창작교과 데이터·환류 연수</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body class="lab" data-page="웜업 복습" data-require-session data-signal-dock>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="home.html" class="nav-logo">
+      <span class="big">BEYOND&nbsp;THE&nbsp;SCORE</span>
+      <span class="small">창작교과 데이터·환류 연수</span>
+    </a>
+    <div class="nav-links">
+      <a href="home.html">연수 홈</a>
+      <a href="warmup.html" class="on">웜업·복습</a>
+      <a href="wizard.html">설계안 점검</a>
+      <a href="cases.html">사례 산책</a>
+      <a href="s11.html">⑪ 데이터 분석</a>
+      <a href="s12.html">⑫ 평가·환류</a>
+      <a href="research.html">연구 자료실</a>
+    </div>
+    <span class="nav-user" id="nav-user"></span>
+  </div>
+</nav>
+<div class="mode-band">🖱️ 지금은 〈직접 하는 실습 페이지〉입니다<small>카드를 읽고 체크하고, 퀴즈에 도전하세요 — 여러분의 응답이 오늘의 데이터가 됩니다</small></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Warm-up · 15분 · 전차시(⑨) 복습</div>
+    <h1>여섯 개의<br><span style="color:var(--accent)">설계 언어</span></h1>
+    <p class="lead">지난 ⑨차시에서 익힌 설계의 언어를 되살립니다. 카드를 읽고 <b>확인 문장에 스스로 체크</b>하세요 —
+    체크가 어려운 카드가 있다면 그대로 두셔도 됩니다. <b>그 카드가 오늘 설계안 점검에서 집중할 지점</b>이 됩니다.</p>
+    <div style="display:flex;gap:14px;margin-top:26px;flex-wrap:wrap">
+      <a class="btn btn-dark" href="#cards">📖 복습 카드 (6장)</a>
+      <a class="btn btn-accent" href="#quiz">⚡ 스피드 퀴즈 (12문항)</a>
+      <a class="btn btn-line" href="#plan">📋 설계안 양식 다시 보기</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 복습 카드 ===== -->
+<section class="block" id="cards">
+  <div class="wrap">
+    <div class="kicker">Review · ⑨차시 여섯 카드</div>
+    <h2 class="head">읽고, 스스로 체크하기 <span id="review-count" class="mono" style="font-size:18px;color:var(--accent)"></span></h2>
+    <div class="grid g2" style="margin-top:24px" id="theory-cards"></div>
+    <div class="tip blue" style="margin-top:20px">
+      <span class="ico">💡</span>
+      <p><b>체크가 안 되는 카드가 남았나요?</b> 잘하신 겁니다 — 자기 상태를 정확히 아는 것이 오늘의 첫 데이터입니다.
+      그 카드의 주제를 <a href="wizard.html"><b>설계안 점검</b></a>에서 집중적으로 다듬으면 됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 스피드 퀴즈 ===== -->
+<section class="block" id="quiz">
+  <div class="wrap">
+    <div class="kicker">Speed Quiz · 12문항 · 문항당 15초</div>
+    <h2 class="head">빠르고 정확하게 — 정답이면 100점 + 남은 초 × 10점</h2>
+
+    <div class="grid g2" style="margin-top:24px;align-items:start">
+      <div class="card" id="sq-box">
+        <div id="sq-ready">
+          <h3 style="font-size:22px">⑨차시 복습 + 음·미·체 스몰토크</h3>
+          <p style="margin-top:10px;font-size:16px">12문항, 문항당 15초. 순위는 옆의 리더보드에 실시간으로 올라갑니다.
+          여러 번 도전할 수 있고 <b>최고 기록</b>이 남습니다.</p>
+          <div id="sq-prev" style="margin-top:10px;font-size:15px;color:var(--dim)"></div>
+          <button class="btn btn-accent btn-big" id="sq-start" style="margin-top:18px">🏁 시작하기</button>
+        </div>
+        <div id="sq-play" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span class="tag" id="sq-cat"></span>
+            <span class="bebas" id="sq-timer" style="font-size:34px;color:var(--accent)"></span>
+          </div>
+          <div style="height:8px;background:var(--ivory);border-radius:4px;margin:10px 0 16px;overflow:hidden">
+            <div id="sq-bar" style="height:8px;background:var(--accent);width:100%;transition:width 1s linear"></div>
+          </div>
+          <div id="sq-q" style="font-size:19px;font-weight:700;line-height:1.5;margin-bottom:14px"></div>
+          <div id="sq-opts" style="display:grid;gap:10px"></div>
+          <div id="sq-after" style="display:none;justify-content:space-between;align-items:center;margin-top:14px">
+            <span id="sq-verdict" style="font-weight:700;font-size:16px"></span>
+            <button class="btn btn-dark" id="sq-next" style="min-height:50px">다음 →</button>
+          </div>
+        </div>
+        <div id="sq-done" style="display:none;text-align:center;padding:20px 0">
+          <div style="font-size:15px;color:var(--dim)">최종 점수</div>
+          <div class="bebas" id="sq-final" style="font-size:72px;color:var(--accent);line-height:1"></div>
+          <div style="font-size:15px;color:var(--dim);margin-top:6px">리더보드에 기록됐습니다 →</div>
+          <button class="btn btn-line" id="sq-retry" style="margin-top:16px">다시 도전</button>
+        </div>
+      </div>
+
+      <div class="live-panel" style="min-height:320px">
+        <div class="lp-head">
+          <div>
+            <div class="tag" style="color:#8AB4F8">Leaderboard · 실시간</div>
+            <div style="font-size:20px;font-weight:700;margin-top:6px">스피드 퀴즈 순위</div>
+          </div>
+        </div>
+        <div class="roster" id="sq-board" style="max-height:380px">
+          <div style="color:rgba(255,255,255,.6);font-size:15px;padding:12px">아직 기록이 없습니다. 첫 기록의 주인공이 되어 보세요!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 설계안 양식 다시 보기 ===== -->
+<section class="block" id="plan">
+  <div class="wrap">
+    <div class="kicker">Reference · 제출용 4P 설계안 양식</div>
+    <h2 class="head">점검 전에, 양식과 우수 예시를 다시 봅니다</h2>
+    <p style="color:var(--dim);margin-top:8px">1장은 <b>미술과 작성 예시</b>(공공데이터 × 모빌 아트 「둥지」), 나머지는 빈 양식입니다.
+    다음 페이지(설계안 점검)에서 이 양식의 항목 순서 그대로 자가점검이 진행됩니다.</p>
+    <div class="deckview" data-dir="slidesplan" data-total="7" data-alt="AI·디지털 도구 활용 교수·학습 설계안 양식" style="margin-top:22px;max-width:900px"></div>
+    <div class="tip" style="margin-top:20px">
+      <span class="ico">🔍</span>
+      <p><b>예시에서 눈여겨볼 것 세 가지</b> — ① 핵심 아이디어가 <b>한 문장의 명제</b>로 서술된 점
+      ② 수준별 피드백이 형용사 없이 <b>행동으로</b> 쓰인 점
+      ③ AI 도구(NotebookLM·ChatGPT)의 <b>역할이 "보조"로 한정</b>된 점.
+      이 세 가지가 다음 단계 자가점검의 핵심 기준입니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="next-block">
+  <div class="wrap">
+    <div class="next-card">
+      <div>
+        <div class="tag">다음 순서</div>
+        <div class="t">설계안 자가점검 — 내 설계안을 7단계로 다듬기</div>
+      </div>
+      <a class="btn btn-accent" href="wizard.html">설계안 점검으로 가기 →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span>저작권 © 2026 황미란 · 미술교사</span>
+  <span>Lecture &amp; Content by Miran Hwang · All Rights Reserved · 무단 복제·재배포 금지</span>
+</footer>
+
+<script src="js/ui.js?v=1"></script>
+<script type="module">
+  import { boot, esc, saveReview, loadReview, saveSpeedQuiz, watchSpeedBoard, sendSignal, SUBJECTS } from './js/app.js?v=1';
+  import { SPEED_QUIZ, SPEED_QUIZ_SEC } from './js/quiz-data.js?v=1';
+  boot();
+
+  /* ══ ⑨ 복습 카드 ══ */
+  const THEORY = [
+    { id: 'backward', title: '백워드 설계 3단계', tag: '설계의 뼈대',
+      body: 'Stage 1 도착점(핵심 아이디어·성취기준) → Stage 2 평가 증거(수행 과제+기타 증거) → Stage 3 학습 경험(차시 배열)의 순서로 설계한다. 활동을 먼저 정하면 도착점이 흐려진다 — 설계안 양식의 항목 순서가 이 순서를 따른다.',
+      check: '내 설계안은 활동이 아니라 핵심 아이디어부터 채워져 있다.' },
+    { id: 'coreidea', title: '핵심 아이디어 — 사실·개념·일반화 3층', tag: '4P 첫 칸',
+      body: '1층 사실(개별 정보) → 2층 개념(추상 명사: 균형·리듬·전술) → 3층 일반화(주어+개념+동사의 한 문장). 핵심 아이디어 칸에는 3층 문장을 쓴다. 단원이 끝나고 한 달 뒤에도 학생 머리에 남을 문장인지가 기준이다.',
+      check: '내 핵심 아이디어는 사실 나열이 아니라 개념 간 관계를 담은 한 문장이다.' },
+    { id: 'inquiry', title: '탐구질문 4종', tag: '질문 설계',
+      body: '사실적(답이 정해짐: 무엇·언제) / 개념적(개념 관계를 묻음: 어떻게 연결되는가) / 논쟁적(입장이 갈림: AI가 만든 것도 창작인가) / 반성적(자기 과정을 되돌아봄). 단원에는 개념적 질문이 중심에 있고, 사실적 질문은 그리로 가는 디딤돌이다.',
+      check: '내 탐구질문에는 개념적 질문이 최소 1개 있다.' },
+    { id: 'grasps', title: 'GRASPS — 수행 과제의 6요소', tag: '평가 과제',
+      body: 'Goal(목표) · Role(역할) · Audience(실제 청중) · Situation(제약이 있는 상황) · Product(산출물) · Standards(기준). 청중이 「교사」뿐이면 실제성이 무너진다 — 전교생·학부모·마을 주민처럼 진짜 청중을 정한다.',
+      check: '내 수행 과제의 청중(A)은 교사가 아닌 실제 청중이다.' },
+    { id: 'rubric', title: '루브릭 = 대화 도구', tag: '과정중심평가',
+      body: '숫자 채점표가 아니라 행동 서술로 쓴다. 수준 4부터 작성, 「우수함」 같은 형용사 금지, 한 칸에는 한 변수만, 학생이 읽고 이해할 언어로. 심화·기본·기초 피드백 칸도 같은 원칙으로 쓴다.',
+      check: '내 평가 칸의 서술은 형용사가 아니라 관찰 가능한 행동으로 되어 있다.' },
+    { id: 'four', title: 'AI 수업설계 4원칙 · 도구 3기준', tag: 'AI·도구',
+      body: '맥락성·지식구성·상호작용·맞춤교육의 네 다리가 균형인지 보고, 도구는 효과성·편의성·안전성 3기준을 모두 통과할 때만 넣는다. 창작 4단계(발상·구체화·표현·공유) 중 표현 단계의 학생 핵심 행위는 AI가 대체하지 않는다.',
+      check: '내 설계안의 AI 도구는 창작 4단계 중 어느 단계에 붙는지 정해져 있다.' },
+  ];
+
+  const cardsEl = document.getElementById('theory-cards');
+  const countEl = document.getElementById('review-count');
+  let cards = {};
+
+  function renderCount() {
+    const n = THEORY.filter(t => cards[t.id]).length;
+    countEl.textContent = '· ' + n + ' / 6 확인';
+  }
+  function renderCards() {
+    cardsEl.innerHTML = THEORY.map((t, i) =>
+      '<div class="card">' +
+        '<div class="tag">' + esc(t.tag) + '</div>' +
+        '<h3 style="margin-top:8px;font-size:20px">' + (i + 1) + '. ' + esc(t.title) + '</h3>' +
+        '<p style="font-size:15.5px;color:var(--ink);margin-top:10px;line-height:1.7">' + esc(t.body) + '</p>' +
+        '<label class="checkrow" style="border-top:1px dashed var(--line);margin-top:12px;padding-top:12px">' +
+          '<input type="checkbox" data-id="' + t.id + '"' + (cards[t.id] ? ' checked' : '') + '>' +
+          '<span><b>확인:</b> ' + esc(t.check) + '</span>' +
+        '</label>' +
+      '</div>'
+    ).join('');
+    renderCount();
+  }
+  renderCards();
+
+  loadReview().then((r) => {
+    if (r && r.cards) { cards = r.cards; renderCards(); }
+  });
+
+  cardsEl.addEventListener('change', (e) => {
+    const c = e.target.closest('input[data-id]');
+    if (!c) return;
+    cards[c.dataset.id] = c.checked;
+    renderCount();
+    saveReview(cards);
+  });
+
+  /* ══ 스피드 퀴즈 ══ */
+  const $ = (id) => document.getElementById(id);
+  let qi = 0, score = 0, left = SPEED_QUIZ_SEC, picked = null, timer = null;
+  const detail = [];
+
+  function showPane(name) {
+    ['sq-ready', 'sq-play', 'sq-done'].forEach(p => { $(p).style.display = p === name ? '' : 'none'; });
+  }
+  function renderPrev() {
+    // 리더보드에서 자기 기록은 실시간 갱신되므로 여기선 안내만
+  }
+  function startQuiz() {
+    qi = 0; score = 0; detail.length = 0;
+    showPane('sq-play');
+    showQ();
+  }
+  function showQ() {
+    const q = SPEED_QUIZ[qi];
+    picked = null;
+    left = SPEED_QUIZ_SEC;
+    $('sq-cat').textContent = q.cat + ' · ' + (qi + 1) + '/' + SPEED_QUIZ.length;
+    $('sq-q').textContent = q.q;
+    $('sq-opts').innerHTML = q.opts.map((o, i) =>
+      '<button class="lq-opt" data-i="' + i + '" style="min-height:54px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:12px 16px;font-size:16px;font-weight:600;font-family:\'IBM Plex Sans KR\',sans-serif;cursor:pointer;text-align:left;line-height:1.4">' + esc(o) + '</button>'
+    ).join('');
+    $('sq-after').style.display = 'none';
+    tickRender();
+    clearInterval(timer);
+    timer = setInterval(() => {
+      left--;
+      tickRender();
+      if (left <= 0) { clearInterval(timer); pick(-1); }
+    }, 1000);
+  }
+  function tickRender() {
+    $('sq-timer').textContent = left + 's';
+    $('sq-timer').style.color = left <= 5 ? 'var(--red)' : 'var(--accent)';
+    $('sq-bar').style.width = (left / SPEED_QUIZ_SEC * 100) + '%';
+    $('sq-bar').style.background = left <= 5 ? 'var(--red)' : 'var(--accent)';
+  }
+  function pick(i) {
+    if (picked !== null) return;
+    clearInterval(timer);
+    picked = i;
+    const q = SPEED_QUIZ[qi];
+    const gain = (i === q.a) ? 100 + left * 10 : 0;
+    score += gain;
+    detail.push({ i: qi, pick: i, ok: i === q.a, gain });
+    document.querySelectorAll('#sq-opts button').forEach(b => {
+      const bi = parseInt(b.dataset.i, 10);
+      b.disabled = true;
+      if (bi === q.a) { b.style.borderColor = '#2E9E57'; b.style.background = '#EAF6EF'; }
+      else if (bi === i) { b.style.borderColor = 'var(--red)'; b.style.background = '#FBEEF0'; }
+    });
+    $('sq-verdict').textContent = i === q.a ? ('정답! +' + gain + '점 · 누적 ' + score + '점') : (i === -1 ? '⏰ 시간 초과 · 누적 ' + score + '점' : '오답 · 누적 ' + score + '점');
+    $('sq-verdict').style.color = i === q.a ? '#1E5E3A' : 'var(--red)';
+    $('sq-next').textContent = qi + 1 < SPEED_QUIZ.length ? '다음 →' : '결과 보기';
+    $('sq-after').style.display = 'flex';
+  }
+  $('sq-opts') && $('sq-box').addEventListener('click', (e) => {
+    const b = e.target.closest('#sq-opts button[data-i]');
+    if (b) pick(parseInt(b.dataset.i, 10));
+  });
+  $('sq-start').addEventListener('click', startQuiz);
+  $('sq-retry').addEventListener('click', startQuiz);
+  $('sq-next').addEventListener('click', async () => {
+    if (qi + 1 < SPEED_QUIZ.length) { qi++; showQ(); return; }
+    showPane('sq-done');
+    $('sq-final').textContent = score + '점';
+    await saveSpeedQuiz(score, detail);
+  });
+
+  /* 리더보드 */
+  watchSpeedBoard((rows) => {
+    const el = $('sq-board');
+    if (!rows.length) return;
+    el.innerHTML = rows.map((r, i) =>
+      '<div class="who">' +
+        '<span class="face" style="font-size:20px;width:34px;text-align:center;font-family:\'Bebas Neue\',sans-serif;color:' + (i < 3 ? '#F08BBE' : 'rgba(255,255,255,.5)') + '">' + (i + 1) + '</span>' +
+        '<span><span class="nm">' + esc(r.emoji || '') + ' ' + esc(r.nickname || '') + '</span>' +
+        '<br><span class="sc">' + esc(r.subject || '') + ' ' + (SUBJECTS[r.subject] || '') + '</span></span>' +
+        '<span class="st" style="font-size:17px;font-weight:700;color:#fff">' + (r.score || 0) + '점</span>' +
+      '</div>'
+    ).join('');
+  });
+</script>
+</body>
+</html>

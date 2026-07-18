@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연구 자료실 — 창작교과 데이터·환류 연수</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body data-page="연구 자료실" data-require-session data-signal-dock>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a href="home.html" class="nav-logo">
+      <span class="big">BEYOND&nbsp;THE&nbsp;SCORE</span>
+      <span class="small">창작교과 데이터·환류 연수</span>
+    </a>
+    <div class="nav-links">
+      <a href="home.html">연수 홈</a>
+      <a href="warmup.html">웜업·복습</a>
+      <a href="wizard.html">설계안 점검</a>
+      <a href="cases.html">사례 산책</a>
+      <a href="s11.html">⑪ 데이터 분석</a>
+      <a href="s12.html">⑫ 평가·환류</a>
+      <a href="research.html" class="on">연구 자료실</a>
+    </div>
+    <span class="nav-user" id="nav-user"></span>
+  </div>
+</nav>
+<div class="mode-band">📚 원문으로 바로 가는 자료실입니다<small>모든 링크는 2026년 7월 기준 접속을 확인했습니다 · 강의 속 수치의 출처가 모두 여기 있습니다</small></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Research Library · 클릭 한 번으로 원문까지</div>
+    <h1>믿을 수 있는<br><span style="color:var(--accent)">근거의 서랍</span></h1>
+    <p class="lead">강의와 사례 산책에 나온 모든 연구·정책·도구의 원문입니다. 한 줄 요약과 "왜 흥미로운가"를 함께 달았습니다.
+    수치를 인용할 일이 있다면 반드시 원문을 열어 확인하세요 — 그 습관이 오늘 배운 데이터 리터러시입니다.</p>
+    <div style="display:flex;gap:10px;margin-top:24px;flex-wrap:wrap">
+      <a class="btn btn-line" href="#common">🧠 AI와 창작</a>
+      <a class="btn btn-line" href="#theory">📖 환류·평가 이론</a>
+      <a class="btn btn-line" href="#music" style="border-color:var(--music);color:var(--music)">♪ 음악</a>
+      <a class="btn btn-line" href="#art" style="border-color:var(--art);color:var(--art)">🎨 미술</a>
+      <a class="btn btn-line" href="#pe" style="border-color:var(--pe);color:var(--pe)">⚽ 체육</a>
+      <a class="btn btn-line" href="#la">📊 학습분석</a>
+      <a class="btn btn-line" href="#policy">🏛️ 정책·지침</a>
+    </div>
+  </div>
+</header>
+
+<section class="block" id="common">
+  <div class="wrap">
+    <div class="kicker">AI와 창작 — 놀라운 최신 연구</div>
+    <h2 class="head">구분·창의성·인지에 대한 근거들</h2>
+    <div class="ref" id="deezer"><b>Deezer × Ipsos — AI 음악 블라인드 테스트 (2025)</b> · Deezer Newsroom
+      <span class="why">8개국 성인 9,000명 중 97%가 AI 곡 판별에 실패(3곡 모두 맞힌 사람은 3%). 80%는 AI 음악 표시 의무화에 찬성.</span>
+      <a href="https://newsroom-deezer.com/2025/11/deezer-ipsos-survey-ai-music/" target="_blank" rel="noopener">newsroom-deezer.com</a></div>
+    <div class="ref"><b>Deezer — AI 트랙, 신규 업로드의 44% (2026)</b> · Deezer Newsroom
+      <span class="why">하루 약 7만 5천 곡의 AI 곡 업로드. 반전: AI곡 스트리밍의 최대 85%가 허위 재생 — "양의 폭증 vs 실제 소비"를 구분해 읽는 리터러시 재료.</span>
+      <a href="https://newsroom-deezer.com/2026/04/ai-generated-tracks-represent-44-of-new-uploaded-music/" target="_blank" rel="noopener">newsroom-deezer.com</a></div>
+    <div class="ref" id="kosmyna"><b>Your Brain on ChatGPT — 인지 부채 (Kosmyna et al., 2025)</b> · MIT Media Lab · arXiv
+      <span class="why">에세이 작성 3그룹 EEG 비교 — LLM 그룹의 뇌 연결성이 가장 약했고 자기 글 인용에 실패. ※ 동료심사 전 프리프린트(54명)라는 한계를 함께 인용할 것.</span>
+      <a href="https://arxiv.org/abs/2506.08872" target="_blank" rel="noopener">arxiv.org/abs/2506.08872</a></div>
+    <div class="ref" id="pnas"><b>Generative AI, Human Creativity, and Art (Zhou &amp; Lee, 2024)</b> · PNAS Nexus
+      <span class="why">400만 작품·5만 작가 — 생산성 +25%, 조회당 좋아요 확률 +50%, 평균 참신성 하락(최고치는 상승). 병목이 실행에서 발상·선별로 이동.</span>
+      <a href="https://academic.oup.com/pnasnexus/article/3/3/pgae052/7618478" target="_blank" rel="noopener">academic.oup.com</a></div>
+    <div class="ref" id="bellaiche"><b>Humans versus AI — 라벨 효과 (Bellaiche et al., 2023)</b> · Cognitive Research
+      <span class="why">전부 AI 그림에 라벨만 바꿔 붙여도 "인간 작품" 쪽이 9개 차원 모두에서 높게 평가 — 예술의 가치는 어디서 오는가.</span>
+      <a href="https://link.springer.com/article/10.1186/s41235-023-00499-6" target="_blank" rel="noopener">link.springer.com</a></div>
+    <div class="ref"><b>AI 시는 구분되지 않았고, 더 높게 평가됐다 (Porter &amp; Machery, 2024)</b> · Scientific Reports
+      <span class="why">1,634명의 판별 정확도 46.6%(동전보다 낮음). AI 시가 더 "인간적"이라 평가되다가, AI 작이라 밝히면 점수 하락 — 라벨 효과의 재확인.</span>
+      <a href="https://www.nature.com/articles/s41598-024-76900-1" target="_blank" rel="noopener">nature.com</a></div>
+    <div class="ref"><b>개인은 창의적으로, 집단은 획일하게 (Doshi &amp; Hauser, 2024)</b> · Science Advances
+      <span class="why">AI 아이디어를 받으면 개인 참신성 +8.1%, 그러나 AI 지원 작품들끼리는 서로 닮아감 — 교실 전체가 같은 AI를 쓸 때의 경고.</span>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11244532/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></div>
+    <div class="ref"><b>AI 음악과 생체 반응 (Fišer et al., 2025)</b> · PLOS One
+      <span class="why">같은 영상에 인간/AI 음악 — AI 음악에서 동공 확장 등 각성 반응이 오히려 강함. 다만 처리에 더 큰 인지적 노력. "감동이란 무엇인가" 토론 재료.</span>
+      <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0326498" target="_blank" rel="noopener">journals.plos.org</a></div>
+  </div>
+</section>
+
+<section class="block" id="theory">
+  <div class="wrap">
+    <div class="kicker">환류·평가의 이론</div>
+    <h2 class="head">정의에서 순환까지</h2>
+    <div class="ref"><b>On the Definition of Feedback (Ramaprasad, 1983)</b> · Behavioral Science
+      <span class="why">환류의 고전적 정의 — 목표와 현재의 "차이"에 관한 정보를, 그 차이를 줄이는 데 쓰는 것.</span>
+      <a href="https://doi.org/10.1002/bs.3830280103" target="_blank" rel="noopener">doi.org/10.1002/bs.3830280103</a></div>
+    <div class="ref"><b>Formative Assessment and the Design of Instructional Systems (Sadler, 1989)</b> · Instructional Science
+      <span class="why">성장의 세 조건 — 기준을 알고, 견주고, 좁히는 행동을 한다.</span>
+      <a href="https://doi.org/10.1007/BF00117714" target="_blank" rel="noopener">doi.org/10.1007/BF00117714</a></div>
+    <div class="ref"><b>The Power of Feedback (Hattie &amp; Timperley, 2007)</b> · Review of Educational Research
+      <span class="why">Feed Up · Feed Back · Feed Forward — 이 연수의 뼈대가 된 프레임.</span>
+      <a href="https://doi.org/10.3102/003465430298487" target="_blank" rel="noopener">doi.org/10.3102/003465430298487</a></div>
+    <div class="ref"><b>Developing the Theory of Formative Assessment (Black &amp; Wiliam, 2009)</b> · Educational Assessment
+      <span class="why">형성평가의 되먹임 고리 이론화.</span>
+      <a href="https://doi.org/10.1007/s11092-008-9068-5" target="_blank" rel="noopener">doi.org/10.1007/s11092-008-9068-5</a></div>
+    <div class="ref"><b>OECD Learning Compass 2030 — AAR Cycle 개념노트</b> · OECD (2019)
+      <span class="why">예측–행동–성찰 순환의 공식 문서(PDF) — 실기 수업의 연습-수행-성찰 구조와 자연스럽게 대응.</span>
+      <a href="https://www.oecd.org/content/dam/oecd/en/about/projects/edu/education-2040/concept-notes/in_brief_AAR_Cycle.pdf" target="_blank" rel="noopener">oecd.org (PDF)</a></div>
+    <div class="ref"><b>The Reflective Practitioner (Schön, 1983)</b> · 단행본
+      <span class="why">스튜디오 비평 전통 — 창작 순환(구상·표현·비평·수정)의 뿌리.</span></div>
+  </div>
+</section>
+
+<section class="block" id="music" style="border-top:4px solid var(--music)">
+  <div class="wrap">
+    <div class="kicker" style="color:var(--music)">음악</div>
+    <h2 class="head">소리의 데이터, 연습의 데이터</h2>
+    <div class="ref"><b>ChatGPT-4와 음악 학습 경험 (Zhou &amp; Kim, 2024)</b> · Education and Information Technologies
+      <span class="why">생성 → 귀로 검증 → 재작곡 절차. 흥미와 실험 폭은 늘었지만 AI 화성 설명을 검증 없이 믿는 경향도 함께 발견.</span>
+      <a href="https://doi.org/10.1007/s10639-024-12705-z" target="_blank" rel="noopener">doi.org/10.1007/s10639-024-12705-z</a></div>
+    <div class="ref"><b>AI 연습앱과 자기효능감·자기조절학습 (2025)</b> · Frontiers in Psychology
+      <span class="why">바이올린 전공생 4개월 준실험 — 자기효능감 효과크기 d=1.18. 목표설정-실시간 피드백-성찰의 3단계를 모두 지원.</span>
+      <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1675762/full" target="_blank" rel="noopener">frontiersin.org</a></div>
+    <div class="ref"><b>가창 훈련의 AI 피드백과 성찰 (2025)</b> · Frontiers in Psychology
+      <span class="why">자가평가+AI 챗봇+성찰일지 6주 — 메타인지 유의미 향상(실기는 두 집단 모두 향상). AI는 마법이 아니라 "스스로 배우는 힘"을 키운다.</span>
+      <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1598867/full" target="_blank" rel="noopener">frontiersin.org</a></div>
+    <div class="ref"><b>KAIST Amuse — 인간-AI 협업 작곡 (CHI 2025 최우수논문상)</b> · KAIST NMSL(이성주 교수팀)·CMU
+      <span class="why">멀티모달 영감 → 코드 진행 변환. 완성곡 생성이 아니라 창작자의 결정권을 지키는 설계로 상위 1% 논문상.</span>
+      <a href="https://nmsl.kaist.ac.kr/projects/amuse/" target="_blank" rel="noopener">nmsl.kaist.ac.kr</a></div>
+    <div class="ref"><b>워너뮤직–Suno 합의·라이선스 계약 (2025.11)</b> · Music Business Worldwide
+      <span class="why">"무단 학습→소송→라이선스 공존"의 전환점. 소니·유니버설 대 Suno 소송은 계속 — 수업에서는 여전히 공개·상업 사용 자제.</span>
+      <a href="https://www.musicbusinessworldwide.com/warner-music-group-settles-with-suno-strikes-first-of-its-kind-deal-with-ai-song-generator/" target="_blank" rel="noopener">musicbusinessworldwide.com</a></div>
+    <div class="ref"><b>유니버설–Udio 합의 (2025.10)</b> · The Hollywood Reporter
+      <span class="why">메이저 레이블 최초의 AI 음악 생성기 합의 — 2026년 라이선스 기반 플랫폼 출시 계획.</span>
+      <a href="https://www.hollywoodreporter.com/music/music-industry-news/universal-music-group-announces-settlement-with-udio-1236414023/" target="_blank" rel="noopener">hollywoodreporter.com</a></div>
+    <div class="ref"><b>Spotify AI 보호 정책 (2025.9)</b> · Spotify Newsroom
+      <span class="why">보이스 클론 금지·스팸 필터(1년간 7,500만 곡 삭제)·AI 사용 표기 표준 — 학생 작가노트의 "AI 사용 명시" 규칙과 같은 원리.</span>
+      <a href="https://newsroom.spotify.com/2025-09-25/spotify-strengthens-ai-protections/" target="_blank" rel="noopener">newsroom.spotify.com</a></div>
+    <div class="ref"><b>벨벳 선다운 사건 해설 (2025)</b> · Berklee College of Music
+      <span class="why">버클리 교수들의 분석 — "AI는 장르가 아니라 도구", 무단 학습 데이터의 지속가능성 문제.</span>
+      <a href="https://www.berklee.edu/berklee-now/news/velvet-sundown-ai-band-controversy" target="_blank" rel="noopener">berklee.edu</a></div>
+    <div class="ref"><b>비틀즈 Now and Then — 2025 그래미 수상</b> · Loudwire
+      <span class="why">AI 스템 분리 곡 최초의 그래미(베스트 록 퍼포먼스, 2025.2.2). 다큐 영상은 사례 산책 페이지에.</span>
+      <a href="https://loudwire.com/beatles-history-first-of-its-kind-win-2025-grammys/" target="_blank" rel="noopener">loudwire.com</a></div>
+    <div class="ref"><b>중등 음악 교사의 에듀테크 활용 실태 (오민경, 2024)</b> · 이화여대 석사논문
+      <span class="why">중등 음악 교사의 92.2%가 에듀테크 활용 경험 — "예체능은 에듀테크와 멀다"는 통념을 깨는 국내 데이터.</span>
+      <a href="https://www.dbpia.co.kr/journal/detail?nodeId=T17054412" target="_blank" rel="noopener">dbpia.co.kr</a></div>
+  </div>
+</section>
+
+<section class="block" id="art" style="border-top:4px solid var(--art)">
+  <div class="wrap">
+    <div class="kicker" style="color:var(--art)">미술</div>
+    <h2 class="head">과정의 데이터, 시선의 데이터</h2>
+    <div class="ref"><b>Learning to Draw Is Learning to See (SIGGRAPH 2025)</b> · ACM · HKUST-GZ
+      <span class="why">전문가 드로잉의 시선-획 상관 분석 + 초보자용 실시간 시선 안내 — "그리기는 보는 법 배우기"의 데이터 증명. DOI 10.1145/3721238.3730734</span>
+      <a href="https://cislab.hkust-gz.edu.cn/publications/learning-to-draw-is-learning-to-see-analyzing-eye-tracking-patterns-for-assisted-observational-drawing/" target="_blank" rel="noopener">cislab.hkust-gz.edu.cn</a></div>
+    <div class="ref"><b>보리스 엘다크센 — 소니 어워드 수상 거부 (2023)</b> · 작가 공식 사이트
+      <span class="why">"AI는 사진이 아니다" — 프롬프토그래피라는 새 단어의 탄생. 논쟁적 탐구질문의 원형 사건.</span>
+      <a href="https://www.eldagsen.com/sony-world-photography-awards-2023/" target="_blank" rel="noopener">eldagsen.com</a></div>
+    <div class="ref"><b>Refik Anadol TED — AI 데이터 조각 (2023)</b> · TED
+      <span class="why">자연 이미지 1억 장으로 학습한 데이터 조각 — "데이터가 물감이 될 수 있는가."</span>
+      <a href="https://www.ted.com/talks/refik_anadol_how_ai_art_could_enhance_humanity_s_collective_memory" target="_blank" rel="noopener">ted.com</a></div>
+    <div class="ref"><b>Dear Data — 손그림 데이터 엽서 52주 (2015–16)</b> · Giorgia Lupi
+      <span class="why">컴퓨터 없이 종이와 펜으로 하는 데이터 시각화 수업의 교과서. 원본 엽서는 MoMA 영구 소장.</span>
+      <a href="http://giorgialupi.com/dear-data" target="_blank" rel="noopener">giorgialupi.com</a></div>
+    <div class="ref"><b>Ice Watch (Olafur Eliasson &amp; Minik Rosing, 2014–18)</b> · Studio Olafur Eliasson
+      <span class="why">그린란드 빙하를 광장에 — 데이터를 몸으로 감각하게 만든 기후 설치미술.</span>
+      <a href="https://olafureliasson.net/artwork/ice-watch-2014/" target="_blank" rel="noopener">olafureliasson.net</a></div>
+    <div class="ref"><b>국립중앙박물관 디지털 실감 영상관</b> · 국립중앙박물관
+      <span class="why">파노라마 실감영상·VR·미디어파사드 — 현장체험학습으로 연계 가능한 국내 대표 사례.</span>
+      <a href="https://www.museum.go.kr/site/main/content/digital_realistic" target="_blank" rel="noopener">museum.go.kr</a></div>
+    <div class="ref"><b>생성형 AI 추상미술 12주 워크숍 (Hiçyilmaz, 2025)</b> · SAGE Open
+      <span class="why">예비 미술교사 12명 질적 연구 — AI는 발상·구성·색채 제안 파트너, 쟁점은 독창성과 의존.</span>
+      <a href="https://journals.sagepub.com/doi/10.1177/21582440251382812" target="_blank" rel="noopener">journals.sagepub.com</a></div>
+    <div class="ref"><b>중등 생성형 AI와 혁신 역량·디지털 리터러시 (2025)</b> · PLOS One
+      <span class="why">7–12학년 500명 구조방정식 — 생성형 AI 활용이 혁신 역량(β=.862)·디지털 리터러시(β=.835)에 정적 효과.</span>
+      <a href="https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0323349" target="_blank" rel="noopener">journals.plos.org</a></div>
+  </div>
+</section>
+
+<section class="block" id="pe" style="border-top:4px solid var(--pe)">
+  <div class="wrap">
+    <div class="kicker" style="color:var(--pe)">체육</div>
+    <h2 class="head">움직임의 데이터, 판정의 데이터</h2>
+    <div class="ref"><b>SAOT 공식 해설 — 프리미어리그 (2025)</b> · Premier League
+      <span class="why">경기장당 최대 30대 100fps 카메라, 선수당 최대 1만 개 신체 포인트 — 2025.4.12 리그 도입. 여전히 "반(半)자동": 킥 시점은 VAR이 확인.</span>
+      <a href="https://www.premierleague.com/en/news/4256036" target="_blank" rel="noopener">premierleague.com</a></div>
+    <div class="ref"><b>후지쯔 × FIG — JSS 전 기구 확대 (2023)</b> · Fujitsu 보도자료
+      <span class="why">2019년 4개 기구 → 2023 안트베르펜 세계선수권에서 기계체조 10개 기구 전체로. 심판 대체가 아닌 이의신청 시 참조 도구.</span>
+      <a href="https://info.archives.global.fujitsu/global/about/resources/news/press-releases/2023/1005-02.html" target="_blank" rel="noopener">fujitsu.com</a></div>
+    <div class="ref"><b>AI는 체조 채점을 어떻게 바꾸나 (2024)</b> · MIT Technology Review
+      <span class="why">약 2,000개 요소를 약 90% 정확도로 인식. 장점(편향 제거)과 한계(예술성 평가)를 균형 있게 — 판정 공정성을 평가 공정성 논의로.</span>
+      <a href="https://www.technologyreview.com/2024/01/16/1086498/ai-gymnastics-judging-jss-world-championships-antwerp-paris-olympics/" target="_blank" rel="noopener">technologyreview.com</a></div>
+    <div class="ref"><b>포즈 인식 실시간 피드백 온라인 체육수업 RCT (2025)</b> · Smart Learning Environments
+      <span class="why">8주 무작위 실험 — 정확성·유창성·흥미·자기주도 향상. 핵심 발견: 성장의 매개는 "연습 시간 증가"였다.</span>
+      <a href="https://link.springer.com/article/10.1186/s40561-025-00411-3" target="_blank" rel="noopener">link.springer.com</a></div>
+    <div class="ref"><b>부산 중학교 MediaPipe AI 체육수업 시스템 (2026)</b> · Frontiers in Public Health · 부산대
+      <span class="why">태블릿 QR 접속·설치 불필요·교사가 코딩 없이 인식 규칙 수정 — 한국 중등 현장에서 참여적 설계로 개발된 가장 가까운 사례.</span>
+      <a href="https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2026.1786427/full" target="_blank" rel="noopener">frontiersin.org</a></div>
+    <div class="ref"><b>청소년 웨어러블 메타분석 — 효과 없음? (2025)</b> · BMC Public Health
+      <span class="why">학교 기반 15편 종합 — 걸음 수·활동량에 유의한 효과 미확인. 기기가 아니라 수업 설계가 관건.</span>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11921619/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></div>
+    <div class="ref"><b>체육교사 755명 — 웨어러블 지속 사용의 조건 (2026)</b> · Frontiers in Public Health
+      <span class="why">최대 예측 요인은 기술의 세련됨이 아니라 "과제-기술 적합성"(β=.504) — 내 수업 과업을 실제로 돕는가.</span>
+      <a href="https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2026.1756723/full" target="_blank" rel="noopener">frontiersin.org</a></div>
+    <div class="ref"><b>인텔 — 파리 올림픽 AI 플랫폼 (2024)</b> · Intel Newsroom
+      <span class="why">컴퓨터 비전 재능 매칭(세네갈 아동 1,000명 스캔), AI 하이라이트, 시각장애인 내비게이션 — 데이터 기반 재능 발굴 논의로 확장.</span>
+      <a href="https://newsroom.intel.com/artificial-intelligence/intel-brings-ai-platform-innovation-to-life-at-the-olympic-games" target="_blank" rel="noopener">newsroom.intel.com</a></div>
+    <div class="ref"><b>PAPS 인식 텍스트 마이닝 (2024)</b> · 한국체육측정평가학회지
+      <span class="why">학생 737명·전문가 61명 — 학생은 "난이도·재미", 교사는 "동기·측정·업무". AI 기법을 체육교육 연구 자체에 적용한 국내 사례.</span>
+      <a href="https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART003065931" target="_blank" rel="noopener">kci.go.kr</a></div>
+    <div class="ref"><b>제3차 학교체육 진흥 기본계획 2024–2028</b> · 교육부·문체부
+      <span class="why">PAPS 초3~4 단계 도입·NEIS 연계 — 내 수업의 체력 데이터가 놓이는 국가 인프라의 로드맵.</span>
+      <a href="https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=97549&lev=0&searchType=null&statusYN=W&page=1&s=moe&m=020402&opType=N" target="_blank" rel="noopener">moe.go.kr</a></div>
+  </div>
+</section>
+
+<section class="block" id="la">
+  <div class="wrap">
+    <div class="kicker">학습분석 · 교실 데이터</div>
+    <h2 class="head">멀티모달 학습분석과 대시보드의 진실</h2>
+    <div class="ref"><b>K–8 멀티모달 학습분석 체계적 리뷰 (2025)</b> · Journal of Learning Analytics
+      <span class="why">2011–2023년 초·중등 MMLA 연구는 단 14편 — 화려한 기술과 우리 교실 사이의 실제 거리.</span>
+      <a href="https://learning-analytics.info/index.php/JLA/article/view/8505" target="_blank" rel="noopener">learning-analytics.info</a></div>
+    <div class="ref"><b>MMLA 현장 배포 2년의 교훈 (Martinez-Maldonado 외, 2023)</b> · arXiv/CHI
+      <span class="why">진짜 장벽은 알고리즘이 아니라 센서 충전·배선·동의서·유지보수였다는 현장 고백.</span>
+      <a href="https://arxiv.org/abs/2303.09099" target="_blank" rel="noopener">arxiv.org</a></div>
+    <div class="ref"><b>K-12 멀티모달 대시보드와 교사 의사결정 (2025)</b> · Smart Learning Environments
+      <span class="why">"조용해서 몰랐던 학생의 숨은 상태"를 발견하는 힘과, 해석 부담·프라이버시라는 그늘을 함께 보고.</span>
+      <a href="https://link.springer.com/article/10.1186/s40561-025-00410-4" target="_blank" rel="noopener">link.springer.com</a></div>
+    <div class="ref"><b>교사의 시각화 리터러시와 대시보드 해석 (2025)</b> · Journal of Learning Analytics
+      <span class="why">"대시보드만 주면 알아서 쓴다"는 틀렸다 — 리터러시가 낮으면 해석이 표면에 그침. 이 연수가 필요한 직접 근거.</span>
+      <a href="https://learning-analytics.info/index.php/JLA/article/view/8471" target="_blank" rel="noopener">learning-analytics.info</a></div>
+    <div class="ref"><b>Talk Meter — 발화 비율 미터기 RCT (2023)</b> · Annenberg/ERIC
+      <span class="why">튜터 742명 — 발화 비율을 보여주기만 해도 학생 발화 13~14% 증가. 특히 내향적 학생에게 효과.</span>
+      <a href="https://eric.ed.gov/?id=ED638947" target="_blank" rel="noopener">eric.ed.gov</a></div>
+    <div class="ref"><b>TeachFX 자동 피드백과 질문의 질 RCT (2023)</b> · Annenberg/ERIC
+      <span class="why">교사 523명 — 포커싱 질문 +20%, 그러나 학생 발화량 자체는 변화 없음. AI 피드백이 "되는 것"과 "안 되는 것".</span>
+      <a href="https://eric.ed.gov/?id=ED638993" target="_blank" rel="noopener">eric.ed.gov</a></div>
+    <div class="ref"><b>영상 클릭스트림과 성적 예측 (2022)</b> · Education and Information Technologies
+      <span class="why">시청 시간이 아니라 일시정지·되감기가 성적을 예측 — "오래 봤다 ≠ 잘 배웠다"의 근거.</span>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9617048/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></div>
+    <div class="ref"><b>FATE in MMLA — 학생 관점의 데이터 윤리 (2024)</b> · arXiv
+      <span class="why">학생들은 동의를 일회성 서명이 아니라 "언제든 조절 가능한 다이얼"로 원한다.</span>
+      <a href="https://arxiv.org/abs/2402.19071" target="_blank" rel="noopener">arxiv.org</a></div>
+    <div class="ref"><b>처방 수준까지 구현한 학습분석 대시보드 (2022)</b> · IJETHE
+      <span class="why">기술 수준에 머무는 대시보드 비판 + what-if 처방 조언의 실제 구현 — 4수준 사다리의 체감판.</span>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8853217/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov</a></div>
+    <div class="ref"><b>분석 4수준(기술·진단·예측·처방)의 원출처</b> · Gartner Analytic Ascendancy Model 해설
+      <span class="why">교육계의 상식이 된 4수준 프레임의 원전은 기업 분석 컨설팅이었다는 출처의 반전.</span>
+      <a href="https://learningdiscourses.com/subdiscourse/analytics-maturity-gartner-analytic-ascendancy-model/" target="_blank" rel="noopener">learningdiscourses.com</a></div>
+  </div>
+</section>
+
+<section class="block" id="policy">
+  <div class="wrap">
+    <div class="kicker">정책 · 지침 (한국)</div>
+    <h2 class="head">제도 속의 데이터와 평가</h2>
+    <div class="ref"><b>2022 개정 교육과정 확정·발표 (2022.12)</b> · 교육부
+      <span class="why">과정 중시 평가·성찰 강화·학생 주도성 — 환류가 국가 교육과정에 명시된 공식 방향임을 보여주는 1차 출처.</span>
+      <a href="https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&lev=0&statusYN=W&s=moe&m=020402&opType=N&boardSeq=93459" target="_blank" rel="noopener">moe.go.kr</a></div>
+    <div class="ref"><b>수행평가 시 AI 활용 관리 방안 (2025.12)</b> · 교육부·시도교육청
+      <span class="why">일률 금지 대신 5개 영역(범위 설정·과정 표기·사전교육·평가 설계·개인정보) — 예체능 수행평가에 바로 적용할 최신 지침.</span>
+      <a href="https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&boardSeq=104984&lev=0&m=020402" target="_blank" rel="noopener">moe.go.kr</a></div>
+    <div class="ref"><b>KICE 학생평가지원포털</b> · 한국교육과정평가원
+      <span class="why">음·미·체 포함 교과별 성취기준 기반 평가도구를 무료로 — "내일 쓸 수 있는" 실습 자원.</span>
+      <a href="https://stas.moe.go.kr/" target="_blank" rel="noopener">stas.moe.go.kr</a></div>
+    <div class="ref"><b>AIDT의 법적 지위 변경 — 초·중등교육법 개정 (2025.8)</b> · EBN
+      <span class="why">AI 디지털교과서 → "교육자료"로, 학교운영위 심의를 거쳐 학교장이 사용 결정. 사실관계 확인용.</span>
+      <a href="https://www.ebn.co.kr/news/articleView.html?idxno=1673127" target="_blank" rel="noopener">ebn.co.kr</a></div>
+    <div class="ref"><b>2026년 교육부 업무계획 (2025.12)</b> · 대한민국 정책브리핑
+      <span class="why">학교 자율 선택의 "AI 교육자료" 체제·서논술형 평가 확대 — 2026년 현재 정책 기조의 기준 문서.</span>
+      <a href="https://www.korea.kr/news/policyNewsView.do?newsId=156734914" target="_blank" rel="noopener">korea.kr</a></div>
+    <div class="ref"><b>개인정보위 — AIDT 사전 실태점검 결과 (2025.5)</b> · 개인정보보호위원회
+      <span class="why">학생 학습데이터를 다루는 에듀테크에 감독기구가 실제로 점검한 항목들 — 도구 선택 체크포인트의 근거.</span>
+      <a href="https://www.korea.kr/briefing/pressReleaseView.do?newsId=156689157" target="_blank" rel="noopener">korea.kr</a></div>
+    <div class="ref"><b>AI 학습지원 SW 선정기준 — 개인정보 최소 수집 (2025.12)</b> · 전자신문
+      <span class="why">학교장 선정 체제에서 교사가 알아야 할 개인정보 필수기준.</span>
+      <a href="https://www.etnews.com/20251229000259" target="_blank" rel="noopener">etnews.com</a></div>
+    <div class="ref"><b>KERIS 교원역량개발 — AI·디지털 역량체계</b> · 한국교육학술정보원
+      <span class="why">연수 후 자기계발 로드맵 — 역량 표준안·종합교육연수원·선도교사 경로.</span>
+      <a href="https://www.keris.or.kr/main/cm/cntnts/cntntsView.do?mi=1648&cntntsId=2387" target="_blank" rel="noopener">keris.or.kr</a></div>
+    <div class="ref"><b>교실혁명 선도교사 연수 (2025)</b> · 교육부
+      <span class="why">전국 10,500명 — 하이터치 하이테크 수업·평가 혁신 연수의 국가 단위 모델.</span>
+      <a href="https://www.korea.kr/news/policyNewsView.do?newsId=148942571" target="_blank" rel="noopener">korea.kr</a></div>
+    <div class="tip" style="margin-top:24px">
+      <span class="ico">⚖️</span>
+      <p><b>도구 중립성.</b> 본문의 도구는 절차 학습을 위한 예시이며, 학교 환경에 맞는 대안으로 대체할 수 있습니다.
+      외부 콘텐츠를 수업 자료로 쓸 때는 라이선스를 확인하고 출처를 표기합니다. 녹음·영상은 사전 동의 후 수집하고, 연수 종료 후 삭제합니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="next-block">
+  <div class="wrap">
+    <div class="next-card">
+      <div>
+        <div class="tag">돌아가기</div>
+        <div class="t">연수 홈 — 지금 강의 화면과 오늘의 흐름</div>
+      </div>
+      <a class="btn btn-accent" href="home.html">연수 홈으로 →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <span>저작권 © 2026 황미란 · 미술교사</span>
+  <span>Lecture &amp; Content by Miran Hwang · All Rights Reserved · 무단 복제·재배포 금지</span>
+</footer>
+
+<script src="js/ui.js?v=1"></script>
+<script type="module">
+  import { boot } from './js/app.js?v=1';
+  boot();
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── 연수용 공개 데이터 모델 ──
+    // 개인정보(실명·연락처)를 수집하지 않는 워크숍 시스템.
+    // 참가자 문서 id = 교과__별명. PIN 해시로 재입장 충돌만 방지.
+    // 읽기는 전체 공개(실시간 명단·갤러리·집계가 참가자 화면에서 동작해야 함).
+    // 삭제는 전면 금지 — 데이터 정리는 연수 종료 후 콘솔에서.
+
+    function isStr(v, max) { return v is string && v.size() <= max; }
+
+    match /participants/{id} {
+      allow read: if true;
+      allow create: if isStr(request.resource.data.nickname, 20)
+                    && isStr(request.resource.data.subject, 10);
+      allow update: if request.resource.data.nickname == resource.data.nickname
+                    && request.resource.data.subject == resource.data.subject;
+      allow delete: if false;
+    }
+
+    match /signals/{id} {
+      allow read: if true;
+      allow create: if isStr(request.resource.data.kind, 12)
+                    && isStr(request.resource.data.nickname, 20);
+      allow update, delete: if false;
+    }
+
+    match /cheers/{id} {
+      allow read: if true;
+      allow create: if isStr(request.resource.data.text, 40);
+      allow update, delete: if false;
+    }
+
+    match /reviews/{id} {
+      allow read: if true;
+      allow create, update: if isStr(request.resource.data.nickname, 20);
+      allow delete: if false;
+    }
+
+    match /wizards/{id} {
+      allow read: if true;
+      allow create, update: if isStr(request.resource.data.nickname, 20);
+      allow delete: if false;
+    }
+
+    match /wizardlogs/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.dwellSec is int
+                    && request.resource.data.dwellSec <= 7200;
+      allow update, delete: if false;
+    }
+
+    match /speedquiz/{id} {
+      allow read: if true;
+      allow create, update: if request.resource.data.score is int
+                            && request.resource.data.score <= 100000;
+      allow delete: if false;
+    }
+
+    // 참여 퀴즈: create만 허용 → 1인 1퀴즈 1회가 규칙으로 보장됨
+    match /participations/{id} {
+      allow read: if true;
+      allow create: if isStr(request.resource.data.quizId, 30)
+                    && isStr(request.resource.data.answer, 100)
+                    && request.resource.data.points is int
+                    && request.resource.data.points <= 1000;
+      allow update, delete: if false;
+    }
+
+    match /plans/{id} {
+      allow read: if true;
+      allow create, update: if isStr(request.resource.data.nickname, 20);
+      allow delete: if false;
+    }
+
+    match /critiques/{id} {
+      allow read: if true;
+      allow create: if isStr(request.resource.data.strength, 200)
+                    && isStr(request.resource.data.improve, 200);
+      allow update, delete: if false;
+    }
+
+    match /kpt/{id} {
+      allow read: if true;
+      allow create, update: if isStr(request.resource.data.nickname, 20);
+      allow delete: if false;
+    }
+
+    // 라이브 상태·오버레이·전사 — 강의 진행용 (인증 없는 워크숍 모델의 절충)
+    match /live/{id} {
+      allow read: if true;
+      allow write: if true;
+    }
+    match /overlays/{id} {
+      allow read: if true;
+      allow write: if true;
+    }
+    match /transcripts/{id} {
+      allow read: if true;
+      allow create: if isStr(request.resource.data.text, 500);
+      allow update, delete: if false;
+    }
+  }
+}
