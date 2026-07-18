@@ -79,13 +79,16 @@
       <div class="panel">
         <h2>📽️ 슬라이드 송출 — LIVE를 켜면 모든 참가자 화면이 함께 넘어갑니다</h2>
         <div class="deck-tabs">
-          <button class="cbtn on" data-deck="1">⑫ 환류 · 33장</button>
+          <button class="cbtn on" data-deck="4">⑪ 데이터 강의 · 40장</button>
+          <button class="cbtn" data-deck="1">⑫ 환류 · 33장</button>
           <button class="cbtn" data-deck="2">⑨ 복습 · 50장</button>
-          <button class="cbtn" data-deck="3">설계안 양식 · 7장</button>
+          <button class="cbtn" data-deck="3">설계안 · 7장</button>
+          <button class="cbtn" data-deck="5">로그 브리핑 · 11장</button>
         </div>
         <div class="stage" id="stage">
-          <img id="slide-img" src="slides12/s1.png" alt="현재 슬라이드">
+          <img id="slide-img" src="slides11d/s1.png" alt="현재 슬라이드">
         </div>
+        <div id="live-note" style="margin-top:10px;background:rgba(240,139,190,.08);border:1px solid rgba(240,139,190,.35);border-radius:10px;padding:10px 14px;font-size:13.5px;line-height:1.6;display:none"></div>
         <div class="ctl-row">
           <button class="cbtn" id="prev-btn">◀ 이전</button>
           <span class="mono-num" id="slide-num">1 / 33</span>
@@ -115,7 +118,8 @@
         <div class="tabbar">
           <button class="cbtn on" data-tab="monitor">👀 실시간 모니터</button>
           <button class="cbtn" data-tab="signals">📡 신호 피드</button>
-          <button class="cbtn" data-tab="progress">📋 진행·응답</button>
+          <button class="cbtn" data-tab="progress">📋 진행·과제</button>
+          <button class="cbtn" data-tab="notes">📓 노트·자료</button>
           <button class="cbtn" data-tab="board">🏅 리더보드</button>
           <button class="cbtn" data-tab="talk">🎙️ 발화 전사</button>
           <button class="cbtn" data-tab="export">💾 내보내기</button>
@@ -144,11 +148,22 @@
           <div class="feed" id="signal-feed"></div>
         </div>
 
-        <!-- 진행·응답 -->
+        <!-- 진행·과제 -->
         <div data-pane="progress" style="display:none">
-          <p style="font-size:12.5px;color:rgba(255,255,255,.55);margin-bottom:8px">설계안 점검 작성 현황(●작성 ○미작성: 정보·핵심·질문·기준·평가·도구·최종)과 응답 핵심. 행을 누르면 상세가 펼쳐집니다.
+          <div id="task-summary" style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:13px;line-height:1.7"></div>
+          <p style="font-size:12.5px;color:rgba(255,255,255,.55);margin-bottom:8px">사람별: 설계안 점검(●작성 ○미작성) · 복습/이론체크 · 과제. 행을 누르면 응답 상세.
           ⑪ 시연 팁 — 특정인을 지목하지 말고 익명 패턴 중심으로 읽으세요.</p>
-          <div style="max-height:520px;overflow-y:auto" id="progress-list"></div>
+          <div style="max-height:500px;overflow-y:auto" id="progress-list"></div>
+        </div>
+
+        <!-- 노트·자료 -->
+        <div data-pane="notes" style="display:none">
+          <p style="font-size:12.5px;color:rgba(255,255,255,.55);margin-bottom:8px">현재 덱의 구간별 진행 노트입니다. 슬라이드를 넘기면 화면 아래 실시간 노트도 함께 바뀝니다.</p>
+          <div style="max-height:380px;overflow-y:auto" id="notes-list"></div>
+          <div style="border-top:1px solid rgba(255,255,255,.15);margin-top:12px;padding-top:10px">
+            <div style="font-size:13px;font-weight:700;color:#F08BBE;margin-bottom:6px">🔗 복습·연구 자료 바로가기</div>
+            <div id="notes-links" style="font-size:13px;line-height:1.9"></div>
+          </div>
         </div>
 
         <!-- 리더보드 -->
@@ -187,8 +202,9 @@
   import { boot, getSession, isInstructor, esc, publishSlide, watchLive,
            watchParticipants, setParticipantStatus, watchSignals, watchQuizAnswers,
            watchWizards, watchSpeedBoard, addTranscript, watchTranscripts,
-           fetchAllData, SUBJECTS } from './js/app.js?v=1';
+           fetchAllData, SUBJECTS, watchTasks, watchReviews } from './js/app.js?v=1';
   import { QUIZ_LIST, QUIZ_BY_ID, quizForSlide } from './js/quiz-data.js?v=1';
+  import { DECK_NOTES, REVIEW_LINKS, noteFor } from './js/deck-notes.js?v=1';
   boot();
 
   const s = getSession();
@@ -203,16 +219,49 @@
     1: { dir: 'slides12', total: 33, label: '⑫ 환류' },
     2: { dir: 'slides11', total: 50, label: '⑨ 복습' },
     3: { dir: 'slidesplan', total: 7, label: '설계안 양식' },
+    4: { dir: 'slides11d', total: 40, label: '⑪ 데이터 강의' },
+    5: { dir: 'slidesbrief', total: 11, label: '로그 브리핑' },
   };
-  let deck = 1, cur = 1, liveOn = false, activeQuiz = '';
+  let deck = 4, cur = 1, liveOn = false, activeQuiz = '';
   const img = document.getElementById('slide-img');
   const num = document.getElementById('slide-num');
+
+  /* 강의자 노트 — 현재 슬라이드 구간의 노트를 무대 아래에 표시 */
+  function renderLiveNote() {
+    const el = document.getElementById('live-note');
+    const n = noteFor(deck, cur);
+    if (!n) { el.style.display = 'none'; return; }
+    el.style.display = 'block';
+    el.innerHTML =
+      '<b style="color:#F08BBE">📓 ' + esc(n.title) + '</b> <span style="color:rgba(255,255,255,.45);font-family:monospace;font-size:11px">s' + n.from + '–' + n.to + '</span><br>' +
+      esc(n.note) +
+      (n.smalltalk ? '<br><b style="color:#FBBF24">💬 스몰토크:</b> ' + esc(n.smalltalk) : '') +
+      (n.check ? '<br><b style="color:#4ade80">✅ 확인:</b> ' + esc(n.check) : '') +
+      ((n.links || []).length ? '<br>' + n.links.map(l => '🔗 <a href="' + esc(l.u) + '" target="_blank" rel="noopener" style="color:#8AB4F8">' + esc(l.t) + '</a>').join(' · ') : '');
+  }
+  function renderNotesTab() {
+    const list = DECK_NOTES[deck] || [];
+    document.getElementById('notes-list').innerHTML = list.length
+      ? list.map(n =>
+          '<div style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:13px;line-height:1.6' + (cur >= n.from && cur <= n.to ? ';outline:2px solid #F08BBE' : '') + '">' +
+            '<b style="color:#F08BBE">s' + n.from + '–' + n.to + ' · ' + esc(n.title) + '</b><br>' + esc(n.note) +
+            (n.smalltalk ? '<br><span style="color:#FBBF24">💬 ' + esc(n.smalltalk) + '</span>' : '') +
+            (n.check ? '<br><span style="color:#4ade80">✅ ' + esc(n.check) + '</span>' : '') +
+          '</div>'
+        ).join('')
+      : '<div style="color:rgba(255,255,255,.4)">이 덱의 노트가 없습니다.</div>';
+    document.getElementById('notes-links').innerHTML = REVIEW_LINKS.map(l =>
+      '🔗 <a href="' + esc(l.u) + '" target="_blank" rel="noopener" style="color:#8AB4F8">' + esc(l.t) + '</a>'
+    ).join('<br>');
+  }
 
   function render() {
     const D = DECKS[deck];
     img.src = D.dir + '/s' + cur + '.png';
     num.textContent = cur + ' / ' + D.total;
     renderQuizSuggest();
+    renderLiveNote();
+    renderNotesTab();
     if (liveOn) publishSlide(deck, cur, D.total, activeQuiz);
   }
   function go(n) {
@@ -304,7 +353,7 @@
     });
   }
   renderQuizList();
-  renderQuizSuggest();
+  render(); // 초기 덱(⑪)·노트 표시
 
   /* ══ 탭 ══ */
   document.querySelector('.tabbar').addEventListener('click', (e) => {
@@ -377,17 +426,52 @@
     }).join('') || '<div style="color:rgba(255,255,255,.4)">신호가 아직 없습니다.</div>';
   }, 80);
 
-  /* ══ 진행·응답 ══ */
+  /* ══ 진행·과제 ══ */
   const WKEYS = ['info', 'coreidea', 'inquiry', 'standard', 'assess', 'tools', 'final'];
-  watchWizards((rows) => {
-    const list = rows.filter(w => w.subject !== '강의자');
-    document.getElementById('progress-list').innerHTML = list.map(w => {
+  const TASK_DEF = {
+    warmup: { label: '웜업', keys: ['cards', 'quiz', 'plancheck', 'wizard'] },
+    s11: { label: '⑪', keys: ['deck', 'mydata', 'insight', 'tm'] },
+    s12: { label: '⑫', keys: ['critique', 'plan', 'kpt'] },
+  };
+  let wizCache = [], taskCache = [], reviewCache = [];
+  function taskDone(t, sec) {
+    const d = TASK_DEF[sec];
+    const v = (t && t[sec]) || {};
+    return d.keys.filter(k => v[k] && v[k] !== '').length;
+  }
+  function renderProgress() {
+    const byId = {};
+    wizCache.forEach(w => { (byId[w.id] = byId[w.id] || {}).w = w; });
+    taskCache.forEach(t => { (byId[t.id] = byId[t.id] || {}).t = t; });
+    reviewCache.forEach(r => { (byId[r.id] = byId[r.id] || {}).r = r; });
+    const list = Object.values(byId)
+      .map(v => ({ ...v, subject: (v.w || v.t || v.r).subject, nickname: (v.w || v.t || v.r).nickname }))
+      .filter(v => v.subject !== '강의자');
+
+    /* 요약 */
+    const n = list.length;
+    const sums = Object.entries(TASK_DEF).map(([sec, d]) => {
+      const full = list.filter(v => taskDone(v.t, sec) >= d.keys.length).length;
+      return d.label + ' 과제 완료 <b style="color:#4ade80">' + full + '</b>/' + n;
+    });
+    const pcFull = list.filter(v => v.r && v.r.plan && Object.values(v.r.plan).filter(Boolean).length >= 10).length;
+    const cardsFull = list.filter(v => v.r && v.r.cards && Object.values(v.r.cards).filter(Boolean).length >= 6).length;
+    document.getElementById('task-summary').innerHTML =
+      '👥 참여 ' + n + '명 · 복습카드 6/6 <b style="color:#4ade80">' + cardsFull + '</b>명 · 설계안×이론 체크 10+ <b style="color:#4ade80">' + pcFull + '</b>명<br>' + sums.join(' · ');
+
+    document.getElementById('progress-list').innerHTML = list.map(v => {
+      const w = v.w || {};
       const dots = WKEYS.map(k => (w[k] && Object.keys(w[k]).some(f => w[k][f])) ? '●' : '○').join(' ');
       const iq = [0, 1, 2].map(i => w.inquiry && w.inquiry['q' + i]).filter(Boolean);
+      const cards = v.r && v.r.cards ? Object.values(v.r.cards).filter(Boolean).length : 0;
+      const pc = v.r && v.r.plan ? Object.values(v.r.plan).filter(Boolean).length : 0;
+      const tstat = Object.entries(TASK_DEF).map(([sec, d]) => d.label + ' ' + taskDone(v.t, sec) + '/' + d.keys.length).join(' · ');
+      const insight = v.t && v.t.s11 && typeof v.t.s11.insight === 'string' ? v.t.s11.insight : '';
       return '<details style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px 14px;margin-bottom:8px">' +
         '<summary style="cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">' +
-          '<b>' + esc(w.nickname || '') + '</b> <span style="color:rgba(255,255,255,.5);font-size:12.5px">' + esc(w.subject || '') + '</span>' +
-          '<span style="letter-spacing:2px;color:#F08BBE;font-family:monospace">' + dots + '</span>' +
+          '<b>' + esc(v.nickname || '') + '</b> <span style="color:rgba(255,255,255,.5);font-size:12.5px">' + esc(v.subject || '') + '</span>' +
+          '<span style="letter-spacing:2px;color:#F08BBE;font-family:monospace" title="설계안 7단계">' + dots + '</span>' +
+          '<span style="font-size:11.5px;color:rgba(255,255,255,.6)">복습 ' + cards + '/6 · 이론체크 ' + pc + '/12 · ' + tstat + '</span>' +
         '</summary>' +
         '<div style="font-size:13.5px;line-height:1.7;margin-top:8px;color:rgba(255,255,255,.85)">' +
           '<b>단원:</b> ' + esc(w.info && w.info.unit || '—') + '<br>' +
@@ -395,10 +479,14 @@
           '<b>탐구질문:</b> ' + (iq.length ? esc(iq.join(' / ')) : '—') + '<br>' +
           '<b>평가 요소:</b> ' + esc(w.assess && w.assess.elem || '—') + '<br>' +
           '<b>도구:</b> ' + esc(w.tools && w.tools.name || '—') + (w.tools && w.tools.stage ? ' (' + esc(w.tools.stage) + ')' : '') +
+          (insight ? '<br><b>⑪ 해석 한 줄:</b> ' + esc(insight) : '') +
         '</div>' +
       '</details>';
-    }).join('') || '<div style="color:rgba(255,255,255,.4)">아직 작성된 설계안 점검이 없습니다.</div>';
-  });
+    }).join('') || '<div style="color:rgba(255,255,255,.4)">아직 참여 기록이 없습니다.</div>';
+  }
+  watchWizards((rows) => { wizCache = rows; renderProgress(); });
+  watchTasks((rows) => { taskCache = rows; renderProgress(); });
+  watchReviews((rows) => { reviewCache = rows; renderProgress(); });
 
   /* ══ 리더보드 ══ */
   watchSpeedBoard((rows) => {

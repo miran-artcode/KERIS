@@ -40,8 +40,14 @@
     체크가 어려운 카드가 있다면 그대로 두셔도 됩니다. <b>그 카드가 오늘 설계안 점검에서 집중할 지점</b>이 됩니다.</p>
     <div style="display:flex;gap:14px;margin-top:26px;flex-wrap:wrap">
       <a class="btn btn-dark" href="#cards">📖 복습 카드 (6장)</a>
-      <a class="btn btn-accent" href="#quiz">⚡ 스피드 퀴즈 (12문항)</a>
-      <a class="btn btn-line" href="#plan">📋 설계안 양식 다시 보기</a>
+      <a class="btn btn-accent" href="#plancheck">✅ 설계안×이론 체크 (12항목)</a>
+      <a class="btn btn-line" href="#quiz">⚡ 스피드 퀴즈 (12문항)</a>
+      <a class="btn btn-line" href="#plan">📋 설계안 양식 보기</a>
+    </div>
+    <div class="tip" style="margin-top:22px;max-width:820px">
+      <span class="ico">💬</span>
+      <p><b>시작 전 스몰토크.</b> 옆 선생님과 30초 — "⑨차시 이후 내 설계안에서 <b>가장 자신 있는 칸 하나</b>와 <b>가장 자신 없는 칸 하나</b>는?"
+      자신 없는 칸이 오늘 점검의 출발점입니다.</p>
     </div>
   </div>
 </header>
@@ -56,6 +62,46 @@
       <span class="ico">💡</span>
       <p><b>체크가 안 되는 카드가 남았나요?</b> 잘하신 겁니다 — 자기 상태를 정확히 아는 것이 오늘의 첫 데이터입니다.
       그 카드의 주제를 <a href="wizard.html"><b>설계안 점검</b></a>에서 집중적으로 다듬으면 됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 설계안 × 이론 체크리스트 ===== -->
+<section class="block" id="plancheck">
+  <div class="wrap">
+    <div class="kicker">Design Check · ⑨ 이론이 내 설계안에 실제로 들어 있는가</div>
+    <h2 class="head">설계안을 옆에 두고, 12항목 대조 점검 <span id="pc-count" class="mono" style="font-size:18px;color:var(--accent)"></span></h2>
+    <p style="color:var(--dim);margin-top:8px">복습 카드가 "머리로 기억하는가"라면, 이 체크리스트는 <b>"내 설계안 문서에 실제로 반영됐는가"</b>입니다.
+    제출용 4P 설계안을 펼쳐 놓고 항목마다 해당 칸을 눈으로 확인한 뒤 체크하세요.
+    체크가 안 되는 항목이 오늘 <a href="wizard.html"><b>설계안 점검</b></a>에서 고칠 지점입니다. (강의자 화면에도 진행 상황이 표시됩니다)</p>
+
+    <div class="grid g2" style="margin-top:22px;align-items:start">
+      <div class="card">
+        <div class="tag">Stage 1 · 도착점과 질문</div>
+        <label class="checkrow"><input type="checkbox" data-pc="p1"><span><b>핵심 아이디어</b>가 사실 나열이 아니라 <b>주어+개념+동사의 일반화 한 문장</b>이다 (3층 문장)</span></label>
+        <label class="checkrow"><input type="checkbox" data-pc="p2"><span><b>개념적 탐구질문</b>("~은 ~을 어떻게 바꾸는가")이 1개 이상 있다</span></label>
+        <label class="checkrow"><input type="checkbox" data-pc="p3"><span><b>논쟁적 질문</b>(예: AI가 만든 것도 창작인가)이 있다</span></label>
+        <label class="checkrow"><input type="checkbox" data-pc="p4"><span>수행 과제의 청중(GRASPS의 A)이 교사가 아닌 <b>실제 청중</b>이다</span></label>
+        <div class="tag" style="margin-top:16px">Stage 2 · 평가 증거</div>
+        <label class="checkrow"><input type="checkbox" data-pc="p5"><span><b>심화·기본·기초 피드백</b>이 "우수함" 같은 형용사 없이 <b>관찰 가능한 행동</b>으로 서술됐다</span></label>
+        <label class="checkrow"><input type="checkbox" data-pc="p6"><span>과정 기록(시안·연습 로그·작가노트 등)이 <b>평가 증거</b>에 포함되어 있다</span></label>
+      </div>
+      <div class="card">
+        <div class="tag">AI·도구 · 두 원과 세 관문</div>
+        <label class="checkrow"><input type="checkbox" data-pc="p7"><span>AI 도구가 창작 4단계(발상·구체화·표현·공유) 중 <b>어느 단계에 붙는지</b> 명시됐다</span></label>
+        <label class="checkrow"><input type="checkbox" data-pc="p8"><span><b>③ 표현 단계</b>에 생성형 AI 완성물이 없다 — 학생의 손·몸·목소리가 원본 (Red Line)</span></label>
+        <label class="checkrow"><input type="checkbox" data-pc="p9"><span>도구가 SAMR의 <b>M(수정)·R(재정의)</b>에 해당한다 — 대체·증강이면 종이로도 된다 (효과성)</span></label>
+        <label class="checkrow"><input type="checkbox" data-pc="p10"><span>셋업 5분·학습 곡선 15분 등 <b>우리 학교에서 실현 가능</b>한지 검토했다 (편의성)</span></label>
+        <label class="checkrow"><input type="checkbox" data-pc="p11"><span>연령 제한·개인정보·저작권·보호자 동의 <b>안전성 4관문</b>을 확인했고, <b>Plan B</b>가 있다</span></label>
+        <label class="checkrow"><input type="checkbox" data-pc="p12"><span><b>AI·디지털 활용 유의사항</b> 칸(개인정보·저작권 안내)이 채워져 있다</span></label>
+      </div>
+    </div>
+    <div id="pc-msg"></div>
+    <div class="tip blue" style="margin-top:16px">
+      <span class="ico">🧭</span>
+      <p><b>체크가 안 되는 항목이 있나요?</b> 정상입니다 — 그걸 찾는 게 이 과정의 목적입니다.
+      ①~⑥은 <a href="wizard.html">설계안 점검 2~5단계</a>에서, ⑦~⑫는 <a href="wizard.html#step-6">6단계(AI·도구)</a>에서 바로 보완할 수 있습니다.
+      이론이 기억나지 않으면 위의 <a href="#cards">복습 카드</a>와 아래 <a href="#plan">설계안 우수예시</a>를 다시 보세요.</p>
     </div>
   </div>
 </section>
@@ -131,6 +177,21 @@
   </div>
 </section>
 
+<!-- ===== 오늘의 과제 확인 ===== -->
+<section class="block">
+  <div class="wrap">
+    <div class="kicker">Task Check · 웜업 과제 확인</div>
+    <h2 class="head">넘어가기 전, 스스로 확인</h2>
+    <div class="card" style="margin-top:18px;max-width:760px">
+      <label class="checkrow"><input type="checkbox" data-task="cards"><span>📖 복습 카드 6장을 읽고 확인 문장에 체크했다</span></label>
+      <label class="checkrow"><input type="checkbox" data-task="plancheck"><span>✅ 설계안×이론 체크 12항목을 설계안과 대조했다</span></label>
+      <label class="checkrow"><input type="checkbox" data-task="quiz"><span>⚡ 스피드 퀴즈에 1회 이상 도전했다</span></label>
+      <label class="checkrow"><input type="checkbox" data-task="wizard"><span>📝 (다음 단계) 설계안 자가점검 7단계를 끝까지 진행할 준비가 됐다</span></label>
+      <p style="font-size:13.5px;color:var(--dim);margin-top:10px">체크 상태는 강의자 화면의 「진행·과제」 탭에 표시됩니다 — 솔직하게, 부담 없이.</p>
+    </div>
+  </div>
+</section>
+
 <section class="next-block">
   <div class="wrap">
     <div class="next-card">
@@ -150,9 +211,28 @@
 
 <script src="js/ui.js?v=1"></script>
 <script type="module">
-  import { boot, esc, saveReview, loadReview, saveSpeedQuiz, watchSpeedBoard, sendSignal, SUBJECTS } from './js/app.js?v=1';
+  import { boot, esc, saveReview, loadReview, savePlanCheck, saveSpeedQuiz, watchSpeedBoard, sendSignal, initTaskCard, SUBJECTS } from './js/app.js?v=1';
   import { SPEED_QUIZ, SPEED_QUIZ_SEC } from './js/quiz-data.js?v=1';
   boot();
+  initTaskCard('warmup');
+
+  /* ══ 설계안×이론 체크리스트 ══ */
+  let PC = {};
+  const PC_TOTAL = 12;
+  function renderPcCount() {
+    const n = Object.values(PC).filter(Boolean).length;
+    document.getElementById('pc-count').textContent = '· ' + n + ' / ' + PC_TOTAL + ' 확인';
+    document.getElementById('pc-msg').innerHTML =
+      n >= PC_TOTAL ? '<div class="autocheck good" style="margin-top:14px">🎉 12항목 전부 확인 — ⑨ 이론이 설계안에 온전히 담겨 있습니다. 스피드 퀴즈로 마무리하세요!</div>' :
+      n >= 8 ? '<div class="autocheck blue" style="margin-top:14px">거의 다 왔습니다 — 남은 ' + (PC_TOTAL - n) + '개 항목이 오늘 설계안 점검의 우선 순위입니다.</div>' : '';
+  }
+  document.addEventListener('change', (e) => {
+    const c = e.target.closest('input[data-pc]');
+    if (!c) return;
+    PC[c.dataset.pc] = c.checked;
+    renderPcCount();
+    savePlanCheck(PC);
+  });
 
   /* ══ ⑨ 복습 카드 ══ */
   const THEORY = [
@@ -202,6 +282,11 @@
 
   loadReview().then((r) => {
     if (r && r.cards) { cards = r.cards; renderCards(); }
+    if (r && r.plan) {
+      PC = r.plan;
+      document.querySelectorAll('input[data-pc]').forEach(c => { if (PC[c.dataset.pc]) c.checked = true; });
+    }
+    renderPcCount();
   });
 
   cardsEl.addEventListener('change', (e) => {

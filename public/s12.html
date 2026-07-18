@@ -245,6 +245,15 @@
       회고를 바탕으로 모둠원과 5분 나눔 → 연수 종료 후에도 이어질 선도교사 네트워크로 연결됩니다.
       그리고 연수 만족도 조사 — <b>그 조사 자체가 하나의 환류</b>입니다.</p>
     </div>
+
+    <div class="card" style="margin-top:26px;max-width:860px">
+      <div class="tag">Task Check · ⑫ 과제 확인</div>
+      <h3 style="margin-top:8px">오늘의 마무리, 스스로 확인</h3>
+      <label class="checkrow" style="margin-top:8px"><input type="checkbox" data-task="critique"><span>🖼️ 갤러리 워크에서 <b>타 교과 설계에 크리틱 2건 이상</b>(장점1+개선점1) 남겼다</span></label>
+      <label class="checkrow"><input type="checkbox" data-task="plan"><span>🌱 <b>최소 실행 단위 액션 플랜</b>을 저장했다 — 날짜·수업·15분이 구체적이다</span></label>
+      <label class="checkrow"><input type="checkbox" data-task="kpt"><span>📝 <b>KPT 3줄 회고</b>를 저장했다</span></label>
+      <p style="font-size:13.5px;color:var(--dim);margin-top:10px">세 개가 모두 체크되면 오늘 연수의 산출물이 완성된 것입니다. 수고하셨습니다! 🎉</p>
+    </div>
   </div>
 </section>
 
@@ -268,8 +277,9 @@
 <script src="js/ui.js?v=1"></script>
 <script type="module">
   import { boot, getSession, esc, watchWizards, watchPlans, sendCritique, watchCritiques,
-           savePlan, loadPlan, saveKpt, loadKpt, fetchAllData, SUBJECTS } from './js/app.js?v=1';
+           savePlan, loadPlan, saveKpt, loadKpt, fetchAllData, initTaskCard, SUBJECTS } from './js/app.js?v=1';
   boot();
+  initTaskCard('s12');
   const me = getSession();
 
   /* ══ 활동 1 · 갤러리 워크 ══ */

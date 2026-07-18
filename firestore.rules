@@ -87,6 +87,12 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    match /tasks/{id} {
+      allow read: if true;
+      allow create, update: if isStr(request.resource.data.nickname, 20);
+      allow delete: if false;
+    }
+
     // 라이브 상태·오버레이·전사 — 강의 진행용 (인증 없는 워크숍 모델의 절충)
     match /live/{id} {
       allow read: if true;

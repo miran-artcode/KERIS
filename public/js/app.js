@@ -252,6 +252,76 @@ export async function loadReview() {
   try { const d = await getDoc(doc(db, 'reviews', s.id)); return d.exists() ? d.data() : null; } catch (e) { return null; }
 }
 
+/* 설계안×이론 체크(웜업) — reviews 문서의 plan 필드에 병합 저장 */
+export async function savePlanCheck(plan) {
+  const s = getSession();
+  if (!s || !db) return false;
+  try {
+    await setDoc(doc(db, 'reviews', s.id), {
+      subject: s.subject, nickname: s.nickname, plan, updatedAt: serverTimestamp()
+    }, { merge: true });
+    return true;
+  } catch (e) { return false; }
+}
+export function watchReviews(cb) {
+  if (!db) return () => {};
+  return onSnapshot(collection(db, 'reviews'), (qs) => {
+    const rows = [];
+    qs.forEach((d) => rows.push({ id: d.id, ...d.data() }));
+    cb(rows);
+  }, () => {});
+}
+
+/* ---------- 과제 확인 (페이지별 간단 체크) ---------- */
+export async function saveTask(section, key, val) {
+  const s = getSession();
+  if (!s || !db) return false;
+  try {
+    await setDoc(doc(db, 'tasks', s.id), {
+      subject: s.subject, nickname: s.nickname,
+      [section]: { [key]: (typeof val === 'string') ? val.slice(0, 200) : !!val },
+      updatedAt: serverTimestamp()
+    }, { merge: true });
+    return true;
+  } catch (e) { return false; }
+}
+export async function loadTasks() {
+  const s = getSession();
+  if (!s || !db) return null;
+  try { const d = await getDoc(doc(db, 'tasks', s.id)); return d.exists() ? d.data() : null; } catch (e) { return null; }
+}
+export function watchTasks(cb) {
+  if (!db) return () => {};
+  return onSnapshot(collection(db, 'tasks'), (qs) => {
+    const rows = [];
+    qs.forEach((d) => rows.push({ id: d.id, ...d.data() }));
+    cb(rows);
+  }, () => {});
+}
+
+/* 과제 카드 공용 바인딩: [data-task] 체크박스 · [data-tasktext] 한 줄 입력 */
+export function initTaskCard(section) {
+  const boxes = document.querySelectorAll('[data-task]');
+  const texts = document.querySelectorAll('[data-tasktext]');
+  if (!boxes.length && !texts.length) return;
+  loadTasks().then((t) => {
+    const sec = (t && t[section]) || {};
+    boxes.forEach(b => { if (sec[b.dataset.task]) b.checked = true; });
+    texts.forEach(x => { if (typeof sec[x.dataset.tasktext] === 'string') x.value = sec[x.dataset.tasktext]; });
+  });
+  document.addEventListener('change', (e) => {
+    const b = e.target.closest('[data-task]');
+    if (b) saveTask(section, b.dataset.task, b.checked);
+  });
+  let tT = null;
+  document.addEventListener('input', (e) => {
+    const x = e.target.closest('[data-tasktext]');
+    if (!x) return;
+    clearTimeout(tT);
+    tT = setTimeout(() => saveTask(section, x.dataset.tasktext, x.value), 900);
+  });
+}
+
 /* ---------- 설계안 자가점검 (위저드) ---------- */
 export async function saveWizard(data) {
   const s = getSession();

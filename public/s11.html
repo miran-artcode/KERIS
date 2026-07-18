@@ -51,6 +51,23 @@
   </div>
 </header>
 
+<!-- ===== 강의 슬라이드 (⑪ 전용 덱 40장) ===== -->
+<section class="block" id="deck">
+  <div class="wrap">
+    <div class="kicker">Lecture Deck · ⑪ 강의 슬라이드 40장</div>
+    <h2 class="head">여덟 걸음으로 걷는 데이터 수업</h2>
+    <p style="color:var(--dim);margin-top:8px">강의 중에는 <a href="home.html#live"><b>연수 홈의 라이브 화면</b></a>이 강의자와 함께 넘어갑니다.
+    여기서는 언제든 자기 속도로 슬라이드를 복습할 수 있습니다 —
+    <b>왜 데이터인가 → 기초 개념 → 리터러시 → 수집·도구 → 교과별 심화 → Teachable Machine → 분석·실천 → 윤리·전이</b>.</p>
+    <div class="deckview" data-dir="slides11d" data-total="40" data-alt="⑪ 데이터 강의 슬라이드" style="margin-top:22px;max-width:900px"></div>
+    <div class="tip" style="margin-top:18px;max-width:900px">
+      <span class="ico">💬</span>
+      <p><b>스몰토크 — 데이터에게 추천받은 아침.</b> 오늘 아침 지도 앱이 골라 준 출근길, 유튜브가 골라 준 영상…
+      우리는 이미 데이터로 추천받으며 삽니다. <b>교실만 예외일 이유가 있을까요?</b> 옆 선생님과 오늘 아침의 "데이터 추천" 경험 하나씩.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ===== PART 1 · 왜 데이터인가 ===== -->
 <section class="block" id="p1">
   <div class="wrap">
@@ -346,6 +363,24 @@
   </div>
 </section>
 
+<!-- ===== 오늘의 과제 확인 ===== -->
+<section class="block">
+  <div class="wrap">
+    <div class="kicker">Task Check · ⑪ 과제 확인</div>
+    <h2 class="head">⑫로 넘어가기 전, 스스로 확인</h2>
+    <div class="card" style="margin-top:18px;max-width:820px">
+      <label class="checkrow"><input type="checkbox" data-task="deck"><span>📽️ 강의 슬라이드(또는 라이브 강의)를 끝까지 따라갔다</span></label>
+      <label class="checkrow"><input type="checkbox" data-task="mydata"><span>📂 「내 데이터 열어 보기」로 내 로그를 확인했다</span></label>
+      <label class="checkrow"><input type="checkbox" data-task="tm"><span>🤖 Teachable Machine에서 편향 실습(또는 세 프로젝트 중 하나)을 해봤다</span></label>
+      <div class="field" style="margin-top:14px">
+        <label>💡 해석 한 줄 <span class="opt">— 내 데이터에서 발견한 것 하나를 한 문장으로 (발문 ①~③ 중 택1)</span></label>
+        <input type="text" data-tasktext="insight" maxlength="200" placeholder="예) 핵심 아이디어 단계에 제일 오래 머물렀는데, 어려움보다는 몰입이었다 — 근거는…">
+      </div>
+      <p style="font-size:13.5px;color:var(--dim);margin-top:10px">해석 한 줄은 강의자 화면에 표시되고, ⑫ 환류 실습의 출발점이 됩니다.</p>
+    </div>
+  </div>
+</section>
+
 <section class="next-block">
   <div class="wrap">
     <div class="next-card">
@@ -365,8 +400,9 @@
 
 <script src="js/ui.js?v=1"></script>
 <script type="module">
-  import { boot, esc, fetchMyData } from './js/app.js?v=1';
+  import { boot, esc, fetchMyData, initTaskCard } from './js/app.js?v=1';
   boot();
+  initTaskCard('s11');
 
   const SIGNAL_LABEL = { ok: '🟢 따라가고 있어요', confused: '🟡 헷갈려요', stuck: '🔴 막혔어요', laugh: '😂 빵 터짐', wow: '👏' };
 
