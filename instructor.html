@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>강의자 콘솔</title>
+<script src="config.js"></script>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#ffffff; --title:#22305a; --text:#3a4054;
+    --muted:#8a90a6; --line:#e7e9f2; --accent:#aec4e8; --accent-2:#d7e3f5; --good:#bfe0c8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:"맑은 고딕","Malgun Gothic",system-ui,sans-serif;line-height:1.6}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 18px 60px}
+  h1{color:var(--title);font-size:22px;margin:6px 0}
+  h2{color:var(--title);font-size:16px;margin:0 0 10px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:820px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:18px;box-shadow:0 1px 2px rgba(34,48,90,.04)}
+  input[type=text]{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:inherit;background:#fbfcfe}
+  button{font:inherit;border:none;border-radius:14px;padding:10px 15px;cursor:pointer;background:var(--accent);color:#1c2a4d}
+  button.ghost{background:var(--accent-2)}
+  button:disabled{opacity:.5;cursor:default}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .code{font-size:26px;color:var(--title);letter-spacing:2px;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+  th{color:var(--muted);font-weight:600}
+  .bar{height:8px;border-radius:6px;background:var(--line);overflow:hidden;min-width:70px}
+  .bar>span{display:block;height:100%;background:var(--good)}
+  .muted{color:var(--muted);font-size:13px}
+  .transcript{height:180px;overflow:auto;background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:10px;font-size:14px}
+  .slide{min-height:120px;font-size:16px;color:var(--title)}
+  textarea{width:100%;min-height:90px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:inherit;background:#fbfcfe}
+  .tag{display:inline-block;background:var(--accent-2);border-radius:999px;padding:2px 9px;font-size:12px;color:#1c2a4d;margin-right:6px}
+  .hidden{display:none}
+  .pollbar{margin:7px 0}
+  .pollbar .lbl{display:flex;justify-content:space-between;font-size:14px}
+  .pollbar .track{height:14px;border-radius:8px;background:var(--line);overflow:hidden;margin-top:3px}
+  .pollbar .track>span{display:block;height:100%;background:var(--accent);transition:width .3s}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>강의자 콘솔</h1>
+  <p class="muted" id="hdr">세션을 만들면 접속 코드가 나옵니다. 이 코드를 연수생에게 안내하세요.</p>
+
+  <!-- 세션 생성 -->
+  <div class="card" id="setup" style="margin-bottom:16px">
+    <h2>세션 만들기</h2>
+    <div class="row">
+      <input id="title" type="text" placeholder="세션 제목(예: 음미체 창작 데이터 11차시)" style="flex:2;min-width:240px">
+      <input id="scope" type="text" placeholder="범위(예: 음악·미술·체육 공통)" style="flex:1;min-width:180px">
+      <button id="btnCreate">세션 생성</button>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div class="code" id="codeView">접속 코드: —</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- 강의 진행 -->
+    <div class="card">
+      <h2>강의 진행</h2>
+      <div class="slide" id="slide">슬라이드 내용을 아래에서 등록하세요.</div>
+      <div class="row" style="margin-top:8px">
+        <button class="ghost" id="prevSlide">이전</button>
+        <button class="ghost" id="nextSlide">다음</button>
+        <span class="muted" id="slideIdx"></span>
+      </div>
+      <textarea id="slideInput" placeholder="한 줄에 슬라이드 하나씩 붙여넣고 [슬라이드 등록]을 누르세요."></textarea>
+      <div class="row" style="margin-top:8px">
+        <button class="ghost" id="loadSlides">슬라이드 등록</button>
+      </div>
+
+      <h2 style="margin-top:18px">단계 표시</h2>
+      <div class="row">
+        <button class="ghost" data-phase="도입">도입</button>
+        <button class="ghost" data-phase="전개">전개</button>
+        <button class="ghost" data-phase="정리">정리</button>
+      </div>
+
+      <h2 style="margin-top:18px">발화 전사</h2>
+      <div class="row">
+        <button id="btnRec">전사 시작</button>
+        <span class="muted" id="recStatus">중지됨</span>
+      </div>
+      <div class="transcript" id="transcript"></div>
+    </div>
+
+    <!-- 폴 + 대시보드 -->
+    <div class="card">
+      <h2>즉석 질문(폴)</h2>
+      <input id="pollQ" type="text" placeholder="질문 문장">
+      <input id="pollOpts" type="text" placeholder="보기: 쉼표로 구분(예: 매우 쉬움, 적당, 어려움)" style="margin-top:8px">
+      <div class="row" style="margin-top:8px">
+        <button id="btnPoll">질문 띄우기</button>
+        <button class="ghost" id="btnPollClose">닫기</button>
+      </div>
+
+      <div id="pollResult" class="hidden" style="margin-top:12px">
+        <h2 id="pollResultQ">응답 집계</h2>
+        <div id="pollBars"></div>
+        <p class="muted" id="pollMeta"></p>
+      </div>
+
+      <h2 style="margin-top:18px">과목별 반응 요약</h2>
+      <table>
+        <thead><tr><th>과목</th><th>인원</th><th>평균 주의</th><th>따라감</th><th>막힘</th><th>동의</th><th>질문</th></tr></thead>
+        <tbody id="subjectBoard"></tbody>
+      </table>
+
+      <h2 style="margin-top:18px">실시간 참여 현황 <span class="muted" id="count"></span></h2>
+      <table>
+        <thead><tr><th>이름</th><th>과목</th><th>주의(최근)</th><th>반응</th><th>마지막</th></tr></thead>
+        <tbody id="board"></tbody>
+      </table>
+
+      <h2 style="margin-top:18px">내보내기</h2>
+      <div class="row">
+        <button id="btnJson">JSON 내보내기</button>
+        <button class="ghost" id="btnCsv">이벤트 CSV</button>
+      </div>
+      <p class="muted">연수 종료 후 데이터를 삭제하십시오. 삭제 SQL은 스키마 파일 하단에 있습니다.</p>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+const C = window.CONFIG;
+const sb = createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+
+let sessionId=null, slides=[], slideIdx=0;
+const parts = new Map(); // participantId -> {name, subject, att, reactions, byType, last_seen}
+let poll=null; // {pollId, question, options, counts[], voters:Set}
+const R_LABEL={ follow:"따라감", lost:"막힘", agree:"동의", question:"질문" };
+
+function randomCode(){ const s="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; return Array.from({length:5},()=>s[Math.floor(Math.random()*s.length)]).join(""); }
+
+document.getElementById("btnCreate").addEventListener("click", async ()=>{
+  const title=document.getElementById("title").value.trim()||"연수 세션";
+  const scope=document.getElementById("scope").value.trim();
+  const code=randomCode();
+  const { data, error } = await sb.from("sessions").insert({ title, join_code:code, subject_scope:scope }).select("id").single();
+  if(error){ alert("세션 생성 실패: 설정(config.js)의 Supabase 값을 확인하세요."); return; }
+  sessionId=data.id;
+  document.getElementById("codeView").textContent="접속 코드: "+code;
+  document.getElementById("hdr").textContent="세션이 열렸습니다. 접속 코드를 연수생에게 안내하세요.";
+  subscribe();
+});
+
+function subscribe(){
+  sb.channel("board-"+sessionId)
+    .on("postgres_changes",{event:"*",schema:"public",table:"participants",filter:"session_id=eq."+sessionId},
+      ({new:row})=>{ if(row&&row.id) upsertPart(row); render(); })
+    .on("postgres_changes",{event:"INSERT",schema:"public",table:"events",filter:"session_id=eq."+sessionId},
+      ({new:row})=>{ applyEvent(row); render(); })
+    .subscribe();
+}
+
+function upsertPart(row){
+  const p = parts.get(row.id)||{ name:"", subject:"", att:null, reactions:0, last_seen:null };
+  p.name=row.display_name||p.name; p.subject=row.subject||p.subject; p.last_seen=row.last_seen||p.last_seen;
+  parts.set(row.id,p);
+}
+function applyEvent(row){
+  if(!row.participant_id) return;
+  const p = parts.get(row.participant_id)||{ name:"?", subject:"", att:null, reactions:0, byType:{}, last_seen:null };
+  p.byType = p.byType||{};
+  if(row.type==="attention") p.att=row.payload.score;
+  if(row.type==="reaction"){
+    p.reactions=(p.reactions||0)+1;
+    const v=row.payload.value; p.byType[v]=(p.byType[v]||0)+1;
+  }
+  if(row.type==="poll_answer" && poll && row.payload.pollId===poll.pollId){
+    if(!poll.voters.has(row.participant_id)){
+      poll.voters.add(row.participant_id);
+      poll.counts[row.payload.choice]=(poll.counts[row.payload.choice]||0)+1;
+      renderPoll();
+    }
+  }
+  if(row.type==="join"){ p.name=row.payload.name||p.name; p.subject=row.payload.subject||p.subject; }
+  p.last_seen=row.ts;
+  parts.set(row.participant_id,p);
+}
+
+function render(){
+  const b=document.getElementById("board"); b.innerHTML="";
+  document.getElementById("count").textContent="· "+parts.size+"명";
+  [...parts.values()].forEach(p=>{
+    const tr=document.createElement("tr");
+    const att = p.att==null ? '<span class="muted">–</span>' : `<div class="bar"><span style="width:${Math.round(p.att*100)}%"></span></div>`;
+    const seen = p.last_seen ? new Date(p.last_seen).toLocaleTimeString("ko-KR") : "–";
+    tr.innerHTML=`<td>${p.name||"?"}</td><td>${p.subject||""}</td><td>${att}</td><td>${p.reactions||0}</td><td class="muted">${seen}</td>`;
+    b.appendChild(tr);
+  });
+  renderSubjects();
+}
+
+function renderSubjects(){
+  const agg={}; // subject -> {n, attSum, attN, byType}
+  [...parts.values()].forEach(p=>{
+    const s=p.subject||"미지정";
+    const a=agg[s]||(agg[s]={ n:0, attSum:0, attN:0, byType:{} });
+    a.n++;
+    if(p.att!=null){ a.attSum+=p.att; a.attN++; }
+    Object.entries(p.byType||{}).forEach(([k,v])=>{ a.byType[k]=(a.byType[k]||0)+v; });
+  });
+  const tb=document.getElementById("subjectBoard"); tb.innerHTML="";
+  ["음악","미술","체육","기타","미지정"].filter(s=>agg[s]).forEach(s=>{
+    const a=agg[s];
+    const avg=a.attN? Math.round(a.attSum/a.attN*100)+"%" : "–";
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${s}</td><td>${a.n}</td><td>${avg}</td>
+      <td>${a.byType.follow||0}</td><td>${a.byType.lost||0}</td>
+      <td>${a.byType.agree||0}</td><td>${a.byType.question||0}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+function renderPoll(){
+  if(!poll) return;
+  document.getElementById("pollResult").classList.remove("hidden");
+  document.getElementById("pollResultQ").textContent="응답 집계 — "+poll.question;
+  const total=poll.counts.reduce((a,b)=>a+(b||0),0);
+  const box=document.getElementById("pollBars"); box.innerHTML="";
+  poll.options.forEach((opt,i)=>{
+    const n=poll.counts[i]||0;
+    const pct= total? Math.round(n/total*100) : 0;
+    const d=document.createElement("div"); d.className="pollbar";
+    d.innerHTML=`<div class="lbl"><span>${opt}</span><span>${n}명 · ${pct}%</span></div>
+      <div class="track"><span style="width:${pct}%"></span></div>`;
+    box.appendChild(d);
+  });
+  document.getElementById("pollMeta").textContent=`응답 ${total}명 / 접속 ${parts.size}명`;
+}
+
+// 슬라이드
+document.getElementById("loadSlides").addEventListener("click", ()=>{
+  slides=document.getElementById("slideInput").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  slideIdx=0; showSlide();
+});
+function showSlide(){
+  document.getElementById("slide").textContent = slides[slideIdx]||"등록된 슬라이드가 없습니다.";
+  document.getElementById("slideIdx").textContent = slides.length?`${slideIdx+1} / ${slides.length}`:"";
+}
+document.getElementById("prevSlide").addEventListener("click",()=>{ if(slideIdx>0){slideIdx--;showSlide();} });
+document.getElementById("nextSlide").addEventListener("click",()=>{ if(slideIdx<slides.length-1){slideIdx++;showSlide();} });
+
+// 단계
+document.querySelectorAll("[data-phase]").forEach(btn=>{
+  btn.addEventListener("click",()=>{ if(sessionId) sb.from("events").insert({ session_id:sessionId, type:"phase", payload:{ name:btn.dataset.phase } }); });
+});
+
+// 폴
+document.getElementById("btnPoll").addEventListener("click", ()=>{
+  if(!sessionId) return;
+  const question=document.getElementById("pollQ").value.trim();
+  const options=document.getElementById("pollOpts").value.split(",").map(s=>s.trim()).filter(Boolean);
+  if(!question||options.length<2){ alert("질문과 보기 2개 이상을 입력하세요."); return; }
+  poll={ pollId:Date.now(), question, options, counts:options.map(()=>0), voters:new Set() };
+  renderPoll();
+  sb.from("events").insert({ session_id:sessionId, type:"poll", payload:{ pollId:poll.pollId, question, options } });
+});
+document.getElementById("btnPollClose").addEventListener("click", ()=>{ if(sessionId) sb.from("events").insert({ session_id:sessionId, type:"poll_close", payload:{} }); });
+
+// 발화 전사(Web Speech API)
+let rec=null, recOn=false;
+document.getElementById("btnRec").addEventListener("click", ()=>{
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ document.getElementById("recStatus").textContent="이 브라우저는 실시간 전사를 지원하지 않습니다(Chrome 권장)."; return; }
+  if(recOn){ rec.stop(); return; }
+  rec=new SR(); rec.lang="ko-KR"; rec.continuous=true; rec.interimResults=false;
+  rec.onresult = e=>{
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal){
+        const text=e.results[i][0].transcript.trim();
+        if(text){ appendTx("강의자: "+text); if(sessionId) sb.from("transcript").insert({ session_id:sessionId, text }); }
+      }
+    }
+  };
+  rec.onend = ()=>{ recOn=false; document.getElementById("btnRec").textContent="전사 시작"; document.getElementById("recStatus").textContent="중지됨"; };
+  rec.start(); recOn=true;
+  document.getElementById("btnRec").textContent="전사 중지";
+  document.getElementById("recStatus").textContent="전사 중";
+});
+function appendTx(line){ const t=document.getElementById("transcript"); t.innerHTML+=`<div>${line}</div>`; t.scrollTop=t.scrollHeight; }
+
+// 내보내기
+async function fetchAll(){
+  const [ev,tx,ps]=await Promise.all([
+    sb.from("events").select("*").eq("session_id",sessionId).order("ts"),
+    sb.from("transcript").select("*").eq("session_id",sessionId).order("ts"),
+    sb.from("participants").select("*").eq("session_id",sessionId)
+  ]);
+  return { events:ev.data||[], transcript:tx.data||[], participants:ps.data||[] };
+}
+function download(name, blob){ const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; a.click(); }
+document.getElementById("btnJson").addEventListener("click", async ()=>{
+  if(!sessionId){ alert("먼저 세션을 만드세요."); return; }
+  const all=await fetchAll();
+  download("session-"+sessionId+".json", new Blob([JSON.stringify(all,null,2)],{type:"application/json"}));
+});
+document.getElementById("btnCsv").addEventListener("click", async ()=>{
+  if(!sessionId){ alert("먼저 세션을 만드세요."); return; }
+  const { events }=await fetchAll();
+  const rows=[["ts","participant_id","type","payload"]].concat(
+    events.map(e=>[e.ts,e.participant_id||"",e.type,JSON.stringify(e.payload).replaceAll('"','""')])
+  );
+  const csv=rows.map(r=>r.map(c=>`"${c}"`).join(",")).join("\n");
+  download("events-"+sessionId+".csv", new Blob([csv],{type:"text/csv"}));
+});
+</script>
+</body>
+</html>

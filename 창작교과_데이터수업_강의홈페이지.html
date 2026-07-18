@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>창작교과 데이터 수업 · 음악·미술·체육</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --ink:#17172E; --ink2:#2A2A48; --slate:#585A76; --mute:#8B8CA6;
+  --paper:#F5F6FB; --card:#FFFFFF; --line:#E6E7F1; --line2:#EEEFF6;
+  --brand:#DA2A8E;           /* 강조·미술 */
+  --music:#0E8C8C;           /* 음악 = 소리/청록 */
+  --art:#DA2A8E;             /* 미술 = 색/마젠타 */
+  --pe:#2E9E57;              /* 체육 = 움직임/초록 */
+  --amber:#E08A1E;
+  --display:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;
+  --body:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;
+  --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
+  --wrap:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.65;-webkit-font-smoothing:antialiased;font-size:16px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.2;letter-spacing:-.02em}
+p{color:var(--ink2)}
+a{color:var(--brand);text-decoration:none}
+.mono{font-family:var(--mono);letter-spacing:.02em}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:600}
+
+/* ---------- top nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(23,23,46,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav .wrap{display:flex;align-items:center;gap:22px;height:58px}
+.nav .brandmark{font-family:var(--display);font-weight:800;color:#fff;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
+.nav .brandmark b{color:var(--brand)}
+.nav ul{list-style:none;display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.nav a{color:#B9BAD6;font-size:13px;font-weight:500;padding:7px 11px;border-radius:8px;white-space:nowrap}
+.nav a:hover{color:#fff;background:rgba(255,255,255,.07)}
+.nav a.on{color:#fff;background:var(--brand)}
+.navtoggle{display:none}
+@media(max-width:940px){
+  .nav ul{position:fixed;inset:58px 0 auto 0;flex-direction:column;background:#17172E;padding:10px 24px 18px;gap:2px;display:none;border-bottom:1px solid rgba(255,255,255,.08)}
+  .nav ul.open{display:flex}
+  .nav a{padding:10px 12px;font-size:14px}
+  .navtoggle{display:block;margin-left:auto;background:none;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:8px;padding:6px 12px;font-size:14px;font-family:var(--body);cursor:pointer}
+}
+
+/* ---------- hero ---------- */
+.hero{background:radial-gradient(1200px 600px at 15% -10%,#25234f 0,#17172E 55%);color:#fff;padding:76px 0 64px;position:relative;overflow:hidden}
+.hero .kick{font-family:var(--mono);font-size:13px;letter-spacing:.16em;color:#9FA0C8;text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-size:clamp(34px,6vw,60px);font-weight:900;letter-spacing:-.03em;color:#fff}
+.hero h1 .sub-a{color:var(--music)}.hero h1 .sub-b{color:var(--art)}.hero h1 .sub-c{color:var(--pe)}
+.hero .lede{max-width:640px;margin-top:22px;font-size:clamp(16px,2.1vw,19px);color:#C9CAE6;line-height:1.6}
+.hero .metarow{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+.chip{font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;color:#DFE0F4;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:7px 14px}
+.chip.hl{border-color:var(--brand);color:#fff}
+/* signal motif */
+.signal{margin-top:44px;display:grid;grid-template-columns:1fr;gap:14px;max-width:760px}
+.lane{display:flex;align-items:center;gap:16px}
+.lane .tag{font-family:var(--mono);font-size:12px;width:52px;flex:none;color:#9FA0C8;letter-spacing:.04em}
+.lane svg{width:100%;height:34px;display:block}
+@media(max-width:560px){.lane .tag{width:44px}}
+
+/* ---------- section frame ---------- */
+.part{padding:74px 0;border-top:1px solid var(--line)}
+.part:nth-child(even of .part){background:#fff}
+.part-head{margin-bottom:40px;max-width:760px}
+.part-num{font-family:var(--mono);font-size:13px;color:var(--brand);font-weight:600;letter-spacing:.1em}
+.part-head h2{font-size:clamp(26px,3.6vw,38px);font-weight:800;margin-top:10px;color:var(--ink)}
+.part-head p.dek{margin-top:14px;font-size:17px;color:var(--slate)}
+
+/* generic cards / grids */
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:860px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+.card h3{font-size:19px;font-weight:700;margin-bottom:8px}
+.card h4{font-size:16px;font-weight:700;margin-bottom:6px}
+.card p{font-size:14.5px;color:var(--slate);line-height:1.6}
+.card ul{margin:8px 0 0 2px;padding-left:16px}
+.card li{font-size:14.5px;color:var(--slate);margin:5px 0;line-height:1.55}
+.tagline{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.t-music{color:var(--music)}.t-art{color:var(--art)}.t-pe{color:var(--pe)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:7px}
+
+/* callout */
+.callout{background:var(--ink);color:#EDEDF6;border-radius:16px;padding:22px 26px;margin-top:26px;font-size:15.5px;line-height:1.6}
+.callout b{color:#fff}
+.callout .k{color:var(--brand);font-weight:700}
+.note{background:#fff;border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:12px;padding:16px 20px;font-size:14px;color:var(--slate)}
+
+/* pill list */
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pill{font-size:13px;background:#F0EAF6;color:#6B3C86;border-radius:999px;padding:5px 12px;font-weight:500}
+.pill.m{background:#E1F1F1;color:#0A6E6E}.pill.a{background:#FBE6F2;color:#A31E6E}.pill.p{background:#E3F3E9;color:#237A44}
+
+/* references */
+.ref{font-size:13.5px;color:var(--slate);padding:12px 0;border-bottom:1px solid var(--line2);line-height:1.55}
+.ref a{word-break:break-all}
+.ref .src{font-family:var(--mono);font-size:11.5px;color:var(--mute);letter-spacing:.03em}
+
+/* small helpers */
+.lead-num{font-family:var(--display);font-weight:800;font-size:30px;color:var(--brand);line-height:1}
+.kv{font-family:var(--mono);font-size:12.5px;color:var(--mute)}
+.big-stat{font-family:var(--display);font-weight:800;font-size:40px;letter-spacing:-.02em}
+.divlabel{display:inline-block;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--ink2);border-radius:6px;padding:3px 9px;font-weight:600}
+.footer{background:#17172E;color:#9FA0C8;padding:40px 0;font-size:13px}
+.footer b{color:#fff}
+figure{margin:0}
+.svgcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+.cap{font-size:12.5px;color:var(--mute);margin-top:8px;font-family:var(--mono);letter-spacing:.02em}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav">
+  <div class="wrap">
+    <span class="brandmark">창작교과 <b>DATA</b> 수업</span>
+    <button class="navtoggle" aria-label="메뉴" onclick="document.getElementById('navlist').classList.toggle('open')">메뉴</button>
+    <ul id="navlist">
+      <li><a href="#p0">도입</a></li>
+      <li><a href="#p1">기초개념</a></li>
+      <li><a href="#p2">데이터 리터러시</a></li>
+      <li><a href="#p3">수집·도구</a></li>
+      <li><a href="#p4">교과별 심화</a></li>
+      <li><a href="#p5">Teachable Machine</a></li>
+      <li><a href="#p6">분석·실천</a></li>
+      <li><a href="#p7">윤리·전이</a></li>
+      <li><a href="#ref">출처</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="wrap">
+    <div class="kick">AI·디지털 기반 교육혁신 · 창작교과 연수</div>
+    <h1>창작교과의 데이터는<br><span class="sub-a">소리</span>·<span class="sub-b">색</span>·<span class="sub-c">움직임</span>으로 말한다</h1>
+    <p class="lede">음악·미술·체육은 숫자로 만들기 어렵다고 여겨져 왔습니다. 그러나 가창 녹음, 시안의 변화, 동작 영상은 모두 학생이 남긴 데이터입니다. 이 자료를 읽고 다음 수업으로 잇는 절차를, 세 교과가 함께 익힙니다.</p>
+    <div class="metarow">
+      <span class="chip hl">음악 · 미술 · 체육</span>
+      <span class="chip">데이터 리터러시</span>
+      <span class="chip">Teachable Machine 실습</span>
+      <span class="chip">과정중심 평가 설계</span>
+    </div>
+
+    <div class="signal" aria-hidden="true">
+      <div class="lane"><span class="tag">음악</span>
+        <svg viewBox="0 0 760 34" preserveAspectRatio="none"><g fill="#0E8C8C">
+          <rect x="0" y="12" width="5" height="10" rx="2"/><rect x="12" y="6" width="5" height="22" rx="2"/><rect x="24" y="14" width="5" height="6" rx="2"/><rect x="36" y="3" width="5" height="28" rx="2"/><rect x="48" y="10" width="5" height="14" rx="2"/><rect x="60" y="15" width="5" height="4" rx="2"/><rect x="72" y="8" width="5" height="18" rx="2"/><rect x="84" y="13" width="5" height="8" rx="2"/><rect x="96" y="5" width="5" height="24" rx="2"/><rect x="108" y="11" width="5" height="12" rx="2"/><rect x="120" y="14" width="5" height="6" rx="2"/><rect x="132" y="7" width="5" height="20" rx="2"/><rect x="144" y="12" width="5" height="10" rx="2"/><rect x="156" y="4" width="5" height="26" rx="2"/><rect x="168" y="13" width="5" height="8" rx="2"/><rect x="180" y="9" width="5" height="16" rx="2"/><rect x="192" y="14" width="5" height="6" rx="2"/><rect x="204" y="6" width="5" height="22" rx="2"/><rect x="216" y="11" width="5" height="12" rx="2"/><rect x="228" y="15" width="5" height="4" rx="2"/><rect x="240" y="8" width="5" height="18" rx="2"/><rect x="252" y="12" width="5" height="10" rx="2"/><rect x="264" y="5" width="5" height="24" rx="2"/><rect x="276" y="13" width="5" height="8" rx="2"/><rect x="288" y="10" width="5" height="14" rx="2"/><rect x="300" y="14" width="5" height="6" rx="2"/><rect x="312" y="7" width="5" height="20" rx="2"/><rect x="324" y="12" width="5" height="10" rx="2"/><rect x="336" y="4" width="5" height="26" rx="2"/><rect x="348" y="13" width="5" height="8" rx="2"/>
+        </g></svg>
+      </div>
+      <div class="lane"><span class="tag">미술</span>
+        <svg viewBox="0 0 760 34" preserveAspectRatio="none">
+          <rect x="0" width="150" height="34" fill="#B4472E"/><rect x="150" width="130" height="34" fill="#A7C79A"/><rect x="280" width="150" height="34" fill="#C79A48"/><rect x="430" width="120" height="34" fill="#DCC24A"/><rect x="550" width="90" height="34" fill="#DCE7D2"/><rect x="640" width="120" height="34" fill="#4E5C86"/>
+        </svg>
+      </div>
+      <div class="lane"><span class="tag">체육</span>
+        <svg viewBox="0 0 760 34" preserveAspectRatio="none"><g>
+          <line x1="30" y1="6" x2="30" y2="28" stroke="#2E9E57" stroke-width="3"/><line x1="30" y1="10" x2="16" y2="20" stroke="#2E9E57" stroke-width="3"/><line x1="30" y1="10" x2="44" y2="20" stroke="#2E9E57" stroke-width="3"/><line x1="30" y1="28" x2="20" y2="30" stroke="#2E9E57" stroke-width="3"/><line x1="30" y1="28" x2="40" y2="30" stroke="#2E9E57" stroke-width="3"/>
+          <g fill="#17172E"><circle cx="30" cy="6" r="3.4"/><circle cx="16" cy="20" r="3"/><circle cx="44" cy="20" r="3"/><circle cx="30" cy="28" r="3"/></g>
+          <g fill="#2E9E57" opacity=".45"><circle cx="110" cy="17" r="3"/><circle cx="150" cy="12" r="4"/><circle cx="195" cy="22" r="3.4"/><circle cx="240" cy="15" r="3"/><circle cx="285" cy="20" r="4"/><circle cx="330" cy="13" r="3"/><circle cx="378" cy="19" r="3.4"/><circle cx="420" cy="14" r="3"/><circle cx="470" cy="21" r="4"/><circle cx="520" cy="16" r="3"/><circle cx="568" cy="12" r="3.4"/><circle cx="618" cy="20" r="3"/><circle cx="668" cy="15" r="4"/><circle cx="718" cy="18" r="3"/></g>
+          <polyline points="110,17 150,12 195,22 240,15 285,20 330,13 378,19 420,14 470,21 520,16 568,12 618,20 668,15 718,18" fill="none" stroke="#2E9E57" stroke-width="1.4" opacity=".5"/>
+        </g></svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== PART 0 · 도입 ===================== -->
+<section class="part" id="p0" style="background:#fff">
+  <div class="wrap">
+    <div class="part-head">
+      <div class="part-num">PART 0 — 왜 데이터인가</div>
+      <h2>데이터는 무엇을 이야기하는가</h2>
+      <p class="dek">데이터를 점수로만 보면 창작교과가 가진 소리·이미지·동작의 흔적을 대부분 버립니다. 넓게 정의할수록 학생을 여러 각도에서 볼 수 있습니다.</p>
+    </div>
+
+    <div class="grid g4" style="margin-bottom:26px">
+      <div class="card"><div class="lead-num">01</div><h4 style="margin-top:10px">다각적 이해</h4><p>데이터로 학생을 여러 각도에서 이해하고, 교육적 질문을 발견한다.</p></div>
+      <div class="card"><div class="lead-num">02</div><h4 style="margin-top:10px">현장 연구 설계</h4><p>동료와 협력해 데이터 기반 현장 연구를 직접 설계하고 실행한다.</p></div>
+      <div class="card"><div class="lead-num">03</div><h4 style="margin-top:10px">수업 개선</h4><p>연구 결과로 자신의 수업을 개선하는 구체적 실천 계획을 세운다.</p></div>
+      <div class="card"><div class="lead-num">04</div><h4 style="margin-top:10px">윤리적 성찰</h4><p>데이터 활용의 교육적·윤리적 원칙을 성찰하고 정립한다.</p></div>
+    </div>
+
+    <div class="grid g2">
+      <div class="card">
+        <span class="eyebrow">왜 창작교과에 데이터인가</span>
+        <h3 style="margin-top:12px">표현·감성·신체도 흔적을 남긴다</h3>
+        <p>창작교과는 창의성과 개별성을 강조합니다. 그만큼 평가의 공정성과 객관성을 확보하기 위한 근거가 필요합니다. 데이터는 예술적 감각을 대신하지 않습니다. 비언어적 표현과 수행을 읽는 과학적 근거가 되어 교사의 판단을 뒷받침합니다.</p>
+        <ul>
+          <li>평가 공정성 — 창작물·수행에 대한 일관된 기준 확보</li>
+          <li>과정 중심 — 결과물과 함께 성장 과정을 기록</li>
+          <li>환류의 근거 — 데이터 기반 피드백으로 학생 성장과 교수법 개선</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="eyebrow">왜 지금인가</span>
+        <h3 style="margin-top:12px">인식은 높고, 활용은 낮다</h3>
+        <p>AI 디지털교과서 도입으로 교육 현장의 디지털 전환이 빨라지고, 학습자 데이터에 기반한 맞춤 교육의 필요가 커졌습니다. 그런데 교사의 데이터 리터러시는 필요성 인식과 실제 활용 사이에 큰 간극이 있습니다.</p>
+        <div style="display:flex;gap:28px;margin-top:16px">
+          <div><div class="big-stat" style="color:var(--brand)">높음</div><div class="kv">필요성 인식</div></div>
+          <div><div class="big-stat" style="color:var(--slate)">낮음</div><div class="kv">실제 수업 활용</div></div>
+        </div>
+        <p style="margin-top:14px;font-size:13px;color:var(--mute)">이 간극을 메우는 것이 이 연수의 목적입니다.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      데이터의 목적은 학생을 줄 세우는 데 있지 않습니다. <span class="k">현재 위치를 진단(피드백)</span>하고 <span class="k">다음 경로를 제시(피드포워드)</span>하는 근거입니다. 실기 수업에서 교사 한 명이 모든 학생의 순간을 보기는 어렵기에, 데이터는 교사의 눈을 보완합니다.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PART 1 · 기초개념 ===================== -->
+<section class="part" id="p1">
+  <div class="wrap">
+    <div class="part-head">
+      <div class="part-num">PART 1 — 기초 개념</div>
+      <h2>데이터를 다루기 전에 알아둘 것</h2>
+      <p class="dek">데이터가 정보·지식·지혜로 자라는 과정, 데이터의 세 유형, 그리고 학생의 흔적을 보는 다섯 관점입니다.</p>
+    </div>
+
+    <!-- DIKW -->
+    <div class="grid g2" style="align-items:stretch">
+      <div class="card">
+        <span class="eyebrow">DIKW 위계</span>
+        <h3 style="margin-top:12px">데이터가 지혜가 되기까지</h3>
+        <p>낱개의 수치가 곧바로 판단이 되지는 않습니다. 데이터는 맥락과 해석을 거쳐 정보·지식·지혜로 자랍니다. 교사의 해석이 개입하는 지점이 여기입니다.</p>
+        <div style="margin-top:16px;display:grid;gap:8px">
+          <div style="display:flex;gap:12px;align-items:center;background:#EAF6F0;border-radius:10px;padding:12px 16px"><span class="mono" style="color:var(--pe);font-weight:700;width:64px">지혜</span><span style="font-size:14px;color:var(--slate)">축적된 지식으로 판단·예측한다</span></div>
+          <div style="display:flex;gap:12px;align-items:center;background:#FBE9F3;border-radius:10px;padding:12px 16px;margin-left:20px"><span class="mono" style="color:var(--art);font-weight:700;width:64px">지식</span><span style="font-size:14px;color:var(--slate)">패턴을 이해해 예측 가능한 형태로 정리</span></div>
+          <div style="display:flex;gap:12px;align-items:center;background:#E6F1F9;border-radius:10px;padding:12px 16px;margin-left:40px"><span class="mono" style="color:#2E6FB0;font-weight:700;width:64px">정보</span><span style="font-size:14px;color:var(--slate)">가공·연결로 의미가 부여된 것</span></div>
+          <div style="display:flex;gap:12px;align-items:center;background:#EEEFF6;border-radius:10px;padding:12px 16px;margin-left:60px"><span class="mono" style="color:var(--ink2);font-weight:700;width:64px">데이터</span><span style="font-size:14px;color:var(--slate)">가공 전의 순수한 수치·기호</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="eyebrow">데이터의 유형</span>
+        <h3 style="margin-top:12px">정형 · 비정형 · 반정형</h3>
+        <p>창작교과의 데이터는 대부분 비정형입니다. 소리·이미지·영상은 표의 칸에 바로 들어가지 않습니다. 이것을 다루는 방법이 이 연수의 핵심입니다.</p>
+        <div style="margin-top:14px;display:grid;gap:10px">
+          <div class="note" style="border-left-color:#2E6FB0"><b style="color:var(--ink)">정형</b> · 미리 정해진 구조(행·열). 예) 점수표, PAPS 기록, 설문 척도</div>
+          <div class="note" style="border-left-color:var(--art)"><b style="color:var(--ink)">비정형</b> · 정해진 구조가 없음. 예) 가창 녹음, 시안 이미지, 동작 영상, 감상문</div>
+          <div class="note" style="border-left-color:var(--amber)"><b style="color:var(--ink)">반정형</b> · 구조 설명이 안에 들어 있음. 예) JSON·XML, 웹로그, 센서 데이터</div>
+        </div>
+        <p style="margin-top:14px;font-size:13px;color:var(--mute)">웨어러블 심박, 포즈 추정 결과, AI 도구 로그가 반정형의 대표 예입니다.</p>
+      </div>
+    </div>
+
+    <!-- 5 perspectives -->
+    <div class="card" style="margin-top:18px">
+      <span class="eyebrow">교육 데이터를 보는 5가지 관점</span>
+      <h3 style="margin-top:12px">한 갈래만 보면 학생을 좁게 본다</h3>
+      <p style="margin-bottom:14px">완성작 점수는 낮아도 과정에서 끈질기게 고쳤을 수 있고, 참여는 높은데 정서가 무너졌을 수도 있습니다. 다섯 관점은 세 교과에 똑같이 적용됩니다.</p>
+      <div class="grid g3">
+        <div style="border:1px solid var(--line);border-radius:12px;padding:16px"><span class="dot" style="background:#2E6FB0"></span><b>성과</b><p style="margin-top:4px">결과물의 질 · 점수, 완성도, 실기 기록</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:16px"><span class="dot" style="background:var(--music)"></span><b>과정</b><p style="margin-top:4px">학습의 흔적 · 시안 변화, 연습 로그, 회차 변화</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:16px"><span class="dot" style="background:var(--amber)"></span><b>참여</b><p style="margin-top:4px">행동 데이터 · 활동량, 작업 시간, 제출 패턴</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:16px"><span class="dot" style="background:var(--art)"></span><b>정서</b><p style="margin-top:4px">마음의 변화 · 자기효능감, 흥미, 창작 자신감</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:16px"><span class="dot" style="background:var(--pe)"></span><b>맥락</b><p style="margin-top:4px">환경 정보 · 기기 보유, 운동 경험, 학습 환경</p></div>
+        <div style="border:1px dashed var(--line);border-radius:12px;padding:16px;background:#FAFAFE"><b style="color:var(--brand)">활용 예</b><p style="margin-top:4px">성과+과정으로 성장 추적 · 참여+정서로 이탈 신호 포착</p></div>
+      </div>
+    </div>
+
+    <!-- three forms + signal transform -->
+    <div class="card" style="margin-top:18px">
+      <span class="eyebrow">창작교과 데이터의 세 형태</span>
+      <h3 style="margin-top:12px">신호는 그대로 읽히지 않는다</h3>
+      <p style="margin-bottom:16px">정량(점수)과 정성(감상문)은 일반 교과에도 있습니다. 창작교과의 특징은 <b>신호 데이터</b>입니다. 소리·영상·시선은 수치로 변환해야 비로소 읽을 수 있고, 그 변환을 AI 도구가 맡습니다.</p>
+      <figure class="svgcard" style="border:none;padding:0">
+        <svg viewBox="0 0 900 210" style="width:100%;height:auto" font-family="Pretendard,sans-serif">
+          <!-- row 1 audio -->
+          <text x="8" y="40" font-size="15" font-weight="700" fill="#17172E">소리</text>
+          <g fill="#0E8C8C"><rect x="120" y="26" width="5" height="14" rx="2"/><rect x="130" y="18" width="5" height="30" rx="2"/><rect x="140" y="30" width="5" height="6" rx="2"/><rect x="150" y="20" width="5" height="26" rx="2"/><rect x="160" y="28" width="5" height="10" rx="2"/><rect x="170" y="16" width="5" height="34" rx="2"/><rect x="180" y="30" width="5" height="6" rx="2"/><rect x="190" y="22" width="5" height="22" rx="2"/></g>
+          <path d="M235 33 h60" stroke="#DA2A8E" stroke-width="2.5"/><path d="M290 27 l10 6 l-10 6 z" fill="#DA2A8E"/>
+          <rect x="312" y="18" width="170" height="30" rx="9" fill="#F3EEFB" stroke="#DDD5EC"/><text x="397" y="38" font-size="14.5" font-weight="700" fill="#17172E" text-anchor="middle">음정 · 박자 수치</text>
+          <!-- row 2 video -->
+          <text x="8" y="112" font-size="15" font-weight="700" fill="#17172E">영상</text>
+          <g stroke="#2E9E57" stroke-width="3"><line x1="150" y1="90" x2="150" y2="118"/><line x1="150" y1="96" x2="136" y2="108"/><line x1="150" y1="96" x2="164" y2="108"/><line x1="150" y1="118" x2="140" y2="122"/><line x1="150" y1="118" x2="160" y2="122"/></g>
+          <g fill="#17172E"><circle cx="150" cy="86" r="4"/><circle cx="136" cy="108" r="3"/><circle cx="164" cy="108" r="3"/></g>
+          <path d="M235 105 h60" stroke="#DA2A8E" stroke-width="2.5"/><path d="M290 99 l10 6 l-10 6 z" fill="#DA2A8E"/>
+          <rect x="312" y="90" width="185" height="30" rx="9" fill="#F3EEFB" stroke="#DDD5EC"/><text x="404" y="110" font-size="14.5" font-weight="700" fill="#17172E" text-anchor="middle">관절 좌표 · 각도</text>
+          <!-- row 3 gaze -->
+          <text x="8" y="184" font-size="15" font-weight="700" fill="#17172E">시선</text>
+          <ellipse cx="155" cy="176" rx="42" ry="22" fill="none" stroke="#17172E" stroke-width="2.5"/><circle cx="155" cy="176" r="9" fill="#17172E"/>
+          <path d="M235 176 h60" stroke="#DA2A8E" stroke-width="2.5"/><path d="M290 170 l10 6 l-10 6 z" fill="#DA2A8E"/>
+          <rect x="312" y="161" width="150" height="30" rx="9" fill="#F3EEFB" stroke="#DDD5EC"/><text x="387" y="181" font-size="14.5" font-weight="700" fill="#17172E" text-anchor="middle">고정점 좌표</text>
+          <!-- right note -->
+          <text x="560" y="95" font-size="14" fill="#585A76">변환을 거친 뒤에야</text>
+          <text x="560" y="118" font-size="14" fill="#585A76">교사가 읽고 해석할 수 있습니다.</text>
+        </svg>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PART 2 · 데이터 리터러시 ===================== -->
+<section class="part" id="p2" style="background:#fff">
+  <div class="wrap">
+    <div class="part-head">
+      <div class="part-num">PART 2 — 데이터 리터러시</div>
+      <h2>같은 숫자도 잘못 읽으면 틀린 결론이 된다</h2>
+      <p class="dek">데이터를 다루는 힘의 절반은 통계를 정확히 읽는 데 있습니다. 창작교과에서 특히 빠지기 쉬운 세 가지 함정과, 실제 분석 사례를 바르게 읽는 법입니다.</p>
+    </div>
+
+    <div class="grid g3">
+      <!-- trap 1 -->
+      <div class="card">
+        <span class="tagline t-art">함정 01</span>
+        <h3 style="margin-top:8px">상관관계 ≠ 인과관계</h3>
+        <div style="margin-top:12px;background:#F4F5F8;border-radius:10px;padding:14px"><div class="kv" style="margin-bottom:4px">흔한 해석</div><p style="color:var(--ink2)">“연습 시간이 늘수록 실기 점수가 떨어졌다. 연습이 실력을 떨어뜨린다.”</p></div>
+        <div style="margin-top:10px;border-left:3px solid var(--brand);background:#FBEFF6;border-radius:10px;padding:14px"><div class="kv" style="color:var(--brand);margin-bottom:4px">정확한 해석</div><p style="color:var(--ink2)">두 변수 사이에 관계가 있어도, 어려운 과제를 받은 학생이 더 오래 연습했을 수 있습니다. 제3의 변수(과제 난도·기초 실력)를 함께 봐야 합니다.</p></div>
+      </div>
+      <!-- trap 2 -->
+      <div class="card">
+        <span class="tagline t-music">함정 02</span>
+        <h3 style="margin-top:8px">평균의 함정</h3>
+        <div style="margin-top:12px;background:#F4F5F8;border-radius:10px;padding:14px"><div class="kv" style="margin-bottom:4px">흔한 해석</div><p style="color:var(--ink2)">“학급 평균이 80점이니 대체로 잘한다.”</p></div>
+        <div style="margin-top:10px;border-left:3px solid var(--brand);background:#FBEFF6;border-radius:10px;padding:14px"><div class="kv" style="color:var(--brand);margin-bottom:4px">정확한 해석</div><p style="color:var(--ink2)">같은 평균이라도 분포가 다릅니다. 전원이 80점 근처일 수도, 잘하는 학생과 못하는 학생으로 갈릴 수도 있습니다. 평균과 함께 표준편차·분포를 봅니다.</p></div>
+      </div>
+      <!-- trap 3 -->
+      <div class="card">
+        <span class="tagline t-pe">함정 03</span>
+        <h3 style="margin-top:8px">생존자 편향</h3>
+        <div style="margin-top:12px;background:#F4F5F8;border-radius:10px;padding:14px"><div class="kv" style="margin-bottom:4px">흔한 해석</div><p style="color:var(--ink2)">“설문에 답한 학생 만족도가 높으니 수업이 성공적이다.”</p></div>
+        <div style="margin-top:10px;border-left:3px solid var(--brand);background:#FBEFF6;border-radius:10px;padding:14px"><div class="kv" style="color:var(--brand);margin-bottom:4px">정확한 해석</div><p style="color:var(--ink2)">응답한 학생은 이미 참여도가 높은 쪽일 수 있습니다. 빠진 학생, 답하지 않은 학생의 목소리가 진짜 문제를 알려줍니다.</p></div>
+      </div>
+    </div>
+
+    <!-- 결측·이상치 -->
+    <div class="card" style="margin-top:18px">
+      <span class="eyebrow">결측치와 이상치</span>
+      <h3 style="margin-top:10px">빈칸과 튀는 값은 버릴 잡음이 아니다</h3>
+      <div class="grid g2" style="margin-top:14px">
+        <div>
+          <p><b style="color:var(--ink)">결측치</b> — 학생의 생각이나 수행이 드러나지 않은 상태입니다. 무응답, 미참여, 미제출이 여기 속합니다. 창작교과에서는 “녹음만 하고 감상문은 안 냈다”, “완성작만 있고 시안이 없다”가 결측의 신호입니다.</p>
+        </div>
+        <div>
+          <p><b style="color:var(--ink)">이상치</b> — 맥락을 벗어났거나 검증이 필요한 특이값입니다. 혼자만 급격히 변한 실기 기록, 혼자만 이질적인 표현 하나가 오히려 개별 지도의 출발점이 됩니다.</p>
+        </div>
+      </div>
+      <div class="note" style="margin-top:14px">전처리(cleaning)는 이 결측·이상치와 오류·중복을 점검해 분석의 정확도와 신뢰도를 높이는 과정입니다. 여러 출처의 데이터를 일관되게 맞추고, 시각화·모델에 넣을 수 있는 형태로 바꾸는 일까지 포함합니다.</div>
+    </div>
+
+    <!-- p-value teaching moment -->
+    <div class="card" style="margin-top:18px;border-color:#E9C9DF">
+      <span class="eyebrow" style="color:var(--brand)">사례로 배우는 통계 읽기 · 입체조형 성적 분석</span>
+      <h3 style="margin-top:10px">“차이가 없다”가 “같다”를 증명하지는 않는다</h3>
+      <p style="margin-bottom:14px">평면 과제와 입체 과제의 성적을 비교한 실제 분석입니다. 결과를 어떻게 읽느냐에 따라 결론이 완전히 달라집니다.</p>
+      <div class="grid g2">
+        <div style="background:#F7F8FB;border-radius:12px;padding:18px">
+          <div class="kv" style="margin-bottom:10px">분석 결과</div>
+          <table style="width:100%;border-collapse:collapse;font-size:14px">
+            <tr style="color:var(--mute)"><td style="padding:4px 0"></td><td>평면(중간)</td><td>입체(기말)</td></tr>
+            <tr><td style="padding:5px 0;color:var(--slate)">평균</td><td><b>44.46</b></td><td><b>44.44</b></td></tr>
+            <tr><td style="padding:5px 0;color:var(--slate)">표준편차</td><td>2.73</td><td>2.59</td></tr>
+            <tr><td style="padding:5px 0;color:var(--slate)">t-검정</td><td colspan="2">p ≈ 0.95</td></tr>
+            <tr><td style="padding:5px 0;color:var(--slate)">상관계수</td><td colspan="2">r = 0.17</td></tr>
+          </table>
+        </div>
+        <div>
+          <div style="background:#F4F5F8;border-radius:10px;padding:14px;margin-bottom:10px"><div class="kv" style="margin-bottom:4px">넘겨짚기 쉬운 해석</div><p style="color:var(--ink2)">“p가 크니 두 과제 점수가 같다. 매체와 상관없이 객관적으로 평가된 것이다.”</p></div>
+          <div style="border-left:3px solid var(--brand);background:#FBEFF6;border-radius:10px;padding:14px"><div class="kv" style="color:var(--brand);margin-bottom:6px">정확한 해석</div>
+            <p style="color:var(--ink2)">p가 크다는 것은 “차이를 발견하지 못했다”는 뜻입니다. “같다”를 증명하려면 동등성 검정(TOST)과 사전에 정한 허용 범위가 필요합니다. 게다가 r = 0.17은 <b>약한 상관</b>입니다. 매체와 무관하게 일관됐다면 상관이 더 높아야 하는데, 오히려 두 점수가 잘 맞물리지 않았다는 신호입니다. 이 자료로는 “매체 독립적”이라고 말할 수 없습니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      데이터가 말하지 않는 것에 주목하십시오. <span class="k">보이는 수치 뒤의 빈칸과 튀는 값</span>, 그리고 <span class="k">넘겨짚은 해석</span>을 의심하는 습관이 데이터 리터러시의 핵심입니다.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PART 3 · 수집·도구 ===================== -->
+<section class="part" id="p3">
+  <div class="wrap">
+    <div class="part-head">
+      <div class="part-num">PART 3 — 수집과 도구</div>
+      <h2>무엇을, 어떻게 모을 것인가</h2>
+      <p class="dek">데이터는 목적을 먼저 정하고 모읍니다. 직접 모으는 방법과 이미 있는 데이터를 쓰는 방법, 그리고 교실에서 바로 쓰는 도구입니다.</p>
+    </div>
+
+    <div class="grid g2">
+      <div class="card">
+        <span class="tagline t-music">직접 수집</span>
+        <h3 style="margin-top:8px">내가 만들어 확보하는 데이터</h3>
+        <p>수업 목적에 맞춰 새로 만듭니다. 창작교과에서는 가창·연주 녹음, 동작 영상 촬영, 실기 과정 기록, 만족도·자기효능감 설문이 여기 속합니다.</p>
+        <div class="pills"><span class="pill m">녹음·촬영</span><span class="pill m">과정 기록</span><span class="pill m">설문·자기평가</span><span class="pill m">관찰 기록</span></div>
+      </div>
+      <div class="card">
+        <span class="tagline t-pe">간접 수집</span>
+        <h3 style="margin-top:8px">이미 있는 데이터를 활용</h3>
+        <p>공공데이터나 시스템이 이미 쌓아 둔 자료를 씁니다. PAPS 체력 데이터, 학교알리미 공시자료, AI 도구 로그, 공공 API가 대표적입니다.</p>
+        <div class="pills"><span class="pill p">PAPS 체력데이터</span><span class="pill p">공공데이터</span><span class="pill p">API·크롤링</span><span class="pill p">도구 로그</span></div>
+      </div>
+    </div>
+
+    <h3 style="margin:30px 0 6px;font-size:20px">교실에서 바로 쓰는 수집 도구</h3>
+    <p style="color:var(--slate);margin-bottom:16px;font-size:15px">특정 제품을 권하기보다, 이런 유형의 도구로 시작할 수 있다는 예시입니다. 학교 환경에 맞는 대안으로 바꿔 쓰면 됩니다.</p>
+    <div class="grid g4">
+      <div class="card"><h4>설문 폼</h4><p style="margin-bottom:8px">Google Forms · 네이버 폼</p><div class="kv">수집</div><p style="margin:2px 0 8px">만족도, 이해도, 자기평가(척도·주관식)</p><div class="kv">분석</div><p>평균·분포, 주관식 키워드 추출</p></div>
+      <div class="card"><h4>실시간 응답</h4><p style="margin-bottom:8px">Kahoot · Mentimeter</p><div class="kv">수집</div><p style="margin:2px 0 8px">정답률, 응답 속도, 참여율</p><div class="kv">분석</div><p>오답률 높은 지점 → 재설계</p></div>
+      <div class="card"><h4>과제·참여</h4><p style="margin-bottom:8px">Classroom · 클래스팅</p><div class="kv">수집</div><p style="margin:2px 0 8px">제출, 댓글, 접속 시간</p><div class="kv">분석</div><p>참여 추이 시각화</p></div>
+      <div class="card"><h4>정리·시각화</h4><p style="margin-bottom:8px">Google Sheets · Excel</p><div class="kv">수집</div><p style="margin:2px 0 8px">피벗 테이블, 조건부 서식</p><div class="kv">분석</div><p>성취 수준별 색상 코드</p></div>
+    </div>
+
+    <div class="note" style="margin-top:18px;border-left-color:var(--amber)"><b style="color:var(--ink)">개인정보 먼저.</b> 실제 학생 데이터는 이름·학번을 코드로 바꾸고, 외부 도구에 올리기 전 교내 승인과 처리방침을 확인합니다. 자세한 원칙은 마지막 윤리 절에서 다룹니다.</div>
+  </div>
+</section>
+
+<!-- ===================== PART 4 · 교과별 심화 ===================== -->
+<section class="part" id="p4" style="background:#fff">
+  <div class="wrap">
+    <div class="part-head">
+      <div class="part-num">PART 4 — 교과별 심화</div>
+      <h2>같은 절차, 다른 데이터</h2>
+      <p class="dek">수집·처리·해석·환류라는 절차는 세 교과가 공유합니다. 다루는 데이터만 다릅니다. 각 교과의 대표 데이터와, 실제로 검증된 최근 연구를 함께 봅니다.</p>
+    </div>
+
+    <!-- 음악 -->
+    <div class="card" style="border-top:4px solid var(--music);margin-bottom:20px">
+      <span class="tagline t-music">음악 · 소리를 수치로</span>
+      <h3 style="margin-top:8px;font-size:22px">오디오를 음정·박자로 바꿔 읽는다</h3>
+      <div class="grid g2" style="margin-top:14px">
+        <div>
+          <h4>데이터와 처리</h4>
+          <p>가창·기악 녹음, MIDI, 연습 로그, 감상 논술이 대표 데이터입니다. 녹음 앱이나 DAW로 확보하고, 음정 추출과 박자 분석으로 수치화합니다. 이 분야를 음악정보검색(MIR)이라 부릅니다. 음정 정확도와 박자 일관성이 나와도, 표현과 음악성은 교사의 관찰과 겹쳐 봐야 합니다.</p>
+          <div class="pills"><span class="pill m">가창·연주 녹음</span><span class="pill m">MIDI</span><span class="pill m">연습 로그</span><span class="pill m">감상 논술</span></div>
+        </div>
+        <div>
+          <h4>최근 연구</h4>
+          <ul>
+            <li>AI 연습앱이 음정·박자·템포에 실시간 피드백 → 연주력과 함께 자기효능감·자기조절학습 향상 <span class="src">Frontiers in Psychology, 2025</span></li>
+            <li>딥러닝 음악 미적교육 시스템이 연주를 실시간 분석하고 개선안 제시 <span class="src">Scientific Reports, 2025</span></li>
+            <li>가창에 AI 피드백과 성찰을 결합 → 메타인지·수행 향상 <span class="src">Frontiers in Psychology, 2025</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="note" style="margin-top:14px;border-left-color:var(--music)"><b style="color:var(--ink)">스몰토크 · 100년 전의 예고편.</b> 지금의 AI 채점은 1919년 Seashore 음악 적성 검사가 재려던 음정·강도·리듬·시간·음색·음기억, 그 여섯 요소를 그대로 잇고 있습니다.</div>
+    </div>
+
+    <!-- 미술 -->
+    <div class="card" style="border-top:4px solid var(--art);margin-bottom:20px">
+      <span class="tagline t-art">미술 · 과정과 시선을 데이터로</span>
+      <h3 style="margin-top:8px;font-size:22px">완성작 너머의 흔적을 본다</h3>
+      <div class="grid g2" style="margin-top:14px">
+        <div>
+          <h4>데이터와 처리</h4>
+          <p>완성작 루브릭만이 아니라 시안 변화 이력, AI 프롬프트 로그, 작가노트, 시선 데이터가 대표 데이터입니다. 디지털 캔버스의 레이어·수정 이력으로 과정을 추적하고, 텍스트는 생성형 AI로 분석합니다. 시안이 넷에서 일곱으로 늘고 완성에 이르는 이력을 보면, 어디서 막혔고 어떻게 풀었는지가 드러납니다.</p>
+          <div class="pills"><span class="pill a">시안 변화</span><span class="pill a">프롬프트 로그</span><span class="pill a">작가노트</span><span class="pill a">시선(선택)</span></div>
+        </div>
+        <div>
+          <h4>최근 연구</h4>
+          <ul>
+            <li>아이트래킹으로 관찰 드로잉을 분석 → 시선 고정점이 실력과 연결, 시선 기반 드로잉 보조까지 <span class="src">SIGGRAPH, 2024</span></li>
+            <li>디지털 드로잉 19주 개입 → 구성·색채·묘사와 함께 즐거움·자기효능감 같은 내재 동기 향상 <span class="src">Cogent Education, 2025</span></li>
+            <li>자동 평가가 피드백을 주지만 창의성 판정은 여전히 주관적이라는 한계도 함께 보고됨</li>
+          </ul>
+        </div>
+      </div>
+      <h4 style="margin-top:16px">바로 쓰는 데이터 아트 활동</h4>
+      <div class="grid g3" style="margin-top:8px">
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px"><b>AI 색채 비율 분석</b><p style="margin-top:4px">인상파·반 고흐 작품에서 색 비율(Color Proportions)을 뽑아 화가별 팔레트를 비교한다.</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px"><b>텍스트 워드클라우드</b><p style="margin-top:4px">작가·작품 텍스트의 단어 빈도를 시각화해 엽서로 만든다. 피카소·칼로·바스키아.</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px"><b>기후 데이터 아트</b><p style="margin-top:4px">CO2 추이·계절 변화 데이터를 작품으로. 파리 얼음 설치미술(Ice Watch)이 참고 사례.</p></div>
+      </div>
+      <div class="note" style="margin-top:14px;border-left-color:var(--art)"><b style="color:var(--ink)">스몰토크 · 실력은 눈에서.</b> 같은 대상을 볼 때 숙련자와 초보의 눈동자가 머무는 위치가 다릅니다. 그림 실력이 손보다 관찰에서 갈린다는 것을 시선 데이터가 보여 줍니다.</div>
+    </div>
+
+    <!-- 체육 -->
+    <div class="card" style="border-top:4px solid var(--pe)">
+      <span class="tagline t-pe">체육 · 움직임을 데이터로</span>
+      <h3 style="margin-top:8px;font-size:22px">영상 한 편으로 관절 각도를 잰다</h3>
+      <div class="grid g2" style="margin-top:14px">
+        <div>
+          <h4>데이터와 처리</h4>
+          <p>동작 영상(포즈), 생체 신호(심박·활동량), 체력 검사(PAPS), 참여·정서가 대표 데이터입니다. 스마트폰 영상을 마커 없는 포즈 추정(MediaPipe·MoveNet)이나 영상 분석 도구(Kinovea·Dartfish)로 관절 각도화하고, 웨어러블로 심박을 봅니다. 각도가 정확해도 경기 상황의 판단·타이밍은 수치 밖이라, 관찰과 함께 봅니다.</p>
+          <div class="pills"><span class="pill p">포즈·동작 영상</span><span class="pill p">심박·활동량</span><span class="pill p">PAPS</span><span class="pill p">운동 정서</span></div>
+        </div>
+        <div>
+          <h4>최근 연구</h4>
+          <ul>
+            <li>포즈 인식 실시간 피드백 → 동작 정확도·체력·동기·자기주도성 향상 <span class="src">Smart Learning Environments, 2025</span></li>
+            <li>줄넘기 수행을 AI로 평가한 검사의 타당도·신뢰도 검증 <span class="src">Frontiers in AI, 2025</span></li>
+            <li>Kinovea·Dartfish·MediaPipe·MoveNet 등 저비용 동작분석 체계적 리뷰 <span class="src">PACE, 2026</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="note" style="margin-top:14px;border-left-color:var(--pe)"><b style="color:var(--ink)">스몰토크 · 실험실에서 교실로.</b> 예전에는 몸에 마커를 붙여야 하던 동작 분석이, 이제 스마트폰 영상 한 편으로 됩니다. 마커 없는 포즈 추정이 관절 위치를 잡아 줍니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PART 5 · Teachable Machine ===================== -->
+<section class="part" id="p5">
+  <div class="wrap">
+    <div class="part-head">
+      <div class="part-num">PART 5 — AI 실습 도구</div>
+      <h2>Teachable Machine · 세 프로젝트가 세 교과다</h2>
+      <p class="dek">구글이 만든 무료 도구입니다. 코딩 없이 브라우저에서 직접 머신러닝 모델을 학습시킵니다. 마침 프로젝트 유형이 이미지·소리·자세 셋이라, 미술·음악·체육에 그대로 대응합니다.</p>
+    </div>
+
+    <!-- mapping -->
+    <div class="grid g3">
+      <div class="card" style="border-top:4px solid var(--art)">
+        <svg width="40" height="40" viewBox="0 0 40 40"><rect x="4" y="7" width="32" height="26" rx="4" fill="none" stroke="#DA2A8E" stroke-width="2.5"/><circle cx="14" cy="16" r="3.5" fill="#DA2A8E"/><path d="M8 30 L17 20 L23 26 L28 21 L34 28" fill="none" stroke="#DA2A8E" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        <h4 style="margin-top:8px">Image Project <span class="tagline t-art">→ 미술</span></h4>
+        <p>이미지로 분류 모델을 만든다.</p>
+        <p style="margin-top:8px;color:var(--ink2)"><b>수업 아이디어</b> · 화풍(인상파/추상) 분류기, 학생 작품의 구도 유형 자동 분류, 색채 계열 인식.</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--music)">
+        <svg width="40" height="40" viewBox="0 0 40 40"><g fill="#0E8C8C"><rect x="6" y="16" width="4" height="8" rx="2"/><rect x="13" y="10" width="4" height="20" rx="2"/><rect x="20" y="6" width="4" height="28" rx="2"/><rect x="27" y="12" width="4" height="16" rx="2"/><rect x="34" y="17" width="3" height="6" rx="1.5"/></g></svg>
+        <h4 style="margin-top:8px">Audio Project <span class="tagline t-music">→ 음악</span></h4>
+        <p>소리로 분류 모델을 만든다.</p>
+        <p style="margin-top:8px;color:var(--ink2)"><b>수업 아이디어</b> · 악기 소리 분류기, 리듬 패턴 인식, 정확한 음정과 어긋난 음정 구분(배경음 샘플 필요).</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--pe)">
+        <svg width="40" height="40" viewBox="0 0 40 40"><g stroke="#2E9E57" stroke-width="2.6" stroke-linecap="round"><line x1="20" y1="8" x2="20" y2="24"/><line x1="20" y1="13" x2="12" y2="20"/><line x1="20" y1="13" x2="28" y2="20"/><line x1="20" y1="24" x2="14" y2="33"/><line x1="20" y1="24" x2="26" y2="33"/></g><circle cx="20" cy="6" r="3.5" fill="#17172E"/></svg>
+        <h4 style="margin-top:8px">Pose Project <span class="tagline t-pe">→ 체육</span></h4>
+        <p>자세로 분류 모델을 만든다.</p>
+        <p style="margin-top:8px;color:var(--ink2)"><b>수업 아이디어</b> · 바른 자세와 잘못된 자세 구분, 동작 단계 인식, 스트레칭·요가 자세 판별.</p>
+      </div>
+    </div>
+
+    <div class="grid g2" style="margin-top:18px">
+      <div class="card">
+        <span class="eyebrow">어떻게 동작하나</span>
+        <h3 style="margin-top:10px">브라우저 안에서, 코딩 없이</h3>
+        <p>학습이 사용자의 기기 안에서 이뤄집니다. 데이터가 서버로 전송되지 않아 개인정보에 유리합니다. 이미지·자세 모델은 사전학습된 MobileNet을, 소리 모델은 음성 인식 엔진을 바탕으로 빠르게 학습하고, 완성한 모델은 웹·앱으로 내보낼 수 있습니다.</p>
+        <p style="margin-top:10px"><a href="https://teachablemachine.withgoogle.com" target="_blank" rel="noopener">teachablemachine.withgoogle.com</a> 에서 가입 없이 바로 시작할 수 있습니다.</p>
+      </div>
+      <div class="card" style="border-color:#E9C9DF">
+        <span class="eyebrow" style="color:var(--brand)">데이터 리터러시로 연결</span>
+        <h3 style="margin-top:10px">일부러 편향된 모델을 만들어 본다</h3>
+        <p>한 클래스에는 비슷한 예시만, 다른 클래스에는 다양한 예시를 넣어 학습시키면 모델이 한쪽으로 치우칩니다. 학생이 직접 이 편향을 만들어 보면, AI가 왜 특정 창법·화풍·체형을 표준으로 삼게 되는지 몸으로 이해합니다.</p>
+        <div class="note" style="margin-top:12px">학습 데이터의 <b style="color:var(--ink)">품질·양·클래스 균형</b>이 결과를 좌우한다는 것. 이것이 앞의 리터러시 절과 이어지는 지점입니다. <span class="src">Ontario Tech University, 2024</span></div>
+      </div>
+    </div>
+
+    <!-- practice flow -->
+    <div class="card" style="margin-top:18px">
+      <span class="eyebrow">실습 흐름</span>
+      <h3 style="margin-top:10px;margin-bottom:16px">클래스 정의부터 편향 점검까지</h3>
+      <div class="grid g4" style="gap:12px">
+        <div style="text-align:center"><div class="lead-num">1</div><h4 style="margin-top:6px;font-size:15px">클래스 정의</h4><p style="font-size:13.5px">무엇을 구분할지 정한다</p></div>
+        <div style="text-align:center"><div class="lead-num">2</div><h4 style="margin-top:6px;font-size:15px">데이터 수집</h4><p style="font-size:13.5px">웹캠·마이크·파일로 예시 모으기</p></div>
+        <div style="text-align:center"><div class="lead-num">3</div><h4 style="margin-top:6px;font-size:15px">학습·테스트</h4><p style="font-size:13.5px">학습 후 새 입력으로 확인</p></div>
+        <div style="text-align:center"><div class="lead-num">4</div><h4 style="margin-top:6px;font-size:15px">성찰</h4><p style="font-size:13.5px">틀린 이유·편향을 함께 이야기</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PART 6 · 분석·실천 ===================== -->
+<section class="part" id="p6" style="background:#fff">
+  <div class="wrap">
+    <div class="part-head">
+      <div class="part-num">PART 6 — 분석과 실천</div>
+      <h2>좋은 질문에서 실행까지</h2>
+      <p class="dek">분석은 좋은 질문에서 시작해, 해석을 거쳐, 다음 수업의 행동으로 끝납니다. 시각화에서 멈추면 다음 수업은 결국 직관으로 돌아갑니다.</p>
+    </div>
+
+    <!-- SMART question -->
+    <div class="card">
+      <span class="eyebrow">좋은 연구 질문 · SMART</span>
+      <h3 style="margin-top:10px">막연한 질문을 구체적으로</h3>
+      <div class="grid g2" style="margin-top:14px;align-items:center">
+        <div>
+          <div style="background:#F4F5F8;border-radius:10px;padding:14px;margin-bottom:10px"><div class="kv" style="margin-bottom:4px">막연한 질문</div><p style="color:var(--ink2)">“왜 학생들이 실기를 어려워할까?”</p></div>
+          <div style="text-align:center;color:var(--brand);font-size:20px;margin:2px 0">↓</div>
+          <div style="border-left:3px solid var(--brand);background:#FBEFF6;border-radius:10px;padding:14px"><div class="kv" style="color:var(--brand);margin-bottom:4px">구체적 질문</div><p style="color:var(--ink2)">“개별 맞춤 피드백을 제공하면, 기초가 부족한 학생의 실기 동기와 수행이 향상될까?”</p></div>
+        </div>
+        <div>
+          <p style="margin-bottom:10px;font-size:14.5px;color:var(--slate)"><b style="color:var(--ink)">템플릿</b> · (특정 방법·도구)를 적용하면, (대상 학생군)의 (측정 가능한 변수)가 (예상 결과)로 바뀔까?</p>
+          <ul style="padding-left:16px">
+            <li style="font-size:14px;color:var(--slate)"><b style="color:var(--ink)">S</b> 구체적인가 · 방법·대상이 분명한가</li>
+            <li style="font-size:14px;color:var(--slate)"><b style="color:var(--ink)">M</b> 측정 가능한가 · 수치·척도로 잴 수 있는가</li>
+            <li style="font-size:14px;color:var(--slate)"><b style="color:var(--ink)">A</b> 달성 가능한가 · 현실적 범위인가</li>
+            <li style="font-size:14px;color:var(--slate)"><b style="color:var(--ink)">R</b> 의미 있는가 · 현장 문제 해결에 닿는가</li>
+            <li style="font-size:14px;color:var(--slate)"><b style="color:var(--ink)">T</b> 기간이 명확한가 · 언제까지인가</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Learning Analytics -->
+    <div class="card" style="margin-top:18px">
+      <span class="eyebrow">Learning Analytics</span>
+      <h3 style="margin-top:10px">데이터를 통해 학습을 이해한다</h3>
+      <p style="margin-bottom:16px">학습자와 학습 맥락에 대한 데이터를 수집·분석·해석해 학습과 환경을 최적화하는 분야입니다. 다섯 과정이 하나의 순환을 이룹니다.</p>
+      <div class="grid g4" style="gap:10px">
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px"><b>수집</b><p style="font-size:13.5px;margin-top:3px">활동·성취·참여 데이터</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px"><b>분석</b><p style="font-size:13.5px;margin-top:3px">정제·통계 분석</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px"><b>패턴 발견</b><p style="font-size:13.5px;margin-top:3px">의미 있는 관계 찾기</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px"><b>교육적 해석</b><p style="font-size:13.5px;margin-top:3px">패턴의 교육적 의미</p></div>
+      </div>
+      <p style="margin-top:10px;font-size:13.5px;color:var(--mute)">→ 마지막은 <b style="color:var(--brand)">실천적 적용</b>. 개선 방안을 도출해 다음 수업에 반영합니다.</p>
+    </div>
+
+    <!-- feedforward -->
+    <div class="card" style="margin-top:18px">
+      <span class="eyebrow">데이터에서 피드포워드로</span>
+      <h3 style="margin-top:10px">해석은 두 갈래의 행동으로</h3>
+      <div class="grid g2" style="margin-top:14px">
+        <div style="border-left:3px solid var(--brand);background:#FBEFF6;border-radius:12px;padding:16px"><b>개인 지원</b><p style="margin-top:4px">한 학생만의 패턴 · 개인 추이의 급변으로 확인 → 맞춤 피드백, 개별 과제, 1:1 코칭</p></div>
+        <div style="border-left:3px solid var(--ink2);background:#F4F5F8;border-radius:12px;padding:16px"><b>학급 조정</b><p style="margin-top:4px">다수의 공통 패턴 · 공통 오류 유형으로 확인 → 수업 구성 변경, 평가 도구·루브릭 수정</p></div>
+      </div>
+      <div class="callout" style="margin-top:16px">데이터는 그 자체로 결론을 주지 않습니다. <span class="k">해석을 거쳐 개인 지원 또는 학급 조정이라는 행동</span>으로 바뀌어야, 분석이 다음 수업에 닿습니다. <span class="src" style="color:#B9BAD6">Hattie &amp; Timperley, 2007</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PART 7 · 윤리·전이 ===================== -->
+<section class="part" id="p7">
+  <div class="wrap">
+    <div class="part-head">
+      <div class="part-num">PART 7 — 윤리와 전이</div>
+      <h2>데이터를 다루는 교사의 원칙</h2>
+      <p class="dek">기술보다 원칙이 먼저입니다. 학생 데이터를 지키는 네 가지 원칙과, 오늘 배운 것을 내 수업으로 옮기는 설계 워크숍입니다.</p>
+    </div>
+
+    <div class="grid g4">
+      <div class="card"><h4>목적 제한</h4><p>수집 목적을 먼저 정하고, 그 목적에만 씁니다. “일단 모으고 보자”는 수집이 가장 위험합니다.</p></div>
+      <div class="card"><h4>최소 수집</h4><p>목적에 필요한 만큼만 모읍니다. 항목 하나를 더할 때마다 “이게 꼭 필요한가”를 묻습니다.</p></div>
+      <div class="card"><h4>익명화</h4><p>이름·학번을 코드로 치환합니다. 외부 도구에 올리기 전 교내 승인과 처리방침을 확인합니다.</p></div>
+      <div class="card"><h4>인간 최종 판단</h4><p>AI 수치는 참고자료입니다. 학생에 대한 최종 판단과 책임은 언제나 교사에게 있습니다.</p></div>
+    </div>
+
+    <div class="card" style="margin-top:18px;border-color:#E9C9DF">
+      <span class="eyebrow" style="color:var(--brand)">전이 워크숍 · 내 수업의 데이터 설계</span>
+      <h3 style="margin-top:10px">설계안 한 장으로 마무리</h3>
+      <p style="margin-bottom:16px">오늘의 절차를 본인 수업에 옮겨 다섯 칸을 채웁니다. 이 한 장이 다음 학기의 실행 계획이 됩니다.</p>
+      <div class="grid g4" style="gap:12px;grid-template-columns:repeat(5,1fr)">
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center"><div class="lead-num">1</div><h4 style="font-size:14.5px;margin-top:6px">수업·목표</h4><p style="font-size:13px">어떤 수업의 어떤 성취기준</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center"><div class="lead-num">2</div><h4 style="font-size:14.5px;margin-top:6px">필요한 데이터</h4><p style="font-size:13px">5관점·3형태 중 무엇을, 왜</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center"><div class="lead-num">3</div><h4 style="font-size:14.5px;margin-top:6px">수집 방법</h4><p style="font-size:13px">어떤 도구로 · 익명화 포함</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center"><div class="lead-num">4</div><h4 style="font-size:14.5px;margin-top:6px">처리·해석</h4><p style="font-size:13px">결측·이상치 · 교차검증</p></div>
+        <div style="border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center"><div class="lead-num">5</div><h4 style="font-size:14.5px;margin-top:6px">피드포워드</h4><p style="font-size:13px">개인 1건 · 학급 1건</p></div>
+      </div>
+      <div class="grid g3" style="margin-top:16px">
+        <div class="note" style="border-left-color:var(--music)"><b style="color:var(--ink)">음악 분임 질문</b> · 소리(음정·박자)를 어디까지 AI에 맡기고, 표현·음악성은 어떻게 교사가 볼 것인가?</div>
+        <div class="note" style="border-left-color:var(--art)"><b style="color:var(--ink)">미술 분임 질문</b> · 완성작 너머의 과정(시안·프롬프트)을 어떻게 데이터로 남기고, 창의성을 수치로 볼 때의 위험은?</div>
+        <div class="note" style="border-left-color:var(--pe)"><b style="color:var(--ink)">체육 분임 질문</b> · 동작 영상·심박·PAPS 중 내 수업에 맞는 데이터는? 동작 점수와 경기 관찰을 어떻게 함께 볼까?</div>
+      </div>
+      <div class="callout" style="margin-top:16px">전이 질문 · 오늘 익힌 데이터 절차 중 하나를 골라, <span class="k">다음 단원에 어떻게 옮길지</span> 한 문장으로 적습니다. 이 문장이 연수가 실제 수업으로 이어지는 다리입니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 참고문헌 ===================== -->
+<section class="part" id="ref" style="background:#fff">
+  <div class="wrap">
+    <div class="part-head">
+      <div class="part-num">REFERENCES</div>
+      <h2>출처와 더 읽을거리</h2>
+      <p class="dek">본문에서 소개한 연구·도구의 원문입니다. 연도는 논문 출판 연도입니다.</p>
+    </div>
+
+    <h3 style="font-size:17px;margin-bottom:6px">이론·공통</h3>
+    <div class="ref">Hattie, J., &amp; Timperley, H. (2007). The Power of Feedback. <i>Review of Educational Research</i>, 77(1), 81–112. <span class="src">피드업·피드백·피드포워드</span></div>
+    <div class="ref">송유경, 송석리, 김예지, 임철일 (2021). 데이터 리터러시 향상을 위한 데이터 기반 토론 수업 모형 및 교수전략 개발 연구. <i>교육공학연구</i>, 37(4).</div>
+    <div class="ref">지미정 외 (2024). <i>2022 개정 교육과정 평가, AI로 날개를 달다</i>. 앤써북. <span class="src">음악 감상 논술 결측 사례</span></div>
+    <div class="ref">OECD. PISA 2022 Creative Thinking Assessment. <a href="https://www.oecd.org/en/topics/sub-issues/creative-thinking.html" target="_blank" rel="noopener">oecd.org</a> <span class="src">창의적 사고의 국제 평가</span></div>
+
+    <h3 style="font-size:17px;margin:22px 0 6px">음악</h3>
+    <div class="ref">AI-assisted music practice and self-regulated learning. <i>Frontiers in Psychology</i> (2025). <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1675762/full" target="_blank" rel="noopener">frontiersin.org/…/fpsyg.2025.1675762</a></div>
+    <div class="ref">Music aesthetic education system based on deep learning. <i>Scientific Reports</i> (2025). <a href="https://www.nature.com/articles/s41598-025-96436-2" target="_blank" rel="noopener">nature.com/articles/s41598-025-96436-2</a></div>
+    <div class="ref">AI feedback and reflection in vocal training (Seashore 검사 언급). <i>Frontiers in Psychology</i> (2025). <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1598867/full" target="_blank" rel="noopener">frontiersin.org/…/fpsyg.2025.1598867</a></div>
+    <div class="ref">Applications of AI in music education: a review. <i>Discover Education</i> (2026). <a href="https://link.springer.com/article/10.1007/s44217-026-01127-3" target="_blank" rel="noopener">link.springer.com/…/s44217-026-01127-3</a></div>
+
+    <h3 style="font-size:17px;margin:22px 0 6px">미술</h3>
+    <div class="ref">Learning to Draw Is Learning to See: eye-tracking in observational drawing. <i>ACM SIGGRAPH</i> (2024). <a href="https://dl.acm.org/doi/10.1145/3721238.3730734" target="_blank" rel="noopener">dl.acm.org/doi/10.1145/3721238.3730734</a></div>
+    <div class="ref">Digital drawing and artistic skills &amp; intrinsic motivation: a 19-week intervention. <i>Cogent Education</i> (2025). <a href="https://www.tandfonline.com/doi/full/10.1080/2331186X.2025.2481679" target="_blank" rel="noopener">tandfonline.com/…/2331186X.2025.2481679</a></div>
+    <div class="ref">Intelligent assessment in digital art education. <i>ShodhKosh</i> (2024). <span class="src">자동 피드백의 가능성과 창의성 판정의 주관성</span></div>
+    <div class="ref">Data visualization and a/r/tography in art education. <i>Education and Information Technologies</i> (2025).</div>
+
+    <h3 style="font-size:17px;margin:22px 0 6px">체육</h3>
+    <div class="ref">AI real-time feedback in online physical education. <i>Smart Learning Environments</i> (2025). <a href="https://slejournal.springeropen.com/articles/10.1186/s40561-025-00411-3" target="_blank" rel="noopener">slejournal.springeropen.com/…/s40561-025-00411-3</a></div>
+    <div class="ref">Fitness Under Supervision (FUS): AI-based jumping-rope assessment. <i>Frontiers in Artificial Intelligence</i> (2025). <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12573774/" target="_blank" rel="noopener">ncbi.nlm.nih.gov/pmc/articles/PMC12573774</a></div>
+    <div class="ref">Biomechanical movement analysis tools (Kinovea, Dartfish, MediaPipe, MoveNet): a systematic review. <i>PACE</i> (2026). <a href="https://indosainstech.id/journal/pace/article/view/24" target="_blank" rel="noopener">indosainstech.id/journal/pace/article/view/24</a></div>
+    <div class="ref">Automated assessment of motor competence. <i>Journal of Motor Learning and Development</i> (2025). <a href="https://journals.humankinetics.com/view/journals/jmld/13/3/article-p650.xml" target="_blank" rel="noopener">journals.humankinetics.com/…/jmld/13/3</a></div>
+    <div class="ref">학생건강체력평가(PAPS). 교육부·학교체육진흥회. <span class="src">체력 5요인 전국 축적 데이터</span></div>
+
+    <h3 style="font-size:17px;margin:22px 0 6px">Teachable Machine</h3>
+    <div class="ref">Teachable Machine (Google). <a href="https://teachablemachine.withgoogle.com" target="_blank" rel="noopener">teachablemachine.withgoogle.com</a> <span class="src">Image·Audio·Pose 프로젝트</span></div>
+    <div class="ref">Carney, M. et al. (2020). Teachable Machine: Approachable Web-Based Tool for Exploring Machine Learning Classification. <i>CHI EA '20</i>. <a href="https://doi.org/10.1145/3334480.3382839" target="_blank" rel="noopener">doi.org/10.1145/3334480.3382839</a></div>
+    <div class="ref">Teachable Machine &amp; Critical AI Literacy: Teaching AI Bias. Ontario Tech University (2024). <a href="https://ecampusontario.pressbooks.pub/artificialintelligenceineducationconference/chapter/teachable-machine-critical-ai-literacy-teaching-ai-bias/" target="_blank" rel="noopener">ecampusontario.pressbooks.pub/…/teaching-ai-bias</a></div>
+    <div class="ref">Sanusi, I. T. et al. (2022). A systematic review of teaching and learning machine learning in K-12 education. <i>Education and Information Technologies</i>.</div>
+    <div class="ref">Tedre, M. et al. (2021). Teaching Machine Learning in K–12 Classroom. <i>IEEE Access</i>, 9, 110558–110572.</div>
+
+    <div class="note" style="margin-top:24px"><b style="color:var(--ink)">도구 중립성.</b> 본문에 등장하는 도구는 절차 학습을 위한 예시이며, 학교 환경에 맞는 대안으로 대체할 수 있습니다. 외부 콘텐츠·이미지를 수업 자료로 쓸 때는 라이선스를 확인하고 출처를 표기합니다.</div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <div><b>창작교과 데이터 수업</b> · 음악·미술·체육 교사 연수 자료</div>
+    <div>수집 → 처리 → 해석 → 피드포워드</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var links = document.querySelectorAll('.nav ul a');
+  var map = {};
+  links.forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    var sec = document.getElementById(id);
+    if(sec) map[id] = a;
+    a.addEventListener('click', function(){ document.getElementById('navlist').classList.remove('open'); });
+  });
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(a){ a.classList.remove('on'); });
+        var a = map[e.target.id];
+        if(a) a.classList.add('on');
+      }
+    });
+  }, {rootMargin:'-30% 0px -60% 0px'});
+  Object.keys(map).forEach(function(id){ obs.observe(document.getElementById(id)); });
+})();
+</script>
+</body>
+</html>

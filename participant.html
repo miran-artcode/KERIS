@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연수생 접속</title>
+<script src="config.js"></script>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#ffffff; --title:#22305a; --text:#3a4054;
+    --muted:#8a90a6; --line:#e7e9f2; --accent:#aec4e8; --accent-2:#d7e3f5;
+    --good:#bfe0c8; --warn:#f2d9b8;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:"맑은 고딕","Malgun Gothic",system-ui,sans-serif;line-height:1.6}
+  .wrap{max-width:560px;margin:0 auto;padding:24px 18px 60px}
+  h1{color:var(--title);font-size:22px;margin:8px 0 4px}
+  h2{color:var(--title);font-size:16px;margin:22px 0 10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:18px 18px;margin:14px 0;box-shadow:0 1px 2px rgba(34,48,90,.04)}
+  label{display:block;margin:6px 0;color:var(--text)}
+  input[type=text]{width:100%;padding:11px 12px;border:1px solid var(--line);
+    border-radius:12px;font:inherit;background:#fbfcfe}
+  select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;font:inherit;background:#fbfcfe}
+  .toggle{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+  .toggle:first-of-type{border-top:none}
+  .toggle input{margin-top:5px}
+  .toggle .desc{font-size:13px;color:var(--muted)}
+  button{font:inherit;border:none;border-radius:14px;padding:12px 16px;cursor:pointer;background:var(--accent);color:#1c2a4d}
+  button.ghost{background:var(--accent-2)}
+  button:disabled{opacity:.5;cursor:default}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .react button{flex:1;min-width:120px;background:var(--accent-2)}
+  .status{font-size:13px;color:var(--muted);margin-top:8px}
+  .pill{display:inline-block;background:var(--good);color:#2b4a34;border-radius:999px;padding:3px 10px;font-size:12px}
+  .hidden{display:none}
+  video{width:100%;border-radius:14px;background:#000;margin-top:10px}
+  .notice{font-size:13px;color:var(--muted);background:#fbfcfe;border:1px solid var(--line);border-radius:12px;padding:12px}
+  .poll button{flex:1;min-width:80px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>연수 반응 로그 접속</h1>
+  <p class="status" id="hdrStatus">접속 코드와 이름을 입력하고, 기록할 항목에 동의하세요.</p>
+
+  <!-- 1) 동의 및 접속 -->
+  <section id="joinPanel" class="card">
+    <h2>접속 정보</h2>
+    <label>접속 코드
+      <input id="joinCode" type="text" placeholder="강의자가 안내한 코드" autocomplete="off">
+    </label>
+    <label>이름 또는 식별자
+      <input id="displayName" type="text" placeholder="예: 김OO 또는 A-03" autocomplete="off">
+    </label>
+    <label>담당 과목
+      <select id="subject">
+        <option value="">선택</option>
+        <option>음악</option><option>미술</option><option>체육</option><option>기타</option>
+      </select>
+    </label>
+
+    <h2>기록 항목 동의</h2>
+    <div class="notice" id="retentionNotice">보관 정책 안내</div>
+    <div class="toggle">
+      <input type="checkbox" id="cMic">
+      <div><label for="cMic">음성 녹음</label>
+        <div class="desc">발언 오디오를 기록합니다. 끄면 음성은 저장되지 않습니다.</div></div>
+    </div>
+    <div class="toggle">
+      <input type="checkbox" id="cWeb">
+      <div><label for="cWeb">웹캠 주의 신호(요약값)</label>
+        <div class="desc">얼굴 인식으로 계산한 요약 수치(화면 응시 추정, 눈 뜸 정도)만 기록합니다. 원본 영상은 저장하지 않습니다.</div></div>
+    </div>
+    <div class="toggle">
+      <input type="checkbox" id="cSnap">
+      <div><label for="cSnap">주기적 스냅샷 저장</label>
+        <div class="desc">1분 간격 축소 이미지를 저장합니다. 가장 민감한 항목이며 기본은 꺼짐입니다.</div></div>
+    </div>
+
+    <div class="row" style="margin-top:14px">
+      <button id="btnJoin">동의하고 접속</button>
+    </div>
+    <div class="status" id="joinStatus"></div>
+  </section>
+
+  <!-- 2) 접속 후 화면 -->
+  <section id="livePanel" class="card hidden">
+    <div><span class="pill" id="liveName">접속됨</span></div>
+
+    <h2>지금 반응 남기기</h2>
+    <div class="row react">
+      <button data-r="follow">따라가는 중</button>
+      <button data-r="lost">막혔어요</button>
+      <button data-r="agree">동의</button>
+      <button data-r="question">질문 있음</button>
+    </div>
+    <label style="margin-top:12px">메모 남기기
+      <input id="noteText" type="text" placeholder="한 줄 메모 후 Enter">
+    </label>
+
+    <div id="pollBox" class="hidden">
+      <h2 id="pollQ">질문</h2>
+      <div class="row poll" id="pollOpts"></div>
+    </div>
+
+    <div id="camWrap" class="hidden">
+      <h2>웹캠 주의 신호</h2>
+      <video id="cam" autoplay playsinline muted></video>
+      <div class="status" id="camStatus">준비 중…</div>
+    </div>
+
+    <div class="status" id="liveStatus" style="margin-top:14px"></div>
+    <div class="row" style="margin-top:10px">
+      <button class="ghost" id="btnLeave">기록 중지·나가기</button>
+    </div>
+  </section>
+</div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+import { FaceLandmarker, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs";
+
+const C = window.CONFIG;
+const sb = createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+document.getElementById("retentionNotice").textContent = C.RETENTION_NOTICE;
+document.getElementById("cMic").checked = C.CAPTURE.micDefault;
+document.getElementById("cWeb").checked = C.CAPTURE.webcamAttentionDefault;
+document.getElementById("cSnap").checked = C.CAPTURE.snapshotDefault;
+
+let sessionId=null, participantId=null, mediaStream=null, recorder=null;
+let landmarker=null, camLoop=null, attTimer=null, snapTimer=null, hbTimer=null;
+let attSamples=[];
+
+function setStatus(id,msg){ document.getElementById(id).textContent = msg; }
+
+async function logEvent(type, payload={}){
+  if(!sessionId) return;
+  await sb.from("events").insert({ session_id:sessionId, participant_id:participantId, type, payload });
+}
+
+document.getElementById("btnJoin").addEventListener("click", async ()=>{
+  const code = document.getElementById("joinCode").value.trim();
+  const name = document.getElementById("displayName").value.trim();
+  const subject = document.getElementById("subject").value;
+  if(!code || !name){ setStatus("joinStatus","접속 코드와 이름을 입력하세요."); return; }
+
+  const { data:ses, error:e1 } = await sb.from("sessions").select("id").eq("join_code",code).maybeSingle();
+  if(e1 || !ses){ setStatus("joinStatus","코드에 해당하는 세션을 찾지 못했습니다."); return; }
+  sessionId = ses.id;
+
+  const consent = {
+    mic: document.getElementById("cMic").checked,
+    webcamAttention: document.getElementById("cWeb").checked,
+    snapshot: document.getElementById("cSnap").checked
+  };
+  const { data:p, error:e2 } = await sb.from("participants").insert({
+    session_id:sessionId, display_name:name, subject, consent_flags:consent, consented_at:new Date().toISOString()
+  }).select("id").single();
+  if(e2){ setStatus("joinStatus","접속에 실패했습니다. 잠시 후 다시 시도하세요."); return; }
+  participantId = p.id;
+  await logEvent("join",{ name, subject, consent });
+
+  document.getElementById("joinPanel").classList.add("hidden");
+  document.getElementById("livePanel").classList.remove("hidden");
+  document.getElementById("liveName").textContent = name + " · 접속됨";
+  document.getElementById("hdrStatus").textContent = "기록 중입니다. 언제든 중지할 수 있습니다.";
+
+  subscribeInstructor();
+  startHeartbeat();
+  if(consent.mic) startMic();
+  if(consent.webcamAttention || consent.snapshot) startCamera(consent);
+});
+
+// 강의자 방송(폴·단계 전환) 수신
+function subscribeInstructor(){
+  sb.channel("room-"+sessionId)
+    .on("postgres_changes",
+      { event:"INSERT", schema:"public", table:"events", filter:"session_id=eq."+sessionId },
+      ({ new:row })=>{
+        if(row.participant_id) return; // 강의자 발행 이벤트만
+        if(row.type==="poll") showPoll(row.payload);
+        if(row.type==="poll_close") hidePoll();
+        if(row.type==="phase") setStatus("liveStatus","현재 단계: "+(row.payload.name||""));
+      })
+    .subscribe();
+}
+
+// 반응 버튼
+document.querySelectorAll(".react button").forEach(b=>{
+  b.addEventListener("click", ()=>{ logEvent("reaction",{ value:b.dataset.r }); flash(b); });
+});
+function flash(el){ el.style.background="var(--good)"; setTimeout(()=>el.style.background="var(--accent-2)",400); }
+
+// 메모
+document.getElementById("noteText").addEventListener("keydown", e=>{
+  if(e.key==="Enter" && e.target.value.trim()){ logEvent("text",{ text:e.target.value.trim() }); e.target.value=""; setStatus("liveStatus","메모를 기록했습니다."); }
+});
+
+// 폴
+function showPoll(p){
+  document.getElementById("pollBox").classList.remove("hidden");
+  document.getElementById("pollQ").textContent = p.question||"질문";
+  const box = document.getElementById("pollOpts"); box.innerHTML="";
+  (p.options||[]).forEach((opt,i)=>{
+    const btn=document.createElement("button");
+    btn.textContent=opt; btn.className="ghost";
+    btn.addEventListener("click", ()=>{ logEvent("poll_answer",{ pollId:p.pollId, choice:i, label:opt }); hidePoll(); setStatus("liveStatus","응답을 기록했습니다."); });
+    box.appendChild(btn);
+  });
+}
+function hidePoll(){ document.getElementById("pollBox").classList.add("hidden"); }
+
+// 하트비트(접속 유지 신호)
+function startHeartbeat(){
+  hbTimer=setInterval(async ()=>{
+    await sb.from("participants").update({ last_seen:new Date().toISOString() }).eq("id",participantId);
+    logEvent("heartbeat",{});
+  }, 15000);
+}
+
+// 마이크
+async function startMic(){
+  try{
+    const s = await navigator.mediaDevices.getUserMedia({ audio:true });
+    recorder = new MediaRecorder(s);
+    const chunks=[];
+    recorder.ondataavailable = e=>chunks.push(e.data);
+    recorder.onstop = async ()=>{
+      const blob = new Blob(chunks,{type:"audio/webm"});
+      const path = `${sessionId}/${participantId}-${Date.now()}.webm`;
+      const { error } = await sb.storage.from("snapshots").upload(path, blob, { upsert:true });
+      if(!error) logEvent("audio",{ path });
+    };
+    recorder.start();
+  }catch(err){ setStatus("liveStatus","마이크 권한이 거부되어 음성은 기록되지 않습니다."); }
+}
+
+// 웹캠 주의 신호
+async function startCamera(consent){
+  document.getElementById("camWrap").classList.remove("hidden");
+  try{
+    mediaStream = await navigator.mediaDevices.getUserMedia({ video:{ width:640, height:480 } });
+  }catch(err){ setStatus("camStatus","카메라 권한이 거부되어 웹캠 신호는 기록되지 않습니다."); return; }
+  const cam = document.getElementById("cam"); cam.srcObject = mediaStream;
+
+  if(consent.webcamAttention){
+    const files = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
+    landmarker = await FaceLandmarker.createFromOptions(files, {
+      baseOptions:{ modelAssetPath:"https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task" },
+      outputFaceBlendshapes:true, runningMode:"VIDEO", numFaces:1
+    });
+    setStatus("camStatus","주의 신호 계산 중(요약값만 기록).");
+    const step = ()=>{
+      if(!landmarker) return;
+      const now=performance.now();
+      const res = landmarker.detectForVideo(cam, now);
+      attSamples.push(scoreAttention(res));
+      camLoop = requestAnimationFrame(step);
+    };
+    camLoop = requestAnimationFrame(step);
+
+    attTimer=setInterval(()=>{
+      if(attSamples.length===0) return;
+      const avg = attSamples.reduce((a,b)=>a+b,0)/attSamples.length;
+      attSamples=[];
+      logEvent("attention",{ score:Number(avg.toFixed(3)) });
+    }, C.CAPTURE.attentionIntervalMs);
+  }
+
+  if(consent.snapshot){
+    snapTimer=setInterval(()=>saveSnapshot(cam), C.CAPTURE.snapshotIntervalMs);
+  }
+}
+
+// 얼굴 인식 결과 → 대략적 주의 점수(0~1). 근사값이며 정밀 시선 측정이 아닙니다.
+function scoreAttention(res){
+  if(!res.faceLandmarks || res.faceLandmarks.length===0) return 0;
+  const cats = (res.faceBlendshapes && res.faceBlendshapes[0] && res.faceBlendshapes[0].categories) || [];
+  const get = n => { const c=cats.find(x=>x.categoryName===n); return c?c.score:0; };
+  const eyesOpen = 1 - (get("eyeBlinkLeft")+get("eyeBlinkRight"))/2;
+  const lookAway = Math.max(
+    get("eyeLookOutLeft"), get("eyeLookOutRight"),
+    get("eyeLookInLeft"),  get("eyeLookInRight"),
+    get("eyeLookUpLeft"),  get("eyeLookUpRight"),
+    get("eyeLookDownLeft"),get("eyeLookDownRight")
+  );
+  return Math.max(0, Math.min(1, eyesOpen * (1 - 0.7*lookAway)));
+}
+
+async function saveSnapshot(cam){
+  const w = C.CAPTURE.snapshotMaxWidth;
+  const h = Math.round(w * (cam.videoHeight/cam.videoWidth || 0.75));
+  const cvs = document.createElement("canvas"); cvs.width=w; cvs.height=h;
+  cvs.getContext("2d").drawImage(cam,0,0,w,h);
+  const blob = await new Promise(r=>cvs.toBlob(r,"image/jpeg",0.6));
+  const path = `${sessionId}/${participantId}-snap-${Date.now()}.jpg`;
+  const { error } = await sb.storage.from("snapshots").upload(path, blob, { upsert:true });
+  if(!error) logEvent("snapshot",{ path });
+}
+
+// 나가기
+document.getElementById("btnLeave").addEventListener("click", async ()=>{
+  [camLoop].forEach(l=>l&&cancelAnimationFrame(l));
+  [attTimer,snapTimer,hbTimer].forEach(t=>t&&clearInterval(t));
+  if(recorder && recorder.state!=="inactive") recorder.stop();
+  if(mediaStream) mediaStream.getTracks().forEach(t=>t.stop());
+  await logEvent("leave",{});
+  setStatus("liveStatus","기록을 중지했습니다. 창을 닫아도 됩니다.");
+  document.getElementById("btnLeave").disabled=true;
+});
+</script>
+</body>
+</html>
