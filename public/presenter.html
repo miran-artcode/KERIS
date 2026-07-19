@@ -79,14 +79,13 @@
       <div class="panel">
         <h2>📽️ 슬라이드 송출 — LIVE를 켜면 모든 참가자 화면이 함께 넘어갑니다</h2>
         <div class="deck-tabs">
-          <button class="cbtn on" data-deck="4">⑪ 데이터 강의 · 40장</button>
-          <button class="cbtn" data-deck="1">⑫ 환류 · 33장</button>
-          <button class="cbtn" data-deck="2">⑨ 복습 · 50장</button>
-          <button class="cbtn" data-deck="3">설계안 · 7장</button>
-          <button class="cbtn" data-deck="5">로그 브리핑 · 11장</button>
+          <button class="cbtn on" data-deck="2">① ⑨복습 · 50장</button>
+          <button class="cbtn" data-deck="4">② ⑪ 데이터 강의 · 40장</button>
+          <button class="cbtn" data-deck="1">③ ⑫ 환류 · 33장</button>
+          <button class="cbtn" data-deck="5">④ 로그 브리핑 · 11장</button>
         </div>
         <div class="stage" id="stage">
-          <img id="slide-img" src="slides11d/s1.png" alt="현재 슬라이드">
+          <img id="slide-img" src="slides11/s1.png" alt="현재 슬라이드">
         </div>
         <div id="live-note" style="margin-top:10px;background:rgba(240,139,190,.08);border:1px solid rgba(240,139,190,.35);border-radius:10px;padding:10px 14px;font-size:13.5px;line-height:1.6;display:none"></div>
         <div class="ctl-row">
@@ -203,7 +202,7 @@
            watchParticipants, setParticipantStatus, watchSignals, watchQuizAnswers,
            watchWizards, watchSpeedBoard, addTranscript, watchTranscripts,
            fetchAllData, SUBJECTS, watchTasks, watchReviews } from './js/app.js?v=1';
-  import { QUIZ_LIST, QUIZ_BY_ID, quizForSlide } from './js/quiz-data.js?v=1';
+  import { QUIZ_LIST, QUIZ_BY_ID, quizzesForSlide } from './js/quiz-data.js?v=1';
   import { DECK_NOTES, REVIEW_LINKS, noteFor } from './js/deck-notes.js?v=1';
   boot();
 
@@ -218,11 +217,10 @@
   const DECKS = {
     1: { dir: 'slides12', total: 33, label: '⑫ 환류' },
     2: { dir: 'slides11', total: 50, label: '⑨ 복습' },
-    3: { dir: 'slidesplan', total: 7, label: '설계안 양식' },
     4: { dir: 'slides11d', total: 40, label: '⑪ 데이터 강의' },
     5: { dir: 'slidesbrief', total: 11, label: '로그 브리핑' },
   };
-  let deck = 4, cur = 1, liveOn = false, activeQuiz = '';
+  let deck = 2, cur = 1, liveOn = false, activeQuiz = ''; // 시작 덱 = ① ⑨복습 (웜업)
   const img = document.getElementById('slide-img');
   const num = document.getElementById('slide-num');
 
@@ -307,12 +305,14 @@
   }
   function renderQuizSuggest() {
     const el = document.getElementById('quiz-suggest');
-    const q = quizForSlide(deck, cur);
-    if (!q) { el.style.display = 'none'; return; }
+    const qs = quizzesForSlide(deck, cur);
+    if (!qs.length) { el.style.display = 'none'; return; }
     el.style.display = 'block';
-    el.innerHTML = '💡 이 슬라이드의 추천 퀴즈 — <b>' + esc(q.q) + '</b>' +
+    el.innerHTML = qs.map(q =>
+      '<div style="margin-bottom:6px">💡 추천 퀴즈 — <b>' + esc(q.q) + '</b>' +
       (q.note ? '<br><span style="color:rgba(255,255,255,.6)">' + esc(q.note) + '</span>' : '') +
-      '<div style="margin-top:8px"><button class="cbtn accent" data-fire="' + q.id + '" style="min-height:38px;font-size:13px">지금 발사</button></div>';
+      '<div style="margin-top:6px"><button class="cbtn accent" data-fire="' + q.id + '" style="min-height:38px;font-size:13px">지금 발사</button></div></div>'
+    ).join('');
   }
   function fire(id) {
     activeQuiz = id;

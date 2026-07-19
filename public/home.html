@@ -47,7 +47,7 @@
     <div style="display:flex;gap:14px;margin-top:30px;flex-wrap:wrap">
       <a class="btn btn-dark" href="warmup.html">🔥 웜업부터 시작하기</a>
       <a class="btn btn-accent" href="#live">📺 지금 강의 화면 보기</a>
-      <a class="btn btn-line" href="cases.html">🎬 사례 산책 먼저 볼게요</a>
+      <a class="btn btn-line" href="research.html">📚 연구 자료실 둘러보기</a>
     </div>
     <div style="display:flex;gap:10px;margin-top:22px;flex-wrap:wrap;align-items:center">
       <span style="font-size:15px;font-weight:700;color:var(--dim)">페이지 색 구분:</span>
@@ -91,7 +91,7 @@
     </style>
     <div id="live-row">
       <div id="live-stage">
-        <img id="live-slide-img" src="slides11d/s1.png" alt="지금 강의 중인 슬라이드" style="display:block;width:100%;height:auto">
+        <img id="live-slide-img" src="slides11/s1.png" alt="지금 강의 중인 슬라이드" style="display:block;width:100%;height:auto">
       </div>
       <div id="live-quiz">
         <div class="lq-head">
@@ -104,6 +104,7 @@
         <div id="lq-hint"></div>
         <button id="lq-submit">✅ 선택 완료 — 제출하기</button>
         <div id="lq-result"></div>
+        <div id="lq-dist" style="margin-top:10px"></div>
       </div>
     </div>
 
@@ -126,40 +127,47 @@
 <section class="block">
   <div class="wrap">
     <div class="kicker">연수 개요 · Program</div>
-    <h2 class="head">웜업 하나, 점검 하나, 강의 둘 — 그리고 데이터는 계속 쌓입니다</h2>
-    <p style="color:var(--dim);margin-top:8px">순서대로 진행합니다. 각 카드를 누르면 해당 페이지로 이동합니다.
+    <h2 class="head">다섯 걸음 — 복습·점검·산책·데이터·환류</h2>
+    <p style="color:var(--dim);margin-top:8px">순서대로 진행합니다(선수 차시: ⑨ 설계 · ⑩ 마이크로티칭 실행). 각 카드를 누르면 해당 페이지로 이동합니다.
     <b>분홍 카드는 듣고 보는 시간</b>, <b>파란 글씨 카드는 직접 하는 실습</b>입니다.</p>
-    <div class="grid g4" style="margin-top:26px">
+    <div class="grid g5" style="margin-top:26px">
       <a class="card" href="warmup.html" style="display:block;color:var(--ink)">
-        <div class="tag" style="color:#2456A6">Warm-up · 15′ · 직접 하기</div>
-        <div class="bebas" style="font-size:32px;margin-top:8px">웜업</div>
-        <h3>⑨ 복습 카드 + 스피드 퀴즈</h3>
-        <p>여섯 개 설계 언어를 되살리고, 12문항 스피드 퀴즈로 몸을 풉니다.</p>
+        <div class="tag" style="color:#2456A6">① Warm-up · 15′</div>
+        <div class="bebas" style="font-size:28px;margin-top:8px">웜업</div>
+        <h3 style="font-size:16px">⑨ 복습 + 설계안×이론 체크</h3>
+        <p style="font-size:13.5px">여섯 설계 언어와 14문항 스피드 퀴즈.</p>
       </a>
       <a class="card" href="wizard.html" style="display:block;color:var(--ink)">
-        <div class="tag" style="color:#2456A6">Check · 40′ · 직접 하기</div>
-        <div class="bebas" style="font-size:32px;margin-top:8px">설계안 점검</div>
-        <h3>내 4P 설계안 자가점검 7단계</h3>
-        <p>핵심 아이디어부터 도구 3기준까지. 막히면 🔴 신호를 눌러 주세요.</p>
+        <div class="tag" style="color:#2456A6">② Check · 40′</div>
+        <div class="bebas" style="font-size:28px;margin-top:8px">설계안 점검</div>
+        <h3 style="font-size:16px">자가점검 7단계</h3>
+        <p style="font-size:13.5px">핵심 아이디어부터 도구 3기준까지.</p>
+      </a>
+      <a class="card" href="cases.html" style="display:block;color:var(--ink)">
+        <div class="tag">③ Cases · 10′</div>
+        <div class="bebas" style="font-size:28px;margin-top:8px">사례 산책</div>
+        <h3 style="font-size:16px">점검과 ⑪ 사이 징검다리</h3>
+        <p style="font-size:13.5px">영상·연구로 "나라면 어떤 데이터부터?"를 얻습니다.</p>
       </a>
       <a class="card ivory" href="s11.html" style="display:block;color:var(--ink)">
-        <div class="tag">⑪ Lecture · 100′ · 20–21차시</div>
-        <div class="bebas" style="font-size:32px;margin-top:8px">데이터 분석</div>
-        <h3>AI·디지털 기반 교수학습 데이터 분석</h3>
-        <p>다섯 관점·리터러시 함정·교과별 데이터 — 그리고 우리의 라이브 로그.</p>
+        <div class="tag">④ ⑪ Lecture · 100′</div>
+        <div class="bebas" style="font-size:28px;margin-top:8px">데이터 분석</div>
+        <h3 style="font-size:16px">20–21차시 · 역량 C2</h3>
+        <p style="font-size:13.5px">다섯 관점·함정·교과별 데이터 — 그리고 우리의 라이브 로그.</p>
       </a>
       <a class="card ivory" href="s12.html" style="display:block;color:var(--ink)">
-        <div class="tag">⑫ Lecture+Lab · 100′ · 22–23차시</div>
-        <div class="bebas" style="font-size:32px;margin-top:8px">평가·환류</div>
-        <h3>평가 결과 기반 교수학습 환류</h3>
-        <p>⑪의 데이터를 근거로 갤러리 워크·액션 플랜·KPT 회고까지.</p>
+        <div class="tag">⑤ ⑫ Lec+Lab · 100′</div>
+        <div class="bebas" style="font-size:28px;margin-top:8px">평가·환류</div>
+        <h3 style="font-size:16px">22–23차시 · 역량 C3</h3>
+        <p style="font-size:13.5px">갤러리 워크·액션 플랜·KPT 회고까지.</p>
       </a>
     </div>
     <div class="tip" style="margin-top:22px">
       <span class="ico">🧭</span>
       <p><b>처음이신가요?</b> ① <a href="warmup.html"><b>웜업</b></a>에서 지난 시간을 되살리고 →
       ② <a href="wizard.html"><b>설계안 점검</b></a>으로 제출용 설계안을 다듬은 뒤 →
-      ③ <a href="cases.html"><b>사례 산책</b></a>에서 영상·연구를 구경하고 → ④ ⑪·⑫ 강의로 들어갑니다.
+      ③ <a href="cases.html"><b>사례 산책</b></a>에서 "나라면 어떤 데이터부터 모을까"라는 질문을 얻어 →
+      ④ <a href="s11.html"><b>⑪</b></a> → ⑤ <a href="s12.html"><b>⑫</b></a>로 들어갑니다.
       모든 실습 페이지는 <b>파란 화면</b>입니다.</p>
     </div>
   </div>
@@ -188,7 +196,7 @@
         그리고 <b style="color:#fff">내일 당장 실행할 최소 실행 단위</b> 액션 플랜과 KPT 회고까지.</p>
       </a>
       <a href="cases.html" style="display:block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:24px;color:#fff">
-        <div class="tag" style="color:#F08BBE">Cases · 언제든</div>
+        <div class="tag" style="color:#F08BBE">Cases · ⑪ 들어가기 전 10분</div>
         <h3 style="font-size:22px;margin-top:6px">🎬 사례 산책 — 영상과 연구로 보는 지금</h3>
         <p style="color:rgba(255,255,255,.65);font-size:15px;margin-top:8px">그래미를 받은 AI 복원 비틀즈, AI 사진상을 거부한 작가, 0.5초 오프사이드 판독 —
         세 교과의 "지금"을 영상으로 봅니다.</p>
@@ -222,18 +230,37 @@
 
 <script src="js/ui.js?v=1"></script>
 <script type="module">
-  import { boot, watchLive, submitQuizAnswer } from './js/app.js?v=1';
+  import { boot, watchLive, submitQuizAnswer, watchQuizAnswers, esc } from './js/app.js?v=1';
   import { attachOverlay } from './js/overlay.js?v=1';
   import { QUIZ_BY_ID, calcPoints } from './js/quiz-data.js?v=1';
   boot();
 
-  const DECK_DIRS = { 1: 'slides12', 2: 'slides11', 3: 'slidesplan', 4: 'slides11d', 5: 'slidesbrief' };
+  const DECK_DIRS = { 1: 'slides12', 2: 'slides11', 4: 'slides11d', 5: 'slidesbrief' };
   const liveImg = document.getElementById('live-slide-img');
   const liveNum = document.getElementById('live-num');
 
   /* ── 참여 퀴즈 (빠른 정답일수록 고득점, 1인 1회) ── */
   const $q = (id) => document.getElementById(id);
-  let curQuizId = null, shownAt = 0, qTick = null;
+  let curQuizId = null, shownAt = 0, qTick = null, unsubDist = null;
+
+  /* 제출 후 "나 vs 우리 방" — 익명 분포를 내 화면에서 바로 */
+  function showDist(quizId, quiz) {
+    if (unsubDist) { unsubDist(); unsubDist = null; }
+    unsubDist = watchQuizAnswers(quizId, (rows) => {
+      const count = {};
+      rows.forEach(r => String(r.answer).split(' + ').forEach(a => { count[a] = (count[a] || 0) + 1; }));
+      const max = Math.max(1, ...Object.values(count));
+      $q('lq-dist').innerHTML =
+        '<div style="font-size:12.5px;color:var(--dim);margin-bottom:4px">우리 방의 응답 ' + rows.length + '건</div>' +
+        quiz.opts.map((o) => {
+          const n = count[o] || 0;
+          return '<div style="display:flex;align-items:center;gap:8px;margin-top:4px">' +
+            '<span style="width:120px;font-size:12.5px;line-height:1.3;flex:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(o) + '</span>' +
+            '<span style="flex:1;height:12px;background:rgba(0,0,0,.07);border-radius:6px;overflow:hidden"><span style="display:block;height:12px;width:' + Math.round(n / max * 100) + '%;background:#E8784F;border-radius:6px"></span></span>' +
+            '<span style="width:26px;font-size:12px;color:var(--dim);text-align:right">' + n + '</span></div>';
+        }).join('');
+    });
+  }
 
   function myPoints() {
     let t = 0;
@@ -267,11 +294,17 @@
   function showQuiz(id) {
     const box = $q('live-quiz');
     const quiz = id ? QUIZ_BY_ID[id] : null;
-    if (!quiz) { box.style.display = 'none'; stopTick(); curQuizId = null; return; }
+    if (!quiz) {
+      box.style.display = 'none'; stopTick(); curQuizId = null;
+      if (unsubDist) { unsubDist(); unsubDist = null; }
+      return;
+    }
     if (curQuizId === id) return;
     curQuizId = id;
     shownAt = Date.now();
     stopTick();
+    if (unsubDist) { unsubDist(); unsubDist = null; }
+    $q('lq-dist').innerHTML = '';
 
     $q('lq-q').textContent = quiz.q;
     $q('lq-opts').innerHTML = quiz.opts.map((o, i) =>
@@ -294,6 +327,7 @@
       if (saved) revealAnswer(quiz, saved.i);
       $q('lq-timer').textContent = '';
       $q('lq-result').textContent = '✅ 이미 참여하셨어요 (+' + ((saved && saved.pts) || 0) + '점)';
+      showDist(id, quiz);
       return;
     }
 
@@ -337,6 +371,7 @@
     $q('lq-timer').textContent = '';
     $q('lq-result').textContent = msg;
     updateScore();
+    showDist(curQuizId, quiz);
   }
 
   $q('lq-opts').addEventListener('click', (e) => {

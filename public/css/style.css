@@ -91,6 +91,7 @@ h2.head{font-weight:700;font-size:30px;letter-spacing:-.01em;margin-top:10px}
 .g2{grid-template-columns:repeat(2,1fr)}
 .g3{grid-template-columns:repeat(3,1fr)}
 .g4{grid-template-columns:repeat(4,1fr)}
+.g5{grid-template-columns:repeat(5,1fr)}
 .card{background:#fff;border:1px solid var(--line);padding:24px;border-radius:14px}
 .card.ivory{background:var(--ivory);border-color:rgba(181,57,125,.45)}
 .card h3{font-size:19px;font-weight:700}
@@ -271,13 +272,14 @@ img,svg{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-
 /* ---------- 반응형 ---------- */
 @media (max-width:960px){
   .g4{grid-template-columns:repeat(2,1fr)}
+  .g5{grid-template-columns:repeat(2,1fr)}
   .g3{grid-template-columns:repeat(2,1fr)}
   .step-cols{grid-template-columns:1fr}
   .gate{grid-template-columns:1fr}
 }
 @media (max-width:600px){
   body{font-size:16.5px}
-  .g2,.g3,.g4{grid-template-columns:1fr}
+  .g2,.g3,.g4,.g5{grid-template-columns:1fr}
   .nav-links{font-size:13.5px}
   .nav-links a{padding:6px 8px}
   .subject-pick{grid-template-columns:repeat(3,1fr)}

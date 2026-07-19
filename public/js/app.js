@@ -586,9 +586,9 @@ export async function fetchMyData() {
 }
 export async function fetchAllData() {
   if (!db) return null;
-  const out = { participants: [], signals: [], wizardlogs: [], participations: [], speedquiz: [], transcripts: [], kpt: [], plans: [] };
+  const out = { participants: [], signals: [], wizardlogs: [], participations: [], speedquiz: [], transcripts: [], kpt: [], plans: [], tasks: [] };
   try {
-    const [pp, sg, wl, pt, sq, tr, kp, pl] = await Promise.all([
+    const [pp, sg, wl, pt, sq, tr, kp, pl, tk] = await Promise.all([
       getDocs(query(collection(db, 'participants'), limit(300))),
       getDocs(query(collection(db, 'signals'), orderBy('ts', 'desc'), limit(1500))),
       getDocs(query(collection(db, 'wizardlogs'), orderBy('ts', 'desc'), limit(1500))),
@@ -597,6 +597,7 @@ export async function fetchAllData() {
       getDocs(query(collection(db, 'transcripts'), orderBy('ts', 'desc'), limit(500))),
       getDocs(query(collection(db, 'kpt'), limit(300))),
       getDocs(query(collection(db, 'plans'), limit(300))),
+      getDocs(query(collection(db, 'tasks'), limit(300))),
     ]);
     pp.forEach((d) => out.participants.push({ id: d.id, ...d.data() }));
     sg.forEach((d) => out.signals.push(d.data()));
@@ -606,6 +607,7 @@ export async function fetchAllData() {
     tr.forEach((d) => out.transcripts.push(d.data()));
     kp.forEach((d) => out.kpt.push({ id: d.id, ...d.data() }));
     pl.forEach((d) => out.plans.push({ id: d.id, ...d.data() }));
+    tk.forEach((d) => out.tasks.push({ id: d.id, ...d.data() }));
     return out;
   } catch (e) { console.warn('fetchAllData', e); return out; }
 }
